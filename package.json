@@ -1,0 +1,18 @@
+{
+  "name": "com.phikozz.phikozzlibrary",
+  "version": "1.0.0",
+  "displayName": "PhikozzLibrary",
+  "description": "설명 추가 예정",
+  "unity": "6000.0",
+  "documentationUrl": "https://example.com/",
+  "keywords": [
+    "keyword1",
+    "keyword2",
+    "keyword3"
+  ],
+  "author": {
+    "name": "Phikozz",
+    "email": "kiahn2000@gmail.com",
+    "url": "https://phikozz.tistory.com/"
+  }
+}
