@@ -3,7 +3,7 @@ using UnityEngine.Audio;
 
 namespace PhikozzLib
 {
-    public class AudioManager : MonoBehaviour, IAudioService, IServieRegister
+    public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
         [SerializeField] private AudioMixer _audioMixer;
         [SerializeField] private AudioSource _bgmSource;

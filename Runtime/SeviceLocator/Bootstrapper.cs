@@ -16,7 +16,7 @@ namespace PhikozzLib
                 var instance = Object.Instantiate(manager);
                 Object.DontDestroyOnLoad(instance);
                 
-                var registration = instance.GetComponent<IServieRegister>();
+                var registration = instance.GetComponent<IServiceRegister>();
                 registration.RegisterService();
             }
         }

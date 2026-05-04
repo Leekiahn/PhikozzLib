@@ -1,6 +1,6 @@
 namespace PhikozzLib
 {
-    public interface IServieRegister
+    public interface IServiceRegister
     {
         void RegisterService();
     }
