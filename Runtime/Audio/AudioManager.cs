@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class AudioSettings : MonoBehaviour, IAudioSettings
+public class AudioManager : SingletonGlobal<AudioManager>, IAudioService
 {
     [SerializeField] private AudioMixer _audioMixer;
+    [SerializeField] private AudioSource _bgmSource;
+    [SerializeField] private AudioSource _sfxSource;
 
     private const string MasterParameter = "Master";
     private const string SfxParameter = "Sfx";
@@ -11,6 +13,39 @@ public class AudioSettings : MonoBehaviour, IAudioSettings
 
     private const float MinDb = -80f;
     private const float MaxDb = 20f;
+
+    #region AudioSource
+
+    public void PlaySfx(AudioClip clip)
+    {
+        _sfxSource.PlayOneShot(clip);
+    }
+
+    public void PlayBgm(AudioClip clip, bool loop = true)
+    {
+        _bgmSource.clip = clip;
+        _bgmSource.loop = loop;
+        _bgmSource.Play();
+    }
+
+    public void PauseBgm()
+    {
+        _bgmSource.Pause();
+    }
+
+    public void ResumeBgm()
+    {
+        _bgmSource.UnPause();
+    }
+
+    public void StopBgm()
+    {
+        _bgmSource.Stop();
+    }
+
+    #endregion
+
+    #region AudioMixer
 
     public float GetMasterVolume()
     {
@@ -54,4 +89,6 @@ public class AudioSettings : MonoBehaviour, IAudioSettings
         float db = Mathf.Lerp(MinDb, MaxDb, normalizedVolume);
         _audioMixer.SetFloat(parameterName, db);
     }
+
+    #endregion
 }
