@@ -8,9 +8,10 @@ namespace PhikozzLib
         T Load<T>(string key);
         Task<T> LoadAsync<T>(string key);
         
-        List<T> LoadAll<T>(string label);
-        Task<List<T>> LoadAllAsync<T>(string label);
+        IList<T> LoadAll<T>(string label);
+        Task<IList<T>> LoadAllAsync<T>(string label);
         
-        void Release<T>(T asset);
+        void Release(string key);
+        void ReleaseAll(string label);
     }
 }
