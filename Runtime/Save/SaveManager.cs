@@ -1,11 +1,14 @@
 using System.IO;
 using UnityEngine;
 using System;
+using System.Text;
 
 namespace PhikozzLib
 {
     public class SaveManager : MonoBehaviour, ISaveService, IServiceRegister
     {
+        [SerializeField] private eSaveFormat _saveFormat = eSaveFormat.Json;
+        
         public void RegisterService()
         {
             ServiceLocator.Register<ISaveService>(this);
@@ -13,19 +16,51 @@ namespace PhikozzLib
 
         public void Save<T>(string key, T data)
         {
+            string filePath = GetFilePath(key);
             string json = JsonUtility.ToJson(data);
-            File.WriteAllText(GetFilePath(key), json);
+
+            switch (_saveFormat)
+            {
+                case eSaveFormat.Json:
+                {
+                    File.WriteAllText(filePath, json);
+                    break;
+                }
+                case eSaveFormat.Binary:
+                {
+                    byte[] bytes = Encoding.UTF8.GetBytes(json);
+                    File.WriteAllBytes(filePath, bytes);
+                    break;
+                }
+            }
         }
 
         public T Load<T>(string key)
         {
-            string json = File.ReadAllText(GetFilePath(key));
-            return JsonUtility.FromJson<T>(json);
+            string filePath = GetFilePath(key);
+            
+            switch (_saveFormat)
+            {
+                case eSaveFormat.Json:
+                {
+                    string json = File.ReadAllText(filePath);
+                    return JsonUtility.FromJson<T>(json);
+                }
+                case eSaveFormat.Binary:
+                {
+                    byte[] bytes = File.ReadAllBytes(filePath);
+                    string json = Encoding.UTF8.GetString(bytes);
+                    return JsonUtility.FromJson<T>(json);
+                }
+                default:
+                {
+                    return default;
+                }
+            }
         }
 
         public void Delete(string key)
         {
-            string json = File.ReadAllText(GetFilePath(key));
             File.Delete(GetFilePath(key));
         }
 
@@ -40,7 +75,7 @@ namespace PhikozzLib
             }
         }
 
-        private static string GetSaveDirectoryPath()
+        private string GetSaveDirectoryPath()
         {
             string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
             string productName = Application.productName;
@@ -54,9 +89,22 @@ namespace PhikozzLib
             return path;
         }
     
-        private static string GetFilePath(string key)
+        private string GetFilePath(string key)
         {
-            return Path.Combine(GetSaveDirectoryPath(), key);
+            return Path.Combine(GetSaveDirectoryPath(), $"{key}.{GetExtension()}");
+        }
+
+        private string GetExtension()
+        {
+            switch (_saveFormat)
+            {
+                case eSaveFormat.Json:
+                    return "json";
+                case eSaveFormat.Binary:
+                    return "bin";
+                default:
+                    return "txt";
+            }
         }
     }
 }
