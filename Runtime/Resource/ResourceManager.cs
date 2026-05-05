@@ -1,14 +1,39 @@
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using System.Threading.Tasks;
-using System.Linq;
 
 namespace PhikozzLib
 {
     public class ResourceManager : MonoBehaviour, IResourceService, IServiceRegister
     {
+        private readonly Dictionary<string, AsyncOperationHandle> _assetHandles = new();
+        private readonly Dictionary<string, AsyncOperationHandle> _labelHandles = new();
+
+        private void OnDestroy()
+        {
+            foreach (var pair in _assetHandles)
+            {
+                if (pair.Value.IsValid())
+                {
+                    Addressables.Release(pair.Value);
+                }
+            }
+
+            foreach (var pair in _labelHandles)
+            {
+                if (pair.Value.IsValid())
+                {
+                    Addressables.Release(pair.Value);
+                }
+            }
+
+            _assetHandles.Clear();
+            _labelHandles.Clear();
+        }
+        
         public void RegisterService()
         {
             ServiceLocator.Register<IResourceService>(this);
@@ -18,7 +43,8 @@ namespace PhikozzLib
         {
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
             T asset = handle.WaitForCompletion();
-            
+            _assetHandles[key] = handle;
+
             return asset;
         }
 
@@ -26,30 +52,53 @@ namespace PhikozzLib
         {
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
             await handle.Task;
+            _assetHandles[key] = handle;
+
+            return handle.Result;
+        }
+
+        public IList<T> LoadAll<T>(string label)
+        {
+            AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
+            IList<T> assets = handle.WaitForCompletion();
+            _labelHandles[label] = handle;
+            
+            return assets;
+        }
+
+        public async Task<IList<T>> LoadAllAsync<T>(string label)
+        {
+            AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
+            await handle.Task;
+            _labelHandles[label] = handle;
             
             return handle.Result;
         }
 
-        public List<T> LoadAll<T>(string label)
+        public void Release(string key)
         {
-            AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
-            IList<T> assets = handle.WaitForCompletion();
-            
-            return assets.ToList();
-        }
-        
-        public async Task<List<T>> LoadAllAsync<T>(string label)
-        {
-            AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
-            await handle.Task;
-            
-            return handle.Result.ToList();
+            if (_assetHandles.TryGetValue(key, out AsyncOperationHandle handle))
+            {
+                if (handle.IsValid())
+                {
+                    Addressables.Release(handle);
+                }
+
+                _assetHandles.Remove(key);
+            }
         }
 
-        public void Release<T>(T asset)
+        public void ReleaseAll(string label)
         {
-            Addressables.Release(asset);
+            if (_labelHandles.TryGetValue(label, out AsyncOperationHandle handle))
+            {
+                if (handle.IsValid())
+                {
+                    Addressables.Release(handle);
+                }
+
+                _labelHandles.Remove(label);
+            }
         }
     }
 }
-

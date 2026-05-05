@@ -44,3 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 894cb45b9ee965648aa9a59e183277bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhikozzLib.ResourceManager
+  _preloadLabels:
+  - Fish
+  - default
