@@ -16,40 +16,40 @@ namespace PhikozzLib
         {
             foreach (var pair in _assetHandles)
             {
-                if (pair.Value.IsValid())
-                {
-                    Addressables.Release(pair.Value);
-                }
+                Addressables.Release(pair.Value);
             }
 
             foreach (var pair in _labelHandles)
             {
-                if (pair.Value.IsValid())
-                {
-                    Addressables.Release(pair.Value);
-                }
+                Addressables.Release(pair.Value);
             }
 
             _assetHandles.Clear();
             _labelHandles.Clear();
         }
-        
+
         public void RegisterService()
         {
             ServiceLocator.Register<IResourceService>(this);
         }
 
-        public T Load<T>(string key)
-        {
-            AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
-            T asset = handle.WaitForCompletion();
-            _assetHandles[key] = handle;
-
-            return asset;
-        }
-
         public async Task<T> LoadAsync<T>(string key)
         {
+            if (_assetHandles.TryGetValue(key, out AsyncOperationHandle cachedHandle))
+            {
+                if (cachedHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    if (cachedHandle.Result is T cachedAsset)
+                    {
+                        return cachedAsset;
+                    }
+
+                    throw new InvalidOperationException(
+                        $"Key '{key}' 에 해당하는 캐시된 에셋이 있지만, 타입이 일치하지 않습니다. " +
+                        $"캐시된 타입: {cachedHandle.Result.GetType().Name}, 요청된 타입: {typeof(T).Name}");
+                }
+            }
+
             AsyncOperationHandle<T> handle = Addressables.LoadAssetAsync<T>(key);
             await handle.Task;
             _assetHandles[key] = handle;
@@ -57,21 +57,28 @@ namespace PhikozzLib
             return handle.Result;
         }
 
-        public IList<T> LoadAll<T>(string label)
-        {
-            AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
-            IList<T> assets = handle.WaitForCompletion();
-            _labelHandles[label] = handle;
-            
-            return assets;
-        }
-
         public async Task<IList<T>> LoadAllAsync<T>(string label)
         {
+            if (_labelHandles.TryGetValue(label, out AsyncOperationHandle cachedHandle))
+            {
+                if (cachedHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    if (cachedHandle.Result is IList<T> cachedAssets)
+                    {
+                        return cachedAssets;
+                    }
+                    
+                    throw new InvalidOperationException(
+                        $"Label '{label}' 에 해당하는 캐시된 에셋 목록이 있지만, 타입이 일치하지 않습니다. " +
+                        $"캐시된 타입: {cachedHandle.Result.GetType().Name}, 요청된 타입: IList<{typeof(T).Name}>");
+                }
+                
+            }
+
             AsyncOperationHandle<IList<T>> handle = Addressables.LoadAssetsAsync<T>(label, null);
             await handle.Task;
             _labelHandles[label] = handle;
-            
+
             return handle.Result;
         }
 
@@ -79,11 +86,7 @@ namespace PhikozzLib
         {
             if (_assetHandles.TryGetValue(key, out AsyncOperationHandle handle))
             {
-                if (handle.IsValid())
-                {
-                    Addressables.Release(handle);
-                }
-
+                Addressables.Release(handle);
                 _assetHandles.Remove(key);
             }
         }
@@ -92,11 +95,7 @@ namespace PhikozzLib
         {
             if (_labelHandles.TryGetValue(label, out AsyncOperationHandle handle))
             {
-                if (handle.IsValid())
-                {
-                    Addressables.Release(handle);
-                }
-
+                Addressables.Release(handle);
                 _labelHandles.Remove(label);
             }
         }
