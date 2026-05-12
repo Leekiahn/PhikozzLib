@@ -3,70 +3,73 @@ using System.Collections.Generic;
 using PhikozzLib;
 using UnityEngine;
 
-public class EventManager : MonoBehaviour, IEventService, IServiceRegister
+namespace PhikozzLib
 {
-    private readonly Dictionary<Type, Delegate> _handlers = new Dictionary<Type, Delegate>();
-
-    public void RegisterService()
+    public class EventManager : MonoBehaviour, IEventService, IServiceRegister
     {
-        ServiceLocator.Register<IEventService>(this);
-    }
+        private readonly Dictionary<Type, Delegate> _handlers = new Dictionary<Type, Delegate>();
 
-    public void Subscribe<T>(Action<T> handler)  where T : BaseEvent
-    {
-        Type eventType = typeof(T);
-
-        if (_handlers.TryGetValue(eventType, out Delegate existing))
+        public void RegisterService()
         {
-            _handlers[eventType] = Delegate.Combine(existing, handler);
-        }
-        else
-        {
-            _handlers[eventType] = handler;
-        }
-    }
-
-    public void Unsubscribe<T>(Action<T> handler)  where T : BaseEvent
-    {
-        Type eventType = typeof(T);
-
-        if (!_handlers.TryGetValue(eventType, out Delegate existing))
-        {
-            return;
+            ServiceLocator.Register<IEventService>(this);
         }
 
-        Delegate updated = Delegate.Remove(existing, handler);
-
-        if (updated == null)
+        public void Subscribe<T>(Action<T> handler) where T : BaseEvent
         {
-            _handlers.Remove(eventType);
-        }
-        else
-        {
-            _handlers[eventType] = updated;
-        }
-    }
+            Type eventType = typeof(T);
 
-    public void Publish<T>(T evt)  where T : BaseEvent
-    {
-        Type eventType = typeof(T);
-
-        if (_handlers.TryGetValue(eventType, out Delegate existing))
-        {
-            if (existing is Action<T> callback)
+            if (_handlers.TryGetValue(eventType, out Delegate existing))
             {
-                callback.Invoke(evt);
+                _handlers[eventType] = Delegate.Combine(existing, handler);
+            }
+            else
+            {
+                _handlers[eventType] = handler;
             }
         }
-    }
 
-    public void Clear()
-    {
-        _handlers.Clear();
-    }
+        public void Unsubscribe<T>(Action<T> handler) where T : BaseEvent
+        {
+            Type eventType = typeof(T);
 
-    private void OnDestroy()
-    {
-        _handlers.Clear();
+            if (!_handlers.TryGetValue(eventType, out Delegate existing))
+            {
+                return;
+            }
+
+            Delegate updated = Delegate.Remove(existing, handler);
+
+            if (updated == null)
+            {
+                _handlers.Remove(eventType);
+            }
+            else
+            {
+                _handlers[eventType] = updated;
+            }
+        }
+
+        public void Publish<T>(T evt) where T : BaseEvent
+        {
+            Type eventType = typeof(T);
+
+            if (_handlers.TryGetValue(eventType, out Delegate existing))
+            {
+                if (existing is Action<T> callback)
+                {
+                    callback.Invoke(evt);
+                }
+            }
+        }
+
+        public void Clear()
+        {
+            _handlers.Clear();
+        }
+
+        private void OnDestroy()
+        {
+            _handlers.Clear();
+        }
     }
 }

@@ -1,4 +1,9 @@
 using System;
 using UnityEngine;
 
-public abstract class BaseEvent { }
+namespace PhikozzLib
+{
+    public abstract class BaseEvent
+    {
+    }
+}

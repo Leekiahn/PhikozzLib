@@ -7,6 +7,7 @@ namespace PhikozzLib
         public static IResourceService Resource => ServiceLocator.Get<IResourceService>();
         public static ISceneService Scene => ServiceLocator.Get<ISceneService>();
         public static IEventService Event => ServiceLocator.Get<IEventService>();
+        public static IPoolService Pool => ServiceLocator.Get<IPoolService>();
     }
 }
 
