@@ -1,20 +1,19 @@
 using System;
 using System.Collections.Generic;
-using PhikozzLib;
 using UnityEngine;
 
 namespace PhikozzLib
 {
     public class EventManager : MonoBehaviour, IEventService, IServiceRegister
     {
-        private readonly Dictionary<Type, Delegate> _handlers = new Dictionary<Type, Delegate>();
+        private readonly Dictionary<Type, Delegate> _handlers = new();
 
         public void RegisterService()
         {
             ServiceLocator.Register<IEventService>(this);
         }
 
-        public void Subscribe<T>(Action<T> handler) where T : BaseEvent
+        public void Subscribe<T>(Action<T> handler)
         {
             Type eventType = typeof(T);
 
@@ -28,7 +27,7 @@ namespace PhikozzLib
             }
         }
 
-        public void Unsubscribe<T>(Action<T> handler) where T : BaseEvent
+        public void Unsubscribe<T>(Action<T> handler)
         {
             Type eventType = typeof(T);
 
@@ -49,7 +48,7 @@ namespace PhikozzLib
             }
         }
 
-        public void Publish<T>(T evt) where T : BaseEvent
+        public void Publish<T>(T evt)
         {
             Type eventType = typeof(T);
 
