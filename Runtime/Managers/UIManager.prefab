@@ -44,5 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75b5170fa2b39cb4fa83ed466ff9aa8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
-  _uiReferences:
-  - _prefab: {fileID: 5974186563647602544, guid: a64ea98f8b07437438d40b88e71ec8f0, type: 3}
+  _uiReferences: []
