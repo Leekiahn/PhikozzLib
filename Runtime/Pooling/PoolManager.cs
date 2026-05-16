@@ -136,10 +136,5 @@ namespace PhikozzLib
 
             return null;
         }
-
-        private void OnDestroy()
-        {
-            ServiceLocator.Unregister<IPoolService>();
-        }
     }
 }

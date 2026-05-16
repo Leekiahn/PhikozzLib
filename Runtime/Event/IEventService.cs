@@ -4,9 +4,9 @@ namespace PhikozzLib
 {
     public interface IEventService
     {
-        void Subscribe<T>(Action<T> handler) where T : BaseEvent;
-        void Unsubscribe<T>(Action<T> handler) where T : BaseEvent;
-        void Publish<T>(T evt) where T : BaseEvent;
+        void Subscribe<T>(Action<T> handler);
+        void Unsubscribe<T>(Action<T> handler);
+        void Publish<T>(T evt);
         void Clear();
     }
 }

@@ -10,10 +10,6 @@ namespace PhikozzLib
         public bool IsLoading { get; private set; }
         public string CurrentSceneName => SceneManager.GetActiveScene().name;
 
-        public event Action<string, LoadSceneMode> OnSceneLoaded;
-        public event Action<string> OnSceneUnloaded;
-        public event Action<string, string> OnSceneChanged;
-
         private void OnDestroy()
         {
             SceneManager.sceneLoaded -= HandleSceneLoaded;
@@ -24,7 +20,7 @@ namespace PhikozzLib
         public void RegisterService()
         {
             ServiceLocator.Register<ISceneService>(this);
-
+            
             SceneManager.sceneLoaded += HandleSceneLoaded;
             SceneManager.sceneUnloaded += HandleSceneUnloaded;
             SceneManager.activeSceneChanged += HandleActiveSceneChanged;
@@ -82,17 +78,17 @@ namespace PhikozzLib
 
         private void HandleSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            OnSceneLoaded?.Invoke(scene.name, mode);
+            Core.Event.Publish(new SceneLoadedEvent(scene, mode));
         }
 
         private void HandleSceneUnloaded(Scene scene)
         {
-            OnSceneUnloaded?.Invoke(scene.name);
+            Core.Event.Publish(new SceneUnloadedEvent(scene));
         }
 
         private void HandleActiveSceneChanged(Scene oldScene, Scene newScene)
         {
-            OnSceneChanged?.Invoke(oldScene.name, newScene.name);
+            Core.Event.Publish(new ActiveSceneChangedEvent(oldScene, newScene));
         }
     }
 }
