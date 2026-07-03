@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
 [Serializable]
-public class Manager
+public class Service
 {
     [SerializeField] private bool _dontDestroyOnLoad;
     [SerializeField] private GameObject _managerPrefab;
@@ -17,7 +17,7 @@ public class Manager
 public class BootstrapConfig : ScriptableObject
 {
     [TableList(AlwaysExpanded = true)]
-    public List<Manager> _managers;
+    public List<Service> _managers;
 
-    public IReadOnlyList<Manager> Managers => _managers;
+    public IReadOnlyList<Service> Managers => _managers;
 }
