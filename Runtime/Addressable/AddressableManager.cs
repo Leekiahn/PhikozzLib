@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -51,7 +51,6 @@ namespace PhikozzLib
             if (_loadedAssets.TryGetValue(assetReference, out var handle))
             {
                 Addressables.Release(handle);
-                _loadedAssets.Remove(assetReference);
             }
         }
         
@@ -60,7 +59,6 @@ namespace PhikozzLib
             if (_loadedLabelAssets.TryGetValue(labelReference, out var handle))
             {
                 Addressables.Release(handle);
-                _loadedLabelAssets.Remove(labelReference);
             }
         }
     }
