@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -16,14 +17,6 @@ namespace PhikozzLib
             ServiceLocator.Register<IAddressableService>(this);
         }
         
-        public async Task DownloadAllAsync(AssetLabelReference assetLabelReference)
-        {
-            var handle = Addressables.DownloadDependenciesAsync(assetLabelReference);
-            await handle.Task;
-            
-            Addressables.Release(handle);
-        }
-
         public async Task<T> LoadAsync<T>(AssetReference assetReference)
         {
             if (_loadedAssets.TryGetValue(assetReference, out var existingHandle))
@@ -60,10 +53,6 @@ namespace PhikozzLib
                 Addressables.Release(handle);
                 _loadedAssets.Remove(assetReference);
             }
-            else
-            {
-                Debug.LogWarning($"AssetReference {assetReference.RuntimeKey} not found in loaded assets.");
-            }
         }
         
         public void ReleaseLabel(AssetLabelReference labelReference)
@@ -72,10 +61,6 @@ namespace PhikozzLib
             {
                 Addressables.Release(handle);
                 _loadedLabelAssets.Remove(labelReference);
-            }
-            else
-            {
-                Debug.LogWarning($"AssetLabelReference {labelReference.labelString} not found in loaded label assets.");
             }
         }
     }

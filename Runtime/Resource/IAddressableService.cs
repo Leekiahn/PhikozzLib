@@ -10,6 +10,5 @@ namespace PhikozzLib
         Task<IList<T>> LoadAllAsync<T>(AssetLabelReference labelReference);
         void Release(AssetReference assetReference);
         void ReleaseLabel(AssetLabelReference labelReference);
-        Task DownloadAllAsync(AssetLabelReference labelReference);
     }
 }
