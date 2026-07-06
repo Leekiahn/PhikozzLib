@@ -4,11 +4,6 @@ namespace PhikozzLib
     {
         public bool IsOpened { get; private set; }
         
-        public override void Refresh()
-        {
-            
-        }
-        
         public void Open()
         {
             OnOpen();
