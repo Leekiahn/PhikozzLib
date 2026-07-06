@@ -1,14 +1,9 @@
 using UnityEngine;
 
-public abstract class UIBase : MonoBehaviour
+namespace PhikozzLib
 {
-    public virtual void Show()
+    public abstract class UIBase : MonoBehaviour
     {
-        gameObject.SetActive(true);
-    }
-
-    public virtual void Hide()
-    {
-        gameObject.SetActive(false);
+        public abstract void Refresh();
     }
 }
