@@ -10,75 +10,68 @@ namespace PhikozzLib
 {
     public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRegister
     {
-        private readonly Dictionary<string, object> _loadedAssets = new();
-        private readonly Dictionary<string, AsyncOperationHandle> _handles = new();
-
+        private readonly Dictionary<string, IList<string>> _keysByLabel = new();
+        private readonly Dictionary<string, AsyncOperationHandle> _handleByLabel = new();
+        
         public void RegisterService()
         {
             ServiceLocator.Register<IAddressableService>(this);
         }
 
-        public async UniTask<T> Load<T>(string key)
+        public async UniTask Load<T>(string label)
         {
-            if (_loadedAssets.TryGetValue(key, out var cached))
+            if (!_handleByLabel.ContainsKey(label))
             {
-                return (T)cached;
+                var handle = Addressables.LoadAssetsAsync<T>(label);
+                _handleByLabel.Add(label, handle);
+                await handle.Task;
             }
 
-            var handle = Addressables.LoadAssetAsync<T>(key);
-
-            await handle.ToUniTask();
-
-            if (handle.Status == AsyncOperationStatus.Succeeded)
+            if (!_keysByLabel.ContainsKey(label))
             {
-                _loadedAssets[key] = handle.Result;
-                _handles[key] = handle;
-                return handle.Result;
-            }
-            else
-            {
-                Debug.LogError($"Failed to load asset with key: {key}");
-                return default;
+                var keys = await Addressables.LoadResourceLocationsAsync(label).Task;
+                _keysByLabel.Add(label, new List<string>());
+                foreach (var key in keys)
+                {
+                    _keysByLabel[label].Add(key.PrimaryKey);
+                }
             }
         }
 
-        public T Get<T>(string key) where T : UnityEngine.Object
-        {
-            if (_loadedAssets.TryGetValue(key, out var obj))
-                return obj as T;
 
-            return null;
+        public T Get<T>(string label, string key)
+        {
+            if (_keysByLabel.TryGetValue(label, out var cachedKeys))
+            {
+                if (cachedKeys.Contains(key))
+                {
+                    var handle = Addressables.LoadAssetAsync<T>(key);
+                    return handle.WaitForCompletion();
+                }
+            }
+
+            throw new KeyNotFoundException($"[{label}] 레이블은 등록되지 않았습니다.");
         }
 
-        // public async Task<IList<T>> LoadAllAsync<T>(AssetLabelReference labelReference)
-        // {
-        //     if (_loadedLabelAssets.TryGetValue(labelReference, out var existingHandle))
-        //     {
-        //         await existingHandle.Task;
-        //         return (IList<T>)existingHandle.Result;
-        //     }
-        //     
-        //     var handle = Addressables.LoadAssetsAsync<T>(labelReference, null);
-        //     _loadedLabelAssets.Add(labelReference, handle);
-        //     await handle.Task;
-        //     return handle.Result;
-        // }
-        //
-        //
-        // public void Release(AssetReference assetReference)
-        // {
-        //     if (_loadedAssets.TryGetValue(assetReference, out var handle))
-        //     {
-        //         Addressables.Release(handle);
-        //     }
-        // }
-        //
-        // public void ReleaseLabel(AssetLabelReference labelReference)
-        // {
-        //     if (_loadedLabelAssets.TryGetValue(labelReference, out var handle))
-        //     {
-        //         Addressables.Release(handle);
-        //     }
-        // }
+        public IList<T> GetAll<T>(string label)
+        {
+            if (_handleByLabel.TryGetValue(label, out var cachedHandle))
+            {
+                return (IList<T>)cachedHandle.Result;
+            }
+
+            throw new KeyNotFoundException($"[{label}] 레이블은 등록되지 않았습니다.");
+        }
+
+        public void Release(string label)
+        {
+            if (_handleByLabel.TryGetValue(label, out var cachedHandle))
+            {
+                Addressables.Release(cachedHandle);
+                return;
+            }
+            
+            throw new KeyNotFoundException($"[{label}] 레이블은 등록되지 않았습니다.");
+        }
     }
 }
