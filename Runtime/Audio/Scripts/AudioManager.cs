@@ -2,11 +2,14 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
+        [SerializeField] private AssetReferenceT<AudioDatabase> _audioDatabaseReference;
+        [SerializeField] private AssetLabelReference _audioLabelReference;
         [SerializeField] private AudioPlayer _audioPlayer;
 
         private Dictionary<string, AudioEntry> _bgmEntriesByID = new();
@@ -25,29 +28,29 @@ namespace PhikozzLib
             ServiceLocator.Register<IAudioService>(this);
         }
 
-        public async UniTask Load(string label, string key)
+        public async UniTask Load()
         {
-            await Core.Addressable.Load<AudioDatabase>(label);
-            _audioDatabase = Core.Addressable.Get<AudioDatabase>(label, key);
+            await Core.Addressable.Load<AudioDatabase>(_audioLabelReference.labelString);
+            _audioDatabase = Core.Addressable.Get<AudioDatabase>(_audioLabelReference.labelString, _audioDatabaseReference.AssetGUID);
             
-            await Core.Addressable.Load<AudioClip>(label);
+            await Core.Addressable.Load<AudioClip>(_audioLabelReference.labelString);
             
             foreach (var bgmEntry in _audioDatabase.BgmDatabase.Entries)
             {
                 _bgmEntriesByID[bgmEntry.ID] = bgmEntry;
-                _bgmClipsByID[bgmEntry.ID] = Core.Addressable.Get<AudioClip>(label, bgmEntry.ID);
+                _bgmClipsByID[bgmEntry.ID] = Core.Addressable.Get<AudioClip>(_audioLabelReference.labelString, bgmEntry.ID);
             }
 
             foreach (var sfxEntry in _audioDatabase.SfxDatabase.Entries)
             {
                 _sfxEntriesByID[sfxEntry.ID] = sfxEntry;
-                _sfxClipsByID[sfxEntry.ID] = Core.Addressable.Get<AudioClip>(label, sfxEntry.ID);
+                _sfxClipsByID[sfxEntry.ID] = Core.Addressable.Get<AudioClip>(_audioLabelReference.labelString, sfxEntry.ID);
             }
 
             foreach (var uiEntry in _audioDatabase.UiDatabase.Entries)
             {
                 _uiEntriesByID[uiEntry.ID] = uiEntry;
-                _uiClipsByID[uiEntry.ID] = Core.Addressable.Get<AudioClip>(label, uiEntry.ID);
+                _uiClipsByID[uiEntry.ID] = Core.Addressable.Get<AudioClip>(_audioLabelReference.labelString, uiEntry.ID);
             }
 
             _pool = new TrackedPool<AudioPlayer>(

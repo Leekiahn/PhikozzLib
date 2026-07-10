@@ -3,7 +3,7 @@ using PhikozzLib;
 
 public interface IPopupService 
 {
-    UniTask Load(string label);
+    UniTask Load();
     T Open<T>() where T : UIPopup;
     void Close<T>() where T : UIPopup;
     void CloseAll();

@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace PhikozzLib
 {
     public class PopupManager : MonoBehaviour, IPopupService, IServiceRegister
     {
+        [SerializeField] private AssetLabelReference _popupLabel;
+        
         private readonly Dictionary<Type, GameObject> _popupInstancesByType = new();
         private readonly Dictionary<Type, GameObject> _popupPrefabsByType = new();
 
@@ -19,11 +23,11 @@ namespace PhikozzLib
             _popupParent = transform;
         }
 
-        public async UniTask Load(string label)
+        public async UniTask Load()
         {
-            await Core.Addressable.Load<GameObject>(label);
+            await Core.Addressable.Load<GameObject>(_popupLabel.labelString);
 
-            var prefabs = Core.Addressable.GetAll<GameObject>(label);
+            var prefabs = Core.Addressable.GetAll<GameObject>(_popupLabel.labelString);
 
             foreach (var prefab in prefabs)
             {

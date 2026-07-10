@@ -5,6 +5,6 @@ namespace PhikozzLib
 {
     public interface IAudioService
     {
-        UniTask Load(string label, string key);
+        UniTask Load();
     }
 }
