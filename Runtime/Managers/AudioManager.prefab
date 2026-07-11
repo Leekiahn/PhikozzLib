@@ -45,6 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioSystem
   _audioDatabase: {fileID: 11400000, guid: b87a7cbb9241c426bae30cb7b249eb52, type: 2}
-  _audioLabelReference:
-    m_LabelString: Audio
   _audioPlayer: {fileID: 970912171347005441, guid: 78566a09890ac4424a6243fb9801aac9, type: 3}
+  _audioLabel:
+    m_LabelString: Audio

@@ -9,14 +9,9 @@ namespace PhikozzLib
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
         [SerializeField] private AudioDatabase _audioDatabase;
-        [SerializeField] private AudioPlayer _audioPlayer;
         [SerializeField] private AssetLabelReference _audioLabel;
+        [SerializeField] private AudioPlayer _audioPlayer;
 
-        private Dictionary<string, AudioEntry> _bgmEntriesByID = new();
-        private Dictionary<string, AudioEntry> _sfxEntriesByID = new();
-        private Dictionary<string, AudioEntry> _uiEntriesByID = new();
-        
-        
         private TrackedPool<AudioPlayer> _pool;
         
         public void RegisterService()
@@ -26,6 +21,26 @@ namespace PhikozzLib
 
         public async UniTask Load()
         {
+            _pool = new TrackedPool<AudioPlayer>(
+                onCreate: () =>
+                {
+                    var player = Instantiate(_audioPlayer, transform);
+                    return player;
+                },
+                onGet: (player) =>
+                {
+                    player.gameObject.SetActive(true);
+                },
+                onRelease: (player) =>
+                {
+                    player.Stop();
+                    player.gameObject.SetActive(false);
+                },
+                onDestroy: (player) =>
+                {
+                    Destroy(player.gameObject);
+                });
         }
+
     }
 }

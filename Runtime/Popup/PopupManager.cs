@@ -25,9 +25,7 @@ namespace PhikozzLib
 
         public async UniTask Load()
         {
-            await Core.Addressable.Load<GameObject>(_popupLabel.labelString);
-
-            var prefabs = Core.Addressable.GetAll<GameObject>(_popupLabel.labelString);
+            var prefabs = await Addressables.LoadAssetsAsync<GameObject>(_popupLabel, null).ToUniTask();
 
             foreach (var prefab in prefabs)
             {

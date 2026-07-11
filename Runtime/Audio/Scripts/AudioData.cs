@@ -3,9 +3,8 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-
-[Serializable]
-public class AudioEntry
+[CreateAssetMenu(menuName = "Audio/AudioData")]
+public class AudioData : ScriptableObject
 {
     [TableColumnWidth(140, Resizable = true)]
     [SerializeField] private string _id;
