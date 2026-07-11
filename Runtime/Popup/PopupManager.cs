@@ -9,8 +9,8 @@ namespace PhikozzLib
 {
     public class PopupManager : MonoBehaviour, IPopupService, IServiceRegister
     {
-        private readonly Dictionary<Type, GameObject> _popupByType = new();
         private readonly Dictionary<Type, GameObject> _openedPopupByType = new();
+        private readonly Dictionary<Type, GameObject> _popupByType = new();
         private readonly Dictionary<string, AsyncOperationHandle<IList<GameObject>>> _handlesByLabel = new();
 
         private Transform _popupParent;
