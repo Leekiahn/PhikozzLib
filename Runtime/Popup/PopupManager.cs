@@ -1,18 +1,17 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace PhikozzLib
 {
     public class PopupManager : MonoBehaviour, IPopupService, IServiceRegister
     {
-        [SerializeField] private AssetLabelReference _popupLabel;
-        
-        private readonly Dictionary<Type, GameObject> _popupInstancesByType = new();
-        private readonly Dictionary<Type, GameObject> _popupPrefabsByType = new();
+        private readonly Dictionary<Type, GameObject> _popupByType = new();
+        private readonly Dictionary<Type, GameObject> _openedPopupByType = new();
+        private readonly Dictionary<string, AsyncOperationHandle<IList<GameObject>>> _handlesByLabel = new();
 
         private Transform _popupParent;
 
@@ -23,46 +22,41 @@ namespace PhikozzLib
             _popupParent = transform;
         }
 
-        public async UniTask Load()
+        public async UniTask PreLoad(string label)
         {
-            var prefabs = await Addressables.LoadAssetsAsync<GameObject>(_popupLabel, null).ToUniTask();
+            var handle = Addressables.LoadAssetsAsync<GameObject>(label);
+            _handlesByLabel[label] = handle;
+            var popupPrefabs = await handle.Task;
 
-            foreach (var prefab in prefabs)
+            foreach (var popup in popupPrefabs)
             {
-                var popupType = prefab.GetComponent<UIPopup>().GetType();
-                _popupPrefabsByType[popupType] = prefab;
+                var instance = Instantiate(popup, _popupParent);
+                var popupType = instance.GetComponent<UIPopup>().GetType();
+
+                if (!_popupByType.ContainsKey(popupType))
+                {
+                    _popupByType.Add(popupType, instance);
+                }
             }
+            
+            Addressables.Release(handle);
         }
 
         public T Open<T>() where T : UIPopup
         {
             var popupType = typeof(T);
 
-            if (_popupInstancesByType.TryGetValue(popupType, out var existingPopup))
+            if (_openedPopupByType.TryGetValue(popupType, out var existingPopup))
             {
-                if (existingPopup == null)
-                {
-                    _popupInstancesByType.Remove(popupType);
-                }
-                else
-                {
-                    var existingPopupComponent = existingPopup.GetComponent<T>();
-
-                    if (!existingPopup.activeSelf || !existingPopupComponent.IsOpened)
-                    {
-                        existingPopupComponent.Open();
-                    }
-
-                    return existingPopupComponent;
-                }
+                return existingPopup.GetComponent<T>();
             }
 
-            if (_popupPrefabsByType.TryGetValue(popupType, out var popupPrefab))
+            if (_popupByType.TryGetValue(popupType, out var popupPrefab))
             {
                 var instance = Instantiate(popupPrefab, _popupParent);
                 var popupComponent = instance.GetComponent<T>();
 
-                _popupInstancesByType[popupType] = instance;
+                _openedPopupByType[popupType] = instance;
                 popupComponent.Open();
 
                 return popupComponent;
@@ -75,15 +69,16 @@ namespace PhikozzLib
         {
             var popupType = typeof(T);
 
-            if (_popupInstancesByType.TryGetValue(popupType, out var popup) && popup != null)
+            if (_openedPopupByType.TryGetValue(popupType, out var popup) && popup != null)
             {
                 popup.GetComponent<T>().Close();
+                _openedPopupByType.Remove(popupType);
             }
         }
 
         public void CloseAll()
         {
-            foreach (var popup in _popupInstancesByType.Values)
+            foreach (var popup in _openedPopupByType.Values)
             {
                 if (popup == null)
                 {
@@ -91,6 +86,7 @@ namespace PhikozzLib
                 }
 
                 popup.GetComponent<UIPopup>().Close();
+                _openedPopupByType.Remove(popup.GetComponent<UIPopup>().GetType());
             }
         }
     }

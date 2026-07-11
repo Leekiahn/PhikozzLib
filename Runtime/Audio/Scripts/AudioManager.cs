@@ -9,7 +9,6 @@ namespace PhikozzLib
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
         [SerializeField] private AudioDatabase _audioDatabase;
-        [SerializeField] private AssetLabelReference _audioLabel;
         [SerializeField] private AudioPlayer _audioPlayer;
 
         private TrackedPool<AudioPlayer> _pool;
@@ -19,7 +18,7 @@ namespace PhikozzLib
             ServiceLocator.Register<IAudioService>(this);
         }
 
-        public async UniTask Load()
+        public async UniTask Load(string label)
         {
             _pool = new TrackedPool<AudioPlayer>(
                 onCreate: () =>
