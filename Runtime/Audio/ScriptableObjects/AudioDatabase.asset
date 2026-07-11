@@ -12,6 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c9ce27c12b742b2b1d925677c544bd, type: 3}
   m_Name: AudioDatabase
   m_EditorClassIdentifier: Assembly-CSharp::AudioDatabase
-  _bgmDatabase: {fileID: 11400000, guid: 01e5f609f00d54616abab0c6198c1e48, type: 2}
-  _sfxDatabase: {fileID: 11400000, guid: 07086a9de708a4317bfdabcafe74f5e9, type: 2}
-  _uiDatabase: {fileID: 11400000, guid: 99b57dc9c3b324528bbc57889093b62d, type: 2}
+  _bgmDatabase:
+  - _id: 
+    _clip:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _volume: 1
+    _pitch: 1
+    _loop: 1
+  _sfxDatabase:
+  - _id: 
+    _clip:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _volume: 1
+    _pitch: 1
+    _loop: 0
+  _uiDatabase:
+  - _id: 
+    _clip:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+    _volume: 1
+    _pitch: 1
+    _loop: 0
