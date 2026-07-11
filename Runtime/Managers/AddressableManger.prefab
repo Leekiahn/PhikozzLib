@@ -41,9 +41,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 3535348208331225595}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 894cb45b9ee965648aa9a59e183277bd, type: 3}
+  m_Script: {fileID: 11500000, guid: d2ed7a3801d484ee9881fd93862eb646, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PhikozzLib.ResourceManager
-  _preloadLabels:
-  - Fish
-  - default
