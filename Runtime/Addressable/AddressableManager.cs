@@ -12,9 +12,9 @@ public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRe
     private class LabelCache
     {
         public AsyncOperationHandle<IList<IResourceLocation>> LocationsHandle;
-        public readonly Dictionary<string, IResourceLocation> Locations = new();
-        public readonly Dictionary<string, AsyncOperationHandle> Handles = new();
-        public readonly Dictionary<string, Object> LoadedAssets = new();
+        public readonly Dictionary<string, IResourceLocation> LocationByKey = new();
+        public readonly Dictionary<string, AsyncOperationHandle> HandleByKey = new();
+        public readonly Dictionary<string, Object> AssetByKey = new();
     }   
     
     private readonly Dictionary<string, LabelCache> _labelCaches = new();
@@ -24,7 +24,7 @@ public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRe
         ServiceLocator.Register<IAddressableService>(this);
     }
 
-    public async UniTask PreloadLocations(string label)
+    public async UniTask PreloadLocations<T>(string label) where T : Object
     {
         if (_labelCaches.ContainsKey(label))
         {
@@ -33,12 +33,12 @@ public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRe
         
         var cache = new LabelCache();
         
-        cache.LocationsHandle = Addressables.LoadResourceLocationsAsync(label);
+        cache.LocationsHandle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
         await cache.LocationsHandle.ToUniTask();
         
         foreach (var location in cache.LocationsHandle.Result)
         {
-            cache.Locations[location.PrimaryKey] = location;
+            cache.LocationByKey[location.PrimaryKey] = location;
         }
         
         _labelCaches[label] = cache;
@@ -48,25 +48,24 @@ public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRe
     {
         var cache = _labelCaches[label];
 
-        foreach (var location in cache.Locations)
+        var tasks = new List<UniTask>();
+
+        foreach (var location in cache.LocationByKey)
         {
-            if (cache.LoadedAssets.ContainsKey(location.Key))
-            {
+            if (cache.AssetByKey.ContainsKey(location.Key))
                 continue;
-            }
-            
-            var handle = Addressables.LoadAssetAsync<T>(location.Value);
-            cache.Handles[location.Key] = handle;
-            var result = await handle.ToUniTask();
-            cache.LoadedAssets[location.Key] = result;
+
+            tasks.Add(LoadAsset<T>(cache, location.Key, location.Value));
         }
+
+        await UniTask.WhenAll(tasks);
     }
 
     public T Get<T>(string label, string key) where T : Object
     {
         var cache = _labelCaches[label];
         
-        if (cache.LoadedAssets.TryGetValue(key, out var loadedAsset))
+        if (cache.AssetByKey.TryGetValue(key, out var loadedAsset))
         {
             return loadedAsset as T;
         }
@@ -76,19 +75,19 @@ public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRe
 
     public IReadOnlyList<T> GetAll<T>(string label) where T : Object
     {
-        return _labelCaches[label].LoadedAssets.Values.OfType<T>().ToList();
+        return _labelCaches[label].AssetByKey.Values.OfType<T>().ToList();
     }
 
     public void Release(string label, string key)
     {
         var cache = _labelCaches[label];
 
-        if (cache.Handles.TryGetValue(key, out var handle))
+        if (cache.HandleByKey.TryGetValue(key, out var handle))
         {
             Addressables.Release(handle);
             
-            cache.Handles.Remove(key);
-            cache.LoadedAssets.Remove(key);
+            cache.HandleByKey.Remove(key);
+            cache.AssetByKey.Remove(key);
         }
     }
 
@@ -96,13 +95,26 @@ public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRe
     {
         var cache = _labelCaches[label];
 
-        foreach (var handle in cache.Handles.Values)
+        foreach (var handle in cache.HandleByKey.Values)
         {
             Addressables.Release(handle);
         }
         
-        cache.Handles.Clear();
-        cache.LoadedAssets.Clear();
+        cache.HandleByKey.Clear();
+        cache.AssetByKey.Clear();
     }
 
+    private async UniTask LoadAsset<T>(
+        LabelCache cache,
+        string key,
+        IResourceLocation location) where T : Object
+    {
+        var handle = Addressables.LoadAssetAsync<T>(location);
+
+        cache.HandleByKey[key] = handle;
+
+        var asset = await handle.ToUniTask();
+
+        cache.AssetByKey[key] = asset;
+    }
 }
