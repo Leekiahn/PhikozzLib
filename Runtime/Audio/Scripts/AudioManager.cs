@@ -17,29 +17,5 @@ namespace PhikozzLib
         {
             ServiceLocator.Register<IAudioService>(this);
         }
-
-        public async UniTask Load(string label)
-        {
-            _pool = new TrackedPool<AudioPlayer>(
-                onCreate: () =>
-                {
-                    var player = Instantiate(_audioPlayer, transform);
-                    return player;
-                },
-                onGet: (player) =>
-                {
-                    player.gameObject.SetActive(true);
-                },
-                onRelease: (player) =>
-                {
-                    player.Stop();
-                    player.gameObject.SetActive(false);
-                },
-                onDestroy: (player) =>
-                {
-                    Destroy(player.gameObject);
-                });
-        }
-
     }
 }

@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: AudioDatabase
   m_EditorClassIdentifier: Assembly-CSharp::AudioDatabase
   _bgmDataList: []
-  _sfxDataList:
-  - {fileID: 11400000, guid: 84a774c8f00b14c14894a5f1418962f7, type: 2}
+  _sfxDataList: []
   _uiDataList: []
