@@ -6,7 +6,7 @@ namespace PhikozzLib
         Binary
     }
     
-    public enum eAudioDatabaseType
+    public enum eAudioType
     {
         BGM,
         SFX,

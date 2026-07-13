@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 262056a0d8e3e4927a26fa2c5df4aade, type: 3}
-  m_Name: New Audio Data
-  m_EditorClassIdentifier: Assembly-CSharp::AudioData
-  _id: Test
-  _clip: {fileID: 8300000, guid: 7478151cf36724a7dada558f746c3633, type: 3}
+  m_Name: New Audio Data 1
+  m_EditorClassIdentifier: Assembly-CSharp::PhikozzLib.AudioData
+  _id: Test1
+  _clip: {fileID: 8300000, guid: 0c008ee3ee72a4362a35be25fa5de043, type: 3}
   _mixerGroup: {fileID: -6935357641756815879, guid: 7d47261e00eab5048ae5ac38c3432e99, type: 2}
   _volume: 1
   _pitch: 1

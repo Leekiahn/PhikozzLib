@@ -11,13 +11,13 @@ namespace PhikozzLib
     {
         [OdinSerialize] 
         [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.Foldout)]
-        private Dictionary<eAudioDatabaseType, List<AudioData>> _audioDataDictionary = new()
+        private Dictionary<eAudioType, List<AudioData>> _audioDataDictionary = new()
         {
-            { eAudioDatabaseType.BGM, new List<AudioData>() },
-            { eAudioDatabaseType.SFX, new List<AudioData>() },
-            { eAudioDatabaseType.UI, new List<AudioData>() }
+            { eAudioType.BGM, new List<AudioData>() },
+            { eAudioType.SFX, new List<AudioData>() },
+            { eAudioType.UI, new List<AudioData>() }
         };
 
-        public Dictionary<eAudioDatabaseType, List<AudioData>> AudioDataDictionary => _audioDataDictionary;
+        public Dictionary<eAudioType, List<AudioData>> AudioDataDictionary => _audioDataDictionary;
     }
 }

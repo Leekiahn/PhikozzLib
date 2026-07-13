@@ -1,8 +1,6 @@
-using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
+using UnityEngine.Pool;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 
 namespace PhikozzLib
 {
@@ -10,57 +8,141 @@ namespace PhikozzLib
     {
         [SerializeField] private AudioDatabase _audioDatabase;
         [SerializeField] private AudioPlayer _audioPlayer;
-        
-        private TrackedPool<AudioPlayer> _pool;
+
+        private readonly Dictionary<string, ObjectPool<AudioPlayer>> _audioPlayerPoolDictionary = new();
+        private AudioPlayer _bgmPlayer;
         
         public void RegisterService()
         {
             ServiceLocator.Register<IAudioService>(this);
         }
 
-        public void Play(eAudioDatabaseType type, string id)
+        #region BGM
+
+        public void PlayBgm(string id)
         {
-            
+            if (_bgmPlayer == null)
+            {
+                _bgmPlayer = Instantiate(_audioPlayer, transform);
+                _bgmPlayer.name = "AudioPlayer_BGM";
+            }
+
+            if (_audioDatabase.AudioDataDictionary.TryGetValue(eAudioType.BGM, out var audioDataList))
+            {
+                var audioData = audioDataList.Find(data => data.ID == id);
+                _bgmPlayer.name = $"AudioPlayer_BGM_{audioData.ID}";
+                _bgmPlayer.SetData(audioData);
+                _bgmPlayer.Play();
+            }
         }
 
-        public void PlayRandom(eAudioDatabaseType type, string id)
+        public void StopBgm()
         {
-            
+            _bgmPlayer?.Stop();
         }
 
-        public void Stop()
+        public void PauseBgm()
         {
-            
+            _bgmPlayer?.Pause();
         }
 
-        public void Pause()
+        public void ResumeBgm()
         {
-            
+            _bgmPlayer?.Resume();
         }
 
-        public void Resume()
-        {
-            
-        }
 
-        public List<AudioData> GetDataListById(eAudioDatabaseType type, string id)
+        #endregion
+        
+        public void Play(eAudioType type, string id)
         {
             if (_audioDatabase.AudioDataDictionary.TryGetValue(type, out var audioDataList))
             {
-                return audioDataList.FindAll(audioData => audioData.ID == id);
+                var audioData = audioDataList.Find(data => data.ID == id);
+                var pool = GetOrCreatePool(audioData);
+                var player = pool.Get();
+                player.name = $"AudioPlayer_{audioData.ID}";
+                player.SetData(audioData);
+                player.Play(() =>
+                {
+                    pool.Release(player);
+                });
             }
-            
-            return null;
         }
         
-        public AudioData GetDataById(eAudioDatabaseType type, string id)
+        public void Play(eAudioType type, string id, Vector3 position)
         {
             if (_audioDatabase.AudioDataDictionary.TryGetValue(type, out var audioDataList))
             {
-                return audioDataList.Find(audioData => audioData.ID == id);
+                var audioData = audioDataList.Find(data => data.ID == id);
+                var pool = GetOrCreatePool(audioData);
+                var player = pool.Get();
+                player.name = $"AudioPlayer_{audioData.ID}";
+                player.transform.position = position;
+                player.SetData(audioData);
+                player.Play(() =>
+                {
+                    pool.Release(player);
+                });
             }
-            
-            return null;
+        }
+
+        public void PlayRandom(eAudioType type, string id)
+        {
+        }
+
+        public void Stop(string id)
+        {
+            if (_audioPlayerPoolDictionary.TryGetValue(id, out var pool))
+            {
+                var player = pool.Get();
+                player.Stop();
+            }
+        }
+
+        public void Pause(string id)
+        {
+            if (_audioPlayerPoolDictionary.TryGetValue(id, out var pool))
+            {
+                var player = pool.Get();
+                player.Pause();
+            }
+        }
+
+        public void Resume(string id)
+        {
+            if (_audioPlayerPoolDictionary.TryGetValue(id, out var pool))
+            {
+                var player = pool.Get();
+                player.Resume();
+            }
+        }
+        
+        private ObjectPool<AudioPlayer> GetOrCreatePool(AudioData audioData)
+        {
+            if (_audioPlayerPoolDictionary.TryGetValue(audioData.ID, out var pool))
+            {
+                return pool;
+            }
+
+            pool = new ObjectPool<AudioPlayer>(() =>
+            {
+                var player = Instantiate(_audioPlayer, transform);
+                player.SetData(audioData);
+                return player;
+            }, player =>
+            {
+                player.gameObject.SetActive(true);
+            }, player =>
+            {
+                player.gameObject.SetActive(false);
+            }, player =>
+            {
+                Destroy(player.gameObject);
+            }, false, 8, 16);
+
+            _audioPlayerPoolDictionary[audioData.ID] = pool;
+            return pool;
         }
     }
 }

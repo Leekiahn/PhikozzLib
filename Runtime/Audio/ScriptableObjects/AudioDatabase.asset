@@ -17,6 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 84a774c8f00b14c14894a5f1418962f7, type: 2}
+    - {fileID: 11400000, guid: 225da330a78ae4a54a1dceb14dbc4bd3, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -24,12 +25,11 @@ MonoBehaviour:
     SerializationNodes:
     - Name: _audioDataDictionary
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[PhikozzLib.eAudioDatabaseType,
-        Assembly-CSharp],[System.Collections.Generic.List`1[[PhikozzLib.AudioData,
+      Data: 0|System.Collections.Generic.Dictionary`2[[PhikozzLib.eAudioType, Assembly-CSharp],[System.Collections.Generic.List`1[[PhikozzLib.AudioData,
         Assembly-CSharp]], mscorlib]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[PhikozzLib.eAudioDatabaseType,
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[PhikozzLib.eAudioType,
         Assembly-CSharp]], mscorlib
     - Name: 
       Entry: 12
@@ -48,7 +48,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 0
+      Data: 1
     - Name: $v
       Entry: 7
       Data: 2|System.Collections.Generic.List`1[[PhikozzLib.AudioData, Assembly-CSharp]],
@@ -61,7 +61,7 @@ MonoBehaviour:
       Data: 0
     - Name: 
       Entry: 10
-      Data: 0
+      Data: 1
     - Name: 
       Entry: 13
       Data: 
@@ -76,19 +76,13 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 1
+      Data: 0
     - Name: $v
       Entry: 7
       Data: 3|System.Collections.Generic.List`1[[PhikozzLib.AudioData, Assembly-CSharp]],
         mscorlib
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 10
-      Data: 0
-    - Name: 
-      Entry: 10
       Data: 0
     - Name: 
       Entry: 13

@@ -1,70 +1,54 @@
 using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Audio;
 
-[RequireComponent(typeof(AudioSource))]
-public class AudioPlayer : MonoBehaviour
+namespace PhikozzLib
 {
-    [SerializeField] private AudioSource _audioSource;
-
-    private Action<AudioPlayer> _onPlaybackCompleted;
-
-    public bool IsPlaying => _audioSource != null && _audioSource.isPlaying;
-
-    private void Awake()
+    [RequireComponent(typeof(AudioSource))]
+    public class AudioPlayer : MonoBehaviour
     {
-        if (_audioSource == null)
+        [SerializeField] private AudioSource _audioSource;
+        
+        public void SetData(AudioData audioData)
         {
-            _audioSource = GetComponent<AudioSource>();
+            _audioSource.clip = audioData.Clip;
+            _audioSource.outputAudioMixerGroup = audioData.MixerGroup;
+            _audioSource.volume = audioData.Volume;
+            _audioSource.pitch = audioData.Pitch;
+            _audioSource.loop = audioData.Loop;
         }
-    }
-
-    public void Init(Action<AudioPlayer> onPlaybackCompleted)
-    {
-        _onPlaybackCompleted = onPlaybackCompleted;
-    }
-
-    public void Play(AudioClip clip, float volume, float pitch, bool loop)
-    {
-        gameObject.SetActive(true);
-
-        _audioSource.clip = clip;
-        _audioSource.volume = Mathf.Clamp01(volume);
-        _audioSource.pitch = pitch;
-        _audioSource.loop = loop;
-        _audioSource.Play();
-
-        if (!loop)
+        
+        public void Play(Action onComplete = null)
         {
-            WaitForPlaybackEnd(clip).Forget();
-        }
-    }
-
-    public void Stop()
-    {
-        if (_audioSource == null)
-        {
-            return;
+            _audioSource.Play();
+            WaitForComplete(onComplete).Forget();
         }
 
-        _audioSource.Stop();
-        _audioSource.clip = null;
-    }
-
-    private async UniTaskVoid WaitForPlaybackEnd(AudioClip clip)
-    {
-        await UniTask.WaitUntil(() =>
-            _audioSource == null ||
-            !_audioSource.isPlaying ||
-            _audioSource.clip != clip ||
-            !gameObject.activeInHierarchy);
-
-        if (_audioSource == null || _audioSource.loop || _audioSource.clip != clip)
+        public void PlayRandom(Action onComplete = null)
         {
-            return;
+            // RandomAudioData를 구현해야 할 듯
+        }
+        
+        public void Stop()
+        {
+            _audioSource.Stop();
         }
 
-        Stop();
-        _onPlaybackCompleted?.Invoke(this);
+        public void Pause()
+        {
+            _audioSource.Pause();
+        }
+
+        public void Resume()
+        {
+            _audioSource.UnPause();
+        }
+        
+        private async UniTaskVoid WaitForComplete(Action onComplete)
+        {
+            await UniTask.WaitWhile(() => _audioSource.isPlaying, cancellationToken: destroyCancellationToken);
+            onComplete?.Invoke();
+        }
     }
 }
