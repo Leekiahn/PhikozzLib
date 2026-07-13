@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine.ResourceManagement.ResourceLocations;
 
 public class AddressableManager : MonoBehaviour, IAddressableService, IServiceRegister

@@ -5,4 +5,11 @@ namespace PhikozzLib
         Json,
         Binary
     }
+    
+    public enum eAudioDatabaseType
+    {
+        BGM,
+        SFX,
+        UI
+    }
 }
