@@ -23,6 +23,11 @@ namespace PhikozzLib
             
         }
 
+        public void PlayRandom(eAudioDatabaseType type, string id)
+        {
+            
+        }
+
         public void Stop()
         {
             
@@ -38,7 +43,7 @@ namespace PhikozzLib
             
         }
 
-        public List<AudioData> GetAudioDataListById(eAudioDatabaseType type, string id)
+        public List<AudioData> GetDataListById(eAudioDatabaseType type, string id)
         {
             if (_audioDatabase.AudioDataDictionary.TryGetValue(type, out var audioDataList))
             {
@@ -48,7 +53,7 @@ namespace PhikozzLib
             return null;
         }
         
-        public AudioData GetAudioDataById(eAudioDatabaseType type, string id)
+        public AudioData GetDataById(eAudioDatabaseType type, string id)
         {
             if (_audioDatabase.AudioDataDictionary.TryGetValue(type, out var audioDataList))
             {
