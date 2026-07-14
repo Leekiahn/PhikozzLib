@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PhikozzLib.AudioData
   _id: Bgm
   _clip: {fileID: 8300000, guid: 033766cc31c97904bae4404b8a079544, type: 3}
-  _mixerGroup: {fileID: 3932471107848397254, guid: 7d47261e00eab5048ae5ac38c3432e99, type: 2}
+  _mixerGroup: {fileID: -2273146209696275378, guid: 7e984f512e89b60468e829489e8883e3, type: 2}
   _volume: 1
   _pitch: 1
   _loop: 1
