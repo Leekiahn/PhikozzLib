@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93cb35ed4e3a7554cbb5cdc5e2bdfd4d, type: 3}
   m_Name: MMSoundData
   m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Feedbacks.MMF_MMSoundManagerSoundData
-  Sfx: {fileID: 8300000, guid: adb24518d159048ca9cb62d63113784f, type: 3}
+  Sfx: {fileID: 0}
   RandomSfx: []
   SequentialOrder: 0
   SequentialOrderHoldLast: 0
