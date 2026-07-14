@@ -49,6 +49,15 @@ namespace PhikozzLib
             }
         }
         
+        public void PlayAttachToTransform(string soundName, Transform transform)
+        {
+            if (_soundDatabase.SfxSoundDataDic.TryGetValue(soundName, out var soundData))
+            {
+                soundData.AttachToTransform = transform;
+                soundData.Play(transform.position);
+            }
+        }
+
         public void PlayUi(string soundName)
         {
             if (_soundDatabase.UiSoundDataDic.TryGetValue(soundName, out var soundData))
@@ -69,7 +78,7 @@ namespace PhikozzLib
         
         public void FadeTrack(MMSoundManagerTrackFadeEvent.Modes mode, MMSoundManager.MMSoundManagerTracks track, float fadeDuration, float finalVolume, MMTweenType fadeTween)
         {
-            MMSoundManagerTrackFadeEvent.Trigger(mode, track, finalVolume, fadeDuration, fadeTween);
+            MMSoundManagerTrackFadeEvent.Trigger(mode, track, fadeDuration, finalVolume, fadeTween);
         }
     }
 }

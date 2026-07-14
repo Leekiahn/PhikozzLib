@@ -11,6 +11,7 @@ namespace PhikozzLib
         public void PlayNextPlaylistIndex();
         public void PlayPreviousPlaylistIndex();
         public void PlaySfx(string soundName, Vector3 position = default);
+        public void PlayAttachToTransform(string soundName, Transform transform);
         public void PlayUi(string soundName);
         public void ControlTrack(MMSoundManagerTrackEventTypes type, MMSoundManager.MMSoundManagerTracks track, float volume);
         public void ControlAllTrack(MMSoundManagerAllSoundsControlEventTypes type);
