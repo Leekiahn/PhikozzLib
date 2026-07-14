@@ -10,6 +10,7 @@ namespace PhikozzLib
         public void PauseCurrentPlaylist();
         public void PlayNextPlaylistIndex();
         public void PlayPreviousPlaylistIndex();
+        public void SetPlaylistMultiplier(float volume = 1f, float pitch = 1f, bool instantly = false);
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null);
         public void PlayUi(string soundName);
         public void ControlTrack(MMSoundManagerTrackEventTypes type, MMSoundManager.MMSoundManagerTracks track, float volume);

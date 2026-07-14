@@ -1,3 +1,4 @@
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using MoreMountains.Tools;
 
@@ -39,6 +40,12 @@ namespace PhikozzLib
         public void PlayPreviousPlaylistIndex()
         {
             MMPlaylistPlayPreviousEvent.Trigger(_currentPlaylistChannel);
+        }
+
+        public void SetPlaylistMultiplier(float volume = 1f, float pitch = 1f, bool instantly = true)
+        {
+            MMPlaylistVolumeMultiplierEvent.Trigger(_currentPlaylistChannel, volume, instantly);
+            MMPlaylistPitchMultiplierEvent.Trigger(_currentPlaylistChannel, pitch, instantly);
         }
         
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)
