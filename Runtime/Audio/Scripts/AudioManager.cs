@@ -41,20 +41,19 @@ namespace PhikozzLib
             MMPlaylistPlayPreviousEvent.Trigger(_currentPlaylistChannel);
         }
         
-        public void PlaySfx(string soundName, Vector3 position = default)
+        public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
             if (_soundDatabase.SfxSoundDataDic.TryGetValue(soundName, out var soundData))
             {
-                soundData.Play(position);
-            }
-        }
-        
-        public void PlayAttachToTransform(string soundName, Transform transform)
-        {
-            if (_soundDatabase.SfxSoundDataDic.TryGetValue(soundName, out var soundData))
-            {
-                soundData.AttachToTransform = transform;
-                soundData.Play(transform.position);
+                if (attachToTransform != null)
+                {
+                    soundData.AttachToTransform = attachToTransform;
+                    soundData.Play(attachToTransform.position);
+                }
+                else
+                {
+                    soundData.Play(position);
+                }
             }
         }
 
