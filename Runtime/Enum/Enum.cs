@@ -8,8 +8,7 @@ namespace PhikozzLib
     
     public enum eAudioType
     {
-        BGM,
-        SFX,
-        UI
+        Sfx,
+        Ui
     }
 }

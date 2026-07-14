@@ -1,67 +1,75 @@
 using UnityEngine;
-using UnityEngine.Pool;
-using System.Collections.Generic;
 using MoreMountains.Tools;
 
 namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
-        [SerializeField] private AudioDatabase _audioDatabase;
+        [SerializeField] private SoundDatabase _soundDatabase;
 
+        private int _currentPlaylistChannel;
+        
+        
         public void RegisterService()
         {
             ServiceLocator.Register<IAudioService>(this);
         }
 
-        public void Play(eAudioType type, string id)
+        public void PlayPlaylist(int channel, int index = 0)
         {
-            switch (type)
+            _currentPlaylistChannel = channel;
+            MMPlaylistPlayIndexEvent.Trigger(_currentPlaylistChannel, index);
+        }
+        
+        public void StopCurrentPlaylist()
+        {
+            MMPlaylistStopEvent.Trigger(_currentPlaylistChannel);
+        }
+
+        public void PauseCurrentPlaylist()
+        {
+            MMPlaylistPauseEvent.Trigger(_currentPlaylistChannel);
+        }
+
+        public void PlayNextPlaylistIndex()
+        {
+            MMPlaylistPlayNextEvent.Trigger(_currentPlaylistChannel);
+        }
+
+        public void PlayPreviousPlaylistIndex()
+        {
+            MMPlaylistPlayPreviousEvent.Trigger(_currentPlaylistChannel);
+        }
+        
+        public void PlaySfx(string soundName, Vector3 position = default)
+        {
+            if (_soundDatabase.SfxSoundDataDic.TryGetValue(soundName, out var soundData))
             {
-                case eAudioType.BGM:
-                    PlayBgm(id);
-                    break;
-                case eAudioType.SFX:
-                    PlaySfx(id);
-                    break;
-                //case eAudioType.UI:
-                    //PlayUI(id);
-                    break;
-                default:
-                    Debug.LogWarning($"Audio type {type} is not supported.");
-                    break;
+                soundData.Play(position);
+            }
+        }
+        
+        public void PlayUi(string soundName)
+        {
+            if (_soundDatabase.UiSoundDataDic.TryGetValue(soundName, out var soundData))
+            {
+                soundData.Play(Vector3.zero);
             }
         }
 
-        private void PlayBgm(string id)
+        public void ControlTrack(MMSoundManagerTrackEventTypes type, MMSoundManager.MMSoundManagerTracks track, float volume)
         {
-            if (_audioDatabase.AudioDataDictionary.TryGetValue(eAudioType.BGM, out var audioDataList))
-            {
-                var audioData = audioDataList.Find(data => data.ID == id);
-                MMSoundManagerPlayOptions options = new MMSoundManagerPlayOptions();
-                options.Volume = audioData.Volume;
-                options.Pitch = audioData.Pitch;
-                options.Loop = audioData.Loop;
-                options.AudioGroup = audioData.MixerGroup;
-                options.SoloAllTracks = true;
-                
-                MMSoundManagerSoundPlayEvent.Trigger(audioData.Clip, options);
-            }
+            MMSoundManagerTrackEvent.Trigger(type, track, volume);
         }
 
-        private void PlaySfx(string id)
+        public void ControlAllTrack(MMSoundManagerAllSoundsControlEventTypes type)
         {
-            if (_audioDatabase.AudioDataDictionary.TryGetValue(eAudioType.SFX, out var audioDataList))
-            {
-                var  audioData = audioDataList.Find(data => data.ID == id);
-                MMSoundManagerPlayOptions options = new MMSoundManagerPlayOptions();
-                options.Volume = audioData.Volume;
-                options.Pitch = audioData.Pitch;
-                options.Loop = audioData.Loop;
-                options.AudioGroup = audioData.MixerGroup;
-                
-                MMSoundManagerSoundPlayEvent.Trigger(audioData.Clip, options);
-            }
+            MMSoundManagerAllSoundsControlEvent.Trigger(type);
+        }
+        
+        public void FadeTrack(MMSoundManagerTrackFadeEvent.Modes mode, MMSoundManager.MMSoundManagerTracks track, float fadeDuration, float finalVolume, MMTweenType fadeTween)
+        {
+            MMSoundManagerTrackFadeEvent.Trigger(mode, track, finalVolume, fadeDuration, fadeTween);
         }
     }
 }
