@@ -5,4 +5,10 @@ namespace PhikozzLib
         Json,
         Binary
     }
+    
+    public enum eAudioType
+    {
+        Sfx,
+        Ui
+    }
 }

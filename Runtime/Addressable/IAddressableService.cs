@@ -1,14 +1,13 @@
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine.AddressableAssets;
+using UnityEngine;
+using Cysharp.Threading.Tasks;
 
-namespace PhikozzLib
+public interface IAddressableService
 {
-    public interface IAddressableService
-    {
-        Task<T> LoadAsync<T>(AssetReference assetReference);
-        Task<IList<T>> LoadAllAsync<T>(AssetLabelReference labelReference);
-        void Release(AssetReference assetReference);
-        void ReleaseLabel(AssetLabelReference labelReference);
-    }
+    UniTask PreloadLocations<T>(string label) where T : Object;
+    UniTask PreloadAssets<T>(string label) where T : Object;
+    T Get<T>(string label, string key) where T : Object;
+    IReadOnlyList<T> GetAll<T>(string label) where T : Object;
+    void Release(string label, string key);
+    void ReleaseAll(string label);
 }

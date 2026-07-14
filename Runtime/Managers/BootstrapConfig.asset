@@ -13,10 +13,17 @@ MonoBehaviour:
   m_Name: BootstrapConfig
   m_EditorClassIdentifier: Assembly-CSharp::BootstrapConfig
   _managers:
-  - {fileID: 6641722867511857835, guid: 417a97ee17fa169438f401f0b46b3229, type: 3}
-  - {fileID: 7495326764070062438, guid: 72ff47787671d8a46a05e615c8c74875, type: 3}
-  - {fileID: 3535348208331225595, guid: 96a1a0dee0c633b42b3fde707c19aba1, type: 3}
-  - {fileID: 5932620240761624122, guid: 16e745f3c676a4543950cf5b21f26194, type: 3}
-  - {fileID: 763508518519938258, guid: 126c662d8a507c24eade60f06062cb73, type: 3}
-  - {fileID: 1309108531915183349, guid: 76f56392ebde63c4ea0195ce0948d32f, type: 3}
-  - {fileID: 8209422774475381345, guid: de0e53fb1e629874ab09fa8cd127744c, type: 3}
+  - _dontDestroyOnLoad: 1
+    _managerPrefab: {fileID: 3535348208331225595, guid: 96a1a0dee0c633b42b3fde707c19aba1, type: 3}
+  - _dontDestroyOnLoad: 1
+    _managerPrefab: {fileID: 8209422774475381345, guid: de0e53fb1e629874ab09fa8cd127744c, type: 3}
+  - _dontDestroyOnLoad: 1
+    _managerPrefab: {fileID: 6641722867511857835, guid: 417a97ee17fa169438f401f0b46b3229, type: 3}
+  - _dontDestroyOnLoad: 0
+    _managerPrefab: {fileID: 0}
+  - _dontDestroyOnLoad: 0
+    _managerPrefab: {fileID: 0}
+  - _dontDestroyOnLoad: 0
+    _managerPrefab: {fileID: 0}
+  - _dontDestroyOnLoad: 0
+    _managerPrefab: {fileID: 0}
