@@ -1,4 +1,3 @@
-using MoreMountains.Feedbacks;
 using UnityEngine;
 using MoreMountains.Tools;
 
@@ -86,5 +85,9 @@ namespace PhikozzLib
         {
             MMSoundManagerTrackFadeEvent.Trigger(mode, track, fadeDuration, finalVolume, fadeTween);
         }
+        
+        // TODO:
+        // 다른 AudioManager로 교체할 수 있도록 매개변수들에 있는 MMSoundManager들은 제거하고
+        // 따로 enum 값을 만든다.
     }
 }
