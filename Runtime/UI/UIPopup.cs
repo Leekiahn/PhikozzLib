@@ -5,7 +5,8 @@ namespace PhikozzLib
     public abstract class UIPopup : UIBase
     {
         public bool IsOpened { get; private set; }
-
+        // Modal 구현
+        
         public void Open()
         {
             OnOpen();
