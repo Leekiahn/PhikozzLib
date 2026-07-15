@@ -5,6 +5,11 @@ public abstract class UIHUD : UIBase
 {
     public bool IsVisible { get; private set; }
 
+    protected virtual void Awake()
+    {
+        IsVisible = gameObject.activeSelf;
+    }
+
     public void Show()
     {
         OnShow();
