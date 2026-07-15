@@ -1,10 +1,10 @@
 using Cysharp.Threading.Tasks;
 using PhikozzLib;
 
-public interface IPopupService 
+public interface IUIService 
 {
     UniTask PreLoad(string label);
-    T Open<T>() where T : UIPopup;
-    void Close<T>() where T : UIPopup;
+    T Open<T>() where T : UIBase;
+    void Close<T>() where T : UIBase;
     void CloseAll();
 }

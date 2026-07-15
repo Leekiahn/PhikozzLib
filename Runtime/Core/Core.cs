@@ -7,7 +7,7 @@ namespace PhikozzLib
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
         public static ISceneService Scene => ServiceLocator.Get<ISceneService>();
         public static IEventService Event => ServiceLocator.Get<IEventService>();
-        public static IPopupService Popup => ServiceLocator.Get<IPopupService>();
+        public static IUIService Iui => ServiceLocator.Get<IUIService>();
     }
 }
 

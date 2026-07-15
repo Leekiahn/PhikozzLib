@@ -7,13 +7,14 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace PhikozzLib
 {
-    public class PopupManager : MonoBehaviour, IPopupService, IServiceRegister
+    public class UIManager : MonoBehaviour, IUIService, IServiceRegister
     {
         private Transform _popupParent;
+        [SerializeField] private AssetLabelReference _popupLabelReference;
 
         public void RegisterService()
         {
-            ServiceLocator.Register<IPopupService>(this);
+            ServiceLocator.Register<IUIService>(this);
 
             _popupParent = transform;
         }
@@ -22,12 +23,12 @@ namespace PhikozzLib
         {
         }
 
-        public T Open<T>() where T : UIPopup
+        public T Open<T>() where T : UIBase
         {
             return null;
         }
 
-        public void Close<T>() where T : UIPopup
+        public void Close<T>() where T : UIBase
         {
         }
 
