@@ -1,0 +1,18 @@
+﻿namespace PhikozzLib
+{
+    public enum eFadeTrackTweenType
+    {
+        LinearTween,        
+        EaseInQuadratic,    EaseOutQuadratic,   EaseInOutQuadratic,
+        EaseInCubic,        EaseOutCubic,       EaseInOutCubic,
+        EaseInQuartic,      EaseOutQuartic,     EaseInOutQuartic,
+        EaseInQuintic,      EaseOutQuintic,     EaseInOutQuintic,
+        EaseInSinusoidal,   EaseOutSinusoidal,  EaseInOutSinusoidal,
+        EaseInBounce,       EaseOutBounce,      EaseInOutBounce,
+        EaseInOverhead,     EaseOutOverhead,    EaseInOutOverhead,
+        EaseInExponential,  EaseOutExponential, EaseInOutExponential,
+        EaseInElastic,      EaseOutElastic,     EaseInOutElastic,
+        EaseInCircular,     EaseOutCircular,    EaseInOutCircular,
+        AntiLinearTween,    AlmostIdentity
+    }
+}
