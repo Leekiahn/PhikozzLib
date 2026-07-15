@@ -13,8 +13,7 @@ public abstract class UIDialog : UIBase
 
     public bool IsOpened { get; private set; }
 
-
-    public void ShowDialog(string text, float typingDuration)
+    public void Show(string text, float typingDuration)
     {
         _currentDialogText = text;
         _typingDuration = typingDuration;
@@ -23,7 +22,7 @@ public abstract class UIDialog : UIBase
         IsOpened = true;
     }
     
-    public void HideDialog()
+    public void Hide()
     {
         OnHide();
         IsOpened = false;
