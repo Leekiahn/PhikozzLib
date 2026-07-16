@@ -16,6 +16,10 @@ MonoBehaviour:
   - _dontDestroyOnLoad: 1
     _managerPrefab: {fileID: 3535348208331225595, guid: 96a1a0dee0c633b42b3fde707c19aba1, type: 3}
   - _dontDestroyOnLoad: 1
+    _managerPrefab: {fileID: 6641722867511857835, guid: 417a97ee17fa169438f401f0b46b3229, type: 3}
+  - _dontDestroyOnLoad: 1
     _managerPrefab: {fileID: 8209422774475381345, guid: de0e53fb1e629874ab09fa8cd127744c, type: 3}
   - _dontDestroyOnLoad: 1
-    _managerPrefab: {fileID: 6641722867511857835, guid: 417a97ee17fa169438f401f0b46b3229, type: 3}
+    _managerPrefab: {fileID: 5429031861290582895, guid: c45a21fba1368b445a2fe088279ef5a0, type: 3}
+  - _dontDestroyOnLoad: 1
+    _managerPrefab: {fileID: 8624678829954991136, guid: d707b7f4247e89643b510be95d487878, type: 3}

@@ -10,6 +10,8 @@ public abstract class UIHUD : UIBase
         IsVisible = gameObject.activeSelf;
     }
 
+    protected abstract void OnDestroy();
+
     public void Show()
     {
         OnShow();
