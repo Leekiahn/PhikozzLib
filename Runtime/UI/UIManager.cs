@@ -14,6 +14,8 @@ namespace PhikozzLib
             ServiceLocator.Register<IUIService>(this);
         }
 
+        
+        
         public void RegisterHUD<T>(T uiHud) where T : UIHUD
         {
             if (!_registeredHUDs.ContainsKey(typeof(T)))
@@ -30,6 +32,8 @@ namespace PhikozzLib
             }
         }
 
+        
+        
         public T ShowHUD<T>() where T : UIHUD
         {
             if (_registeredHUDs.TryGetValue(typeof(T), out var instance))
@@ -55,7 +59,7 @@ namespace PhikozzLib
             }
         }
         
-        public void CloseAll()
+        public void HideAll()
         {
             foreach (var instance in _registeredHUDs.Values)
             {

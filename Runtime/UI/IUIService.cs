@@ -7,5 +7,5 @@ public interface IUIService
     void UnregisterHUD<T>(T uihud) where T : UIHUD;
     T ShowHUD<T>() where T : UIHUD;
     void HideHUD<T>() where T : UIHUD;
-    void CloseAll();
+    void HideAll();
 }

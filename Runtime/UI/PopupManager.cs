@@ -13,6 +13,7 @@ namespace PhikozzLib
         private readonly Dictionary<Type, UIPopup> _popupPrefabs = new();
         private readonly Dictionary<Type, UIPopup> _openedPopup = new();
         
+        
         private Transform _popupParent;
 
         private async void Awake()
@@ -71,6 +72,16 @@ namespace PhikozzLib
             {
                 instance.Close();
                 _openedPopup.Remove(typeof(T));
+            }
+        }
+        
+        public void Close(UIPopup popup)
+        {
+            var type = popup.GetType();
+            if (_openedPopup.TryGetValue(type, out var instance))
+            {
+                instance.Close();
+                _openedPopup.Remove(type);
             }
         }
         
