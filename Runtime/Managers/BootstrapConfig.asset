@@ -23,3 +23,5 @@ MonoBehaviour:
     _managerPrefab: {fileID: 5429031861290582895, guid: c45a21fba1368b445a2fe088279ef5a0, type: 3}
   - _dontDestroyOnLoad: 1
     _managerPrefab: {fileID: 8624678829954991136, guid: d707b7f4247e89643b510be95d487878, type: 3}
+  - _dontDestroyOnLoad: 1
+    _managerPrefab: {fileID: 9210657533535551677, guid: e431e301e2f3d7f408687aa307a5f004, type: 3}
