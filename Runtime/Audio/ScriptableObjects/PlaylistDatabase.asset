@@ -9,48 +9,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5c9ce27c12b742b2b1d925677c544bd, type: 3}
-  m_Name: AudioDatabase
-  m_EditorClassIdentifier: Assembly-CSharp::AudioDatabase
+  m_Script: {fileID: 11500000, guid: 0853ebde841d0f843ab73934db513a18, type: 3}
+  m_Name: PlaylistDatabase
+  m_EditorClassIdentifier: Assembly-CSharp::PhikozzLib.PlaylistDatabase
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects: []
+    ReferencedUnityObjects:
+    - {fileID: 11400000, guid: 489f29b0dc4950f4689d5f8e3ea72a14, type: 2}
+    - {fileID: 11400000, guid: 79cc803531921724da2fdc63e39ce23f, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: _sfxSoundDataDic
+    - Name: _playlistDic
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[MoreMountains.Feedbacks.MMF_MMSoundManagerSoundData,
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.Int32, mscorlib],[MoreMountains.Tools.MMSMPlaylist,
         MoreMountains.Tools]], mscorlib
     - Name: comparer
       Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
+      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.Int32,
         mscorlib]], mscorlib
     - Name: 
       Entry: 8
       Data: 
     - Name: 
       Entry: 12
-      Data: 0
+      Data: 2
     - Name: 
-      Entry: 13
+      Entry: 7
       Data: 
+    - Name: $k
+      Entry: 3
+      Data: 0
+    - Name: $v
+      Entry: 10
+      Data: 0
     - Name: 
       Entry: 8
       Data: 
-    - Name: _uiSoundDataDic
+    - Name: 
       Entry: 7
-      Data: 2|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[MoreMountains.Feedbacks.MMF_MMSoundManagerSoundData,
-        MoreMountains.Tools]], mscorlib
-    - Name: comparer
-      Entry: 9
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 1
+    - Name: $v
+      Entry: 10
       Data: 1
     - Name: 
-      Entry: 12
-      Data: 0
+      Entry: 8
+      Data: 
     - Name: 
       Entry: 13
       Data: 

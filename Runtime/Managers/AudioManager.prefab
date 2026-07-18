@@ -206,4 +206,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b841132d5f919429c70c20ccf927b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioSystem
+  _playlistDatabase: {fileID: 11400000, guid: 8b5defa418b79804885b2ec0bfc2762d, type: 2}
   _soundDatabase: {fileID: 11400000, guid: b87a7cbb9241c426bae30cb7b249eb52, type: 2}

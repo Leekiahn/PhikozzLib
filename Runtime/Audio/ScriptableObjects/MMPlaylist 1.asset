@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bc7924747b6dade48ac9a15d72b5176b, type: 3}
-  m_Name: MMPlaylist
+  m_Name: MMPlaylist 1
   m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Tools.MMSMPlaylist
   Track: 1
   PlayOrder: 0

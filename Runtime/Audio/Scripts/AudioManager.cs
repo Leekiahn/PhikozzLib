@@ -1,51 +1,88 @@
 using UnityEngine;
 using MoreMountains.Tools;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using MoreMountains.Feedbacks;
+using Sirenix.OdinInspector;
+using Sirenix.Serialization;
 
 namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
+        [Title("BGM Database")] 
+        [SerializeField] private PlaylistDatabase _playlistDatabase;
+
+        [Title("SFX/UI Database")] 
         [SerializeField] private SoundDatabase _soundDatabase;
 
-        private int _currentPlaylistChannel;
-        
-        
+
+        private MMSMPlaylistManager _playlistManager;
+
+
         public void RegisterService()
         {
             ServiceLocator.Register<IAudioService>(this);
+
+            _playlistManager = MMSMPlaylistManager.Instance;
         }
 
-        public void PlayPlaylist(int channel, int index = 0)
-        {
-            _currentPlaylistChannel = channel;
-            MMPlaylistPlayIndexEvent.Trigger(_currentPlaylistChannel, index);
-        }
+        #region --------------- BGM ---------------
+
         
-        public void StopCurrentPlaylist()
+        
+        public void PlayBgm(int channelKey, int index)
         {
-            MMPlaylistStopEvent.Trigger(_currentPlaylistChannel);
+            if (_playlistDatabase.PlaylistDic.TryGetValue(channelKey, out var playlist))
+            {
+                if (_playlistManager.Playlist == playlist)
+                {
+                    _playlistManager.PlaySongAt(index);
+                    return;
+                }
+
+                _playlistManager.ChangePlaylist(playlist);
+            }
         }
 
-        public void PauseCurrentPlaylist()
+        public void StopBgm()
         {
-            MMPlaylistPauseEvent.Trigger(_currentPlaylistChannel);
+            _playlistManager.Stop();
         }
 
-        public void PlayNextPlaylistIndex()
+        public void PauseBgm()
         {
-            MMPlaylistPlayNextEvent.Trigger(_currentPlaylistChannel);
+            _playlistManager.Pause();
         }
 
-        public void PlayPreviousPlaylistIndex()
+        public void ResumeBgm()
         {
-            MMPlaylistPlayPreviousEvent.Trigger(_currentPlaylistChannel);
+            _playlistManager.Play();
         }
 
-        public void SetPlaylistMultiplier(float volume = 1f, float pitch = 1f, bool instantly = true)
+        public void PlayNextBgm()
         {
-            MMPlaylistVolumeMultiplierEvent.Trigger(_currentPlaylistChannel, volume, instantly);
-            MMPlaylistPitchMultiplierEvent.Trigger(_currentPlaylistChannel, pitch, instantly);
+            _playlistManager.PlayNextSong();
         }
+
+        public void PlayPreviousBgm()
+        {
+            _playlistManager.PlayPreviousSong();
+        }
+
+        public void SetBgmMultiplier(float volume = 1f, float pitch = 1f, bool instantly = true)
+        {
+            _playlistManager.SetVolumeMultiplier(volume);
+            _playlistManager.SetPitchMultiplier(pitch);
+        }
+
+        
+        
+        #endregion
+
+        #region -------------- SFX/UI --------------
+
+        
         
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
@@ -71,11 +108,19 @@ namespace PhikozzLib
             }
         }
 
-        public void ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume)
+        
+        
+        #endregion
+        
+        #region -------------- Track --------------
+
+        
+        
+        public void ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f)
         {
             MMSoundManagerTrackEventTypes eventType = default;
             MMSoundManager.MMSoundManagerTracks trackType = default;
-            
+
             switch (type)
             {
                 case eSoundTrackEventTypes.MuteTrack:
@@ -100,7 +145,7 @@ namespace PhikozzLib
                     eventType = MMSoundManagerTrackEventTypes.FreeTrack;
                     break;
             }
-            
+
             switch (track)
             {
                 case eSoundTracks.Master:
@@ -119,14 +164,14 @@ namespace PhikozzLib
                     trackType = MMSoundManager.MMSoundManagerTracks.Other;
                     break;
             }
-            
+
             MMSoundManagerTrackEvent.Trigger(eventType, trackType, volume);
         }
 
         public void ControlAllTrack(eAllSoundControlEventTypes type)
         {
             MMSoundManagerAllSoundsControlEventTypes eventType = default;
-            
+
             switch (type)
             {
                 case eAllSoundControlEventTypes.Play:
@@ -148,16 +193,17 @@ namespace PhikozzLib
                     eventType = MMSoundManagerAllSoundsControlEventTypes.FreeAllLooping;
                     break;
             }
-            
+
             MMSoundManagerAllSoundsControlEvent.Trigger(eventType);
         }
-        
-        public void FadeTrack(eSoundTrackFadeEventModes mode, eSoundTracks track, float fadeDuration, float finalVolume, eFadeTrackTweenType fadeTween)
+
+        public void FadeTrack(eSoundTrackFadeEventModes mode, eSoundTracks track, float fadeDuration, float finalVolume,
+            eFadeTrackTweenType fadeTween)
         {
             MMSoundManagerTrackFadeEvent.Modes fadeMode = default;
             MMSoundManager.MMSoundManagerTracks trackType = default;
-            MMTweenType tweenType  = null;
-            
+            MMTweenType tweenType = null;
+
             switch (mode)
             {
                 case eSoundTrackFadeEventModes.PlayFade:
@@ -286,8 +332,12 @@ namespace PhikozzLib
                     tweenType = new MMTweenType(MMTween.MMTweenCurve.AlmostIdentity);
                     break;
             }
-            
+
             MMSoundManagerTrackFadeEvent.Trigger(fadeMode, trackType, fadeDuration, finalVolume, tweenType);
         }
+
+        
+        
+        #endregion
     }
 }
