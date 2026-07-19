@@ -11,10 +11,10 @@ namespace PhikozzLib
         [SerializeField] private AssetLabelReference _dialogLabelReference;
 
         private readonly Dictionary<Type, UIDialog> _dialogPrefabs = new();
-        private readonly Dictionary<Type, UIDialog> _openedDialog = new();
+        private UIDialog _openedDialog;
 
         private Transform _dialogParent;
-        
+
         private async void Awake()
         {
             try
@@ -27,7 +27,7 @@ namespace PhikozzLib
                 throw new Exception($"Failed to load dialog prefabs with label: {_dialogLabelReference.labelString}", e);
             }
         }
-        
+
         public void RegisterService()
         {
             ServiceLocator.Register<IDialogService>(this);
@@ -37,7 +37,7 @@ namespace PhikozzLib
         {
             await LoadDialogPrefabs(_dialogLabelReference.labelString);
         }
-        
+
         public async UniTask LoadDialogPrefabs(string label)
         {
             await Core.Addressable.PreloadLocations<GameObject>(label);
@@ -57,7 +57,7 @@ namespace PhikozzLib
             if (_dialogPrefabs.TryGetValue(typeof(T), out var prefab))
             {
                 var instance = Instantiate(prefab, _dialogParent);
-                _openedDialog[typeof(T)] = instance;
+                _openedDialog = instance;
                 instance.Show(text, typingDuration);
                 return (T)instance;
             }
@@ -65,24 +65,16 @@ namespace PhikozzLib
             return null;
         }
 
+        public T ShowNext<T>(string text, float typingDuration) where T : UIDialog
+        {
+            _openedDialog.Show(text, typingDuration);
+            return (T)_openedDialog;
+        }
+
         public void Hide<T>() where T : UIDialog
         {
-            if (_openedDialog.TryGetValue(typeof(T), out var instance))
-            {
-                instance.Hide();
-                _openedDialog.Remove(typeof(T));
-            }
-        }
-        
-        public void CloseAll()
-        {
-            foreach (var instance in _openedDialog.Values)
-            {
-                instance.Hide();
-            }
-
-            _openedDialog.Clear();
+            _openedDialog.Hide();
+            _openedDialog = null;
         }
     }
 }
-
