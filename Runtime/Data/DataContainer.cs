@@ -4,34 +4,41 @@ using UnityEngine;
 
 public class DataContainer<T> where T : BaseData
 {
-    private readonly Dictionary<int, T> _dataDic = new();
+    private readonly Dictionary<int, T> _dataById = new Dictionary<int, T>();
+    private readonly Dictionary<string, T> _dataByName = new Dictionary<string, T>();
+    private readonly List<T> _dataList = new List<T>();
     
-    public int Count => _dataDic.Count;
-
-    public DataContainer(int capacity = 0)
+    public DataContainer(List<T> dataList)
     {
-        _dataDic = capacity > 0
-            ? new Dictionary<int, T>(capacity)
-            : new Dictionary<int, T>();
-    }
-    
-    public void Add(T data)
-    {
-        _dataDic[data.Id] = data;
+        foreach (var data in dataList)
+        {
+            _dataById[data.Id] = data;
+            _dataByName[data.Name] = data;
+            _dataList.Add(data);
+        }
     }
 
     public T Get(int id)
     {
-        if (_dataDic.TryGetValue(id, out var data))
+        if (_dataById.TryGetValue(id, out var data))
         {
             return data;
         }
-        
         return null;
     }
-
-    public IReadOnlyList<T> GetAll()
+    
+    public T Get(string name)
     {
-        return new List<T>(_dataDic.Values);
+        if (_dataByName.TryGetValue(name, out var data))
+        {
+            return data;
+        }
+        return null;
     }
+    
+    public IEnumerable<T> GetAll()
+    {
+        return _dataList;
+    }
+
 }
