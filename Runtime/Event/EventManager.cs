@@ -13,7 +13,7 @@ namespace PhikozzLib
             ServiceLocator.Register<IEventService>(this);
         }
 
-        public void Subscribe<T>(Action<T> handler)
+        public void Subscribe<T>(Action<T> handler) where T : struct
         {
             Type eventType = typeof(T);
 
@@ -27,7 +27,7 @@ namespace PhikozzLib
             }
         }
 
-        public void Unsubscribe<T>(Action<T> handler)
+        public void Unsubscribe<T>(Action<T> handler) where T : struct
         {
             Type eventType = typeof(T);
 
@@ -48,7 +48,7 @@ namespace PhikozzLib
             }
         }
 
-        public void Publish<T>(T evt)
+        public void Publish<T>(T evt)  where T : struct
         {
             Type eventType = typeof(T);
 
