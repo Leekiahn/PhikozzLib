@@ -7,7 +7,7 @@ namespace PhikozzLib
 {
     public class SaveManager : MonoBehaviour, ISaveService, IServiceRegister
     {
-        [SerializeField] private eSaveFormat _saveFormat = eSaveFormat.Json;
+        [SerializeField] private eSaveType saveType = eSaveType.Json;
         
         public void RegisterService()
         {
@@ -19,14 +19,14 @@ namespace PhikozzLib
             string filePath = GetFilePath(key);
             string json = JsonUtility.ToJson(data);
 
-            switch (_saveFormat)
+            switch (saveType)
             {
-                case eSaveFormat.Json:
+                case eSaveType.Json:
                 {
                     File.WriteAllText(filePath, json);
                     break;
                 }
-                case eSaveFormat.Binary:
+                case eSaveType.Binary:
                 {
                     byte[] bytes = Encoding.UTF8.GetBytes(json);
                     File.WriteAllBytes(filePath, bytes);
@@ -39,14 +39,14 @@ namespace PhikozzLib
         {
             string filePath = GetFilePath(key);
             
-            switch (_saveFormat)
+            switch (saveType)
             {
-                case eSaveFormat.Json:
+                case eSaveType.Json:
                 {
                     string json = File.ReadAllText(filePath);
                     return JsonUtility.FromJson<T>(json);
                 }
-                case eSaveFormat.Binary:
+                case eSaveType.Binary:
                 {
                     byte[] bytes = File.ReadAllBytes(filePath);
                     string json = Encoding.UTF8.GetString(bytes);
@@ -96,11 +96,11 @@ namespace PhikozzLib
 
         private string GetExtension()
         {
-            switch (_saveFormat)
+            switch (saveType)
             {
-                case eSaveFormat.Json:
+                case eSaveType.Json:
                     return "json";
-                case eSaveFormat.Binary:
+                case eSaveType.Binary:
                     return "bin";
                 default:
                     return "txt";

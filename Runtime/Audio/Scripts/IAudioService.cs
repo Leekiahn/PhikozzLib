@@ -5,15 +5,21 @@ namespace PhikozzLib
 {
     public interface IAudioService
     {
-        public void PlayPlaylist(int channel, int index = 0);
-        public void StopCurrentPlaylist();
-        public void PauseCurrentPlaylist();
-        public void PlayNextPlaylistIndex();
-        public void PlayPreviousPlaylistIndex();
+        public void PlayBgm(int channelKey, int index);
+        public void StopBgm();
+        public void PauseBgm();
+        public void ResumeBgm();
+        public void PlayNextBgm();
+        public void PlayPreviousBgm();
+        public void SetBgmMultiplier(float volume = 1f, float pitch = 1f, bool instantly = true);
+        
+        
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null);
         public void PlayUi(string soundName);
-        public void ControlTrack(MMSoundManagerTrackEventTypes type, MMSoundManager.MMSoundManagerTracks track, float volume);
-        public void ControlAllTrack(MMSoundManagerAllSoundsControlEventTypes type);
-        public void FadeTrack(MMSoundManagerTrackFadeEvent.Modes mode, MMSoundManager.MMSoundManagerTracks track, float fadeDuration, float finalVolume, MMTweenType fadeTween);
+
+        
+        public void ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f);
+        public void ControlAllTrack(eAllSoundControlEventTypes type);
+        public void FadeTrack(eSoundTrackFadeEventModes mode, eSoundTracks track, float fadeDuration, float finalVolume, eFadeTrackTweenType fadeTween);
     }
 }

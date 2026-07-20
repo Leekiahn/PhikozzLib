@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: MoreMountains.Tools::MoreMountains.Tools.MMSMPlaylistManager
   Channel: 0
-  Playlist: {fileID: 11400000, guid: 489f29b0dc4950f4689d5f8e3ea72a14, type: 2}
+  Playlist: {fileID: 11400000, guid: 6efa3122799f52b40912607208faf692, type: 2}
   PlayOnStart: 0
   VolumeMultiplier: 1
   PitchMultiplier: 1
@@ -206,4 +206,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08b841132d5f919429c70c20ccf927b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AudioSystem
+  _playlistDatabase: {fileID: 11400000, guid: 8b5defa418b79804885b2ec0bfc2762d, type: 2}
   _soundDatabase: {fileID: 11400000, guid: b87a7cbb9241c426bae30cb7b249eb52, type: 2}
