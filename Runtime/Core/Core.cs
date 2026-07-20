@@ -12,9 +12,16 @@ namespace PhikozzLib
         
         public static DataManager Data => ServiceLocator.Get<DataManager>();
         
+        public static IEventService Event => ServiceLocator.Get<IEventService>();
+        
+        public static IPoolService Pool => ServiceLocator.Get<IPoolService>();
+            
+            
+            
+            
+        
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
         public static ISceneService Scene => ServiceLocator.Get<ISceneService>();
-        public static IEventService Event => ServiceLocator.Get<IEventService>();
 
     }
 }
