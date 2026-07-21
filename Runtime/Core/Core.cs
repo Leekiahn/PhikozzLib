@@ -14,9 +14,8 @@ namespace PhikozzLib
         
             
         public static ISceneService Scene => ServiceLocator.Get<ISceneService>();
-            
-            
-            
+        
+        public static IEffectService Effect => ServiceLocator.Get<IEffectService>();
         
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
 
