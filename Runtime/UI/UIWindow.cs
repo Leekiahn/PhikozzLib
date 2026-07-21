@@ -2,21 +2,27 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
-    public abstract class UIPopup : UIBase
+    [RequireComponent(typeof(CanvasGroup))]
+    public abstract class UIWindow : UIBase
     {
-        public bool IsOpened { get; private set; }
-        // Modal 구현
+        private CanvasGroup _canvasGroup;
+
+        public virtual void Init()
+        {
+            _canvasGroup = GetComponent<CanvasGroup>();
+        }
         
         public void Open()
         {
+            Refresh();
             OnOpen();
-            IsOpened = true;
+            IsVisible = true;
         }
 
         public void Close()
         {
             OnClose();
-            IsOpened = false;
+            IsVisible = false;
         }
 
         protected virtual void OnOpen()

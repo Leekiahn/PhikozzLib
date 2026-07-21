@@ -1,11 +1,18 @@
 using Cysharp.Threading.Tasks;
 using PhikozzLib;
 
-public interface IUIService 
+public interface IUIService
 {
-    void RegisterHUD<T>(T uiHud) where T : UIHUD;
-    void UnregisterHUD<T>(T uihud) where T : UIHUD;
-    T ShowHUD<T>() where T : UIHUD;
-    void HideHUD<T>() where T : UIHUD;
-    void HideAll();
+    UniTask LoadWindowPrefabs(string label);
+    UniTask LoadOverlayPrefabs(string label);
+    
+    T OpenWindow<T>() where T : UIWindow;
+    void CloseWindow<T>() where T : UIWindow;
+    void CloseWindow(UIWindow window);
+    void CloseAllWindow();
+    
+    T OpenOverlay<T>() where T : UIOverlay;
+    void CloseOverlay<T>() where T : UIOverlay;
+    void CloseOverlay(UIOverlay overlay);
+    void CloseAllOverlay();
 }

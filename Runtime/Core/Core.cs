@@ -7,8 +7,6 @@ namespace PhikozzLib
         public static IAudioService Audio => ServiceLocator.Get<IAudioService>();
         
         public static IUIService UI => ServiceLocator.Get<IUIService>();
-        public static IPopupService Popup => ServiceLocator.Get<IPopupService>();
-        public static IDialogService Dialog => ServiceLocator.Get<IDialogService>();
         
         public static DataManager Data => ServiceLocator.Get<DataManager>();
         
