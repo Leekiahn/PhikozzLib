@@ -14,7 +14,6 @@ namespace PhikozzLib
         
         public static IEventService Event => ServiceLocator.Get<IEventService>();
         
-        public static IPoolService Pool => ServiceLocator.Get<IPoolService>();
             
         public static ISceneService Scene => ServiceLocator.Get<ISceneService>();
             
