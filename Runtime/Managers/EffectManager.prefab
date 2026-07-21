@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5429031861290582895
+--- !u!1 &5613479601726742771
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 963608047032892681}
-  - component: {fileID: 2838699909460665023}
+  - component: {fileID: 8885157384584216145}
+  - component: {fileID: 2641740663240384572}
   m_Layer: 0
-  m_Name: PopupManager
+  m_Name: EffectManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &963608047032892681
+--- !u!4 &8885157384584216145
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5429031861290582895}
+  m_GameObject: {fileID: 5613479601726742771}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,17 +32,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2838699909460665023
+--- !u!114 &2641740663240384572
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5429031861290582895}
+  m_GameObject: {fileID: 5613479601726742771}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c03860ac6929384d993422b964a05e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f4423224b1b9ec4fa93e7e2d6270b84, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PhikozzLib.PopupManager
-  _popupLabelReference:
-    m_LabelString: Popup
+  m_EditorClassIdentifier: Assembly-CSharp::EffectManager
+  _effectDatabase: {fileID: 11400000, guid: 23eae1ac00a02a04a8f271954b68b99f, type: 2}
+  _effectPrefab: {fileID: 340258362516161265, guid: 53805c8c8d6843d43942636222421a42, type: 3}

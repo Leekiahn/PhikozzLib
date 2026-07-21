@@ -7,8 +7,8 @@ using NUnit.Framework;
 
 public class DataManager : MonoBehaviour, IServiceRegister
 {
-    public DataContainer<TestData> Test { get; private set; }
-    public DataContainer<DialogData> DialogDataContainer { get; private set; }
+    //public DataContainer<TestData> Test { get; private set; }
+    //public DataContainer<DialogData> DialogDataContainer { get; private set; }
 
     private void Awake()
     {

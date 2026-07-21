@@ -2,72 +2,180 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace PhikozzLib
 {
     public class UIManager : MonoBehaviour, IUIService, IServiceRegister
     {
-        private readonly Dictionary<Type, UIHUD> _registeredHUDs = new();
+        [SerializeField] private AssetLabelReference _windowLabelReference;
+        [SerializeField] private AssetLabelReference _overlayLabelReference;
+
+        [SerializeField] private Transform _windowParent;
+        [SerializeField] private Transform _overlayParent;
+
+        private readonly Dictionary<Type, UIWindow> _windows = new();
+        private readonly Dictionary<Type, UIWindow> _openedWindows = new();
+        private readonly Dictionary<Type, UIOverlay> _overlays = new();
+        private readonly Dictionary<Type, UIOverlay> _openedOverlays = new();
+
+
+        private async void Awake()
+        {
+            try
+            {
+                await PreLoad();
+            }
+            catch (Exception e)
+            {
+                throw new Exception(
+                    $"Failed to load UI prefabs with labels: {_windowLabelReference.labelString}, {_overlayLabelReference.labelString}",
+                    e);
+            }
+        }
 
         public void RegisterService()
         {
             ServiceLocator.Register<IUIService>(this);
         }
 
-        
-        
-        public void RegisterHUD<T>(T uiHud) where T : UIHUD
+        private async UniTask PreLoad()
         {
-            if (!_registeredHUDs.ContainsKey(typeof(T)))
+            await LoadWindowPrefabs(_windowLabelReference.labelString);
+            await LoadOverlayPrefabs(_overlayLabelReference.labelString);
+        }
+
+        public async UniTask LoadWindowPrefabs(string label)
+        {
+            await Core.Addressable.PreloadLocations<GameObject>(label);
+            await Core.Addressable.PreloadAssets<GameObject>(label);
+
+            var windowPrefabs = Core.Addressable.GetAll<GameObject>(label);
+
+            foreach (var prefab in windowPrefabs)
             {
-                _registeredHUDs.Add(typeof(T), uiHud);
+                var window = prefab.GetComponent<UIWindow>();
+                _windows[window.GetType()] = window;
             }
         }
 
-        public void UnregisterHUD<T>(T uihud) where T : UIHUD
+        public async UniTask LoadOverlayPrefabs(string label)
         {
-            if (_registeredHUDs.ContainsKey(typeof(T)))
+            await Core.Addressable.PreloadLocations<GameObject>(label);
+            await Core.Addressable.PreloadAssets<GameObject>(label);
+
+            var overlayPrefabs = Core.Addressable.GetAll<GameObject>(label);
+
+            foreach (var prefab in overlayPrefabs)
             {
-                _registeredHUDs.Remove(typeof(T));
+                var overlay = prefab.GetComponent<UIOverlay>();
+                _overlays[overlay.GetType()] = overlay;
             }
         }
 
-        
-        
-        public T ShowHUD<T>() where T : UIHUD
+        #region ---------------UIWindow---------------
+
+        public T OpenWindow<T>() where T : UIWindow
         {
-            if (_registeredHUDs.TryGetValue(typeof(T), out var instance))
+            if (!_windows.TryGetValue(typeof(T), out var prefab))
             {
-                if (!instance.IsVisible)
+                return null;
+            }
+
+            if (_openedWindows.TryGetValue(typeof(T), out var openedWindow))
+            {
+                if (!openedWindow.IsVisible)
                 {
-                    instance.Show();
-                    return (T)instance;
+                    openedWindow.Open();
                 }
+
+                return (T)openedWindow;
             }
 
-            return null;
+            var instance = Instantiate(prefab, _windowParent);
+            instance.Open();
+            _openedWindows[typeof(T)] = instance;
+            return (T)instance;
         }
 
-        public void HideHUD<T>() where T : UIHUD
+        public void CloseWindow<T>() where T : UIWindow
         {
-            if (_registeredHUDs.TryGetValue(typeof(T), out var instance))
+            if (_openedWindows.TryGetValue(typeof(T), out var openedWindow))
             {
-                if (instance.IsVisible)
-                {
-                    instance.Hide();
-                }
+                openedWindow.Close();
             }
         }
-        
-        public void HideAll()
+
+        public void CloseWindow(UIWindow window)
         {
-            foreach (var instance in _registeredHUDs.Values)
+            var type = window.GetType();
+            if (_openedWindows.TryGetValue(type, out var openedWindow))
             {
-                if (instance.IsVisible)
-                {
-                    instance.Hide();
-                }
+                openedWindow.Close();
             }
         }
+
+        public void CloseAllWindow()
+        {
+            foreach (var openedWindow in _openedWindows.Values)
+            {
+                openedWindow.Close();
+            }
+        }
+
+        #endregion
+
+
+        #region --------------UIOverlay---------------
+
+        public T OpenOverlay<T>() where T : UIOverlay
+        {
+            if (!_overlays.TryGetValue(typeof(T), out var prefab))
+            {
+                return null;
+            }
+
+            if (_openedOverlays.TryGetValue(typeof(T), out var openedOverlay))
+            {
+                if (!openedOverlay.IsVisible)
+                {
+                    openedOverlay.Show();
+                }
+
+                return (T)openedOverlay;
+            }
+
+            var instance = Instantiate(prefab, _overlayParent);
+            instance.Show();
+            _openedOverlays[typeof(T)] = instance;
+            return (T)instance;
+        }
+
+        public void CloseOverlay<T>() where T : UIOverlay
+        {
+            if (_openedOverlays.TryGetValue(typeof(T), out var openedOverlay))
+            {
+                openedOverlay.Hide();
+            }
+        }
+
+        public void CloseOverlay(UIOverlay overlay)
+        {
+            var type = overlay.GetType();
+            if (_openedOverlays.TryGetValue(type, out var openedOverlay))
+            {
+                openedOverlay.Hide();
+            }
+        }
+
+        public void CloseAllOverlay()
+        {
+            foreach (var openedOverlay in _openedOverlays.Values)
+            {
+                openedOverlay.Hide();
+            }
+        }
+
+        #endregion
     }
 }
