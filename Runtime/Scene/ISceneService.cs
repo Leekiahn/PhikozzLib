@@ -6,11 +6,8 @@ namespace PhikozzLib
 {
     public interface ISceneService
     {
-        bool IsLoading { get; }
-        string CurrentSceneName { get; }
-
-        AsyncOperation LoadAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single);
-        AsyncOperation UnloadAsync(string sceneName);
-        AsyncOperation ReloadAsync();
+        void Load(string sceneName, string loadingSceneName);
+        void LoadAdditive(string sceneName, string loadingSceneName);
+        public void HoldSceneLoading(eSceneLoadingHoldMode holdMode, bool status);
     }
 }
