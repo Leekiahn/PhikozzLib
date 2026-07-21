@@ -1,14 +1,15 @@
-using System.IO;
-using UnityEngine;
 using System;
-using System.Text;
+using System.IO;
+using Cysharp.Threading.Tasks;
+using Sirenix.Serialization;
+using UnityEngine;
 
 namespace PhikozzLib
 {
     public class SaveManager : MonoBehaviour, ISaveService, IServiceRegister
     {
         [SerializeField] private eSaveType saveType = eSaveType.Json;
-        
+
         public void RegisterService()
         {
             ServiceLocator.Register<ISaveService>(this);
@@ -17,48 +18,125 @@ namespace PhikozzLib
         public void Save<T>(string key, T data)
         {
             string filePath = GetFilePath(key);
-            string json = JsonUtility.ToJson(data);
 
             switch (saveType)
             {
                 case eSaveType.Json:
                 {
-                    File.WriteAllText(filePath, json);
+                    string json = JsonUtility.ToJson(data);
+
+                    try
+                    {
+                        File.WriteAllText(filePath, json);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Failed to save data as JSON.", e);
+                    }
+
                     break;
                 }
                 case eSaveType.Binary:
                 {
-                    byte[] bytes = Encoding.UTF8.GetBytes(json);
-                    File.WriteAllBytes(filePath, bytes);
+                    try
+                    {
+                        byte[] bytes = SerializationUtility.SerializeValue(
+                            data,
+                            DataFormat.Binary,
+                            new SerializationContext());
+
+                        File.WriteAllBytes(filePath, bytes);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception("Failed to save data as Binary.", e);
+                    }
+
                     break;
                 }
             }
         }
 
-        public T Load<T>(string key)
+        public async UniTask SaveAsync<T>(string key, T data)
         {
-            string filePath = GetFilePath(key);
-            
+            string path = GetFilePath(key);
+
             switch (saveType)
             {
                 case eSaveType.Json:
                 {
-                    string json = File.ReadAllText(filePath);
-                    return JsonUtility.FromJson<T>(json);
+                    await UniTask.RunOnThreadPool(async () =>
+                    {
+                        string json = JsonUtility.ToJson(data);
+                        await File.WriteAllTextAsync(path, json);
+                    });
+
+                    break;
+                }
+
+                case eSaveType.Binary:
+                {
+                    await UniTask.RunOnThreadPool(async () =>
+                    {
+                        byte[] bytes = SerializationUtility.SerializeValue(
+                            data,
+                            DataFormat.Binary,
+                            new SerializationContext());
+
+                        await File.WriteAllBytesAsync(path, bytes);
+                    });
+
+                    break;
+                }
+            }
+        }
+
+        public bool TryLoad<T>(string key, out T data)
+        {
+            string filePath = GetFilePath(key);
+
+            switch (saveType)
+            {
+                case eSaveType.Json:
+                {
+                    try
+                    {
+                        string json = File.ReadAllText(filePath);
+                        data = JsonUtility.FromJson<T>(json);
+                        return true;
+                    }
+                    catch
+                    {
+                        data = default;
+                        return false;
+                    }
                 }
                 case eSaveType.Binary:
                 {
-                    byte[] bytes = File.ReadAllBytes(filePath);
-                    string json = Encoding.UTF8.GetString(bytes);
-                    return JsonUtility.FromJson<T>(json);
+                    try
+                    {
+                        byte[] bytes = File.ReadAllBytes(filePath);
+                        data = SerializationUtility.DeserializeValue<T>(
+                            bytes,
+                            DataFormat.Binary,
+                            new DeserializationContext());
+
+                        return true;
+                    }
+                    catch
+                    {
+                        data = default;
+                        return false;
+                    }
                 }
                 default:
                 {
-                    return default;
+                    data = default;
+                    return false;
                 }
             }
         }
-
+        
         public void Delete(string key)
         {
             File.Delete(GetFilePath(key));
@@ -67,7 +145,7 @@ namespace PhikozzLib
         public void DeleteAll()
         {
             string directoryPath = GetSaveDirectoryPath();
-        
+
             string[] files = Directory.GetFiles(directoryPath);
             foreach (string file in files)
             {
@@ -77,9 +155,7 @@ namespace PhikozzLib
 
         private string GetSaveDirectoryPath()
         {
-            string appDataPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
-            string productName = Application.productName;
-            string path = Path.Combine(appDataPath, productName, "Save");
+            string path = Path.Combine(Application.persistentDataPath, "Save");
 
             if (!Directory.Exists(path))
             {
@@ -88,7 +164,7 @@ namespace PhikozzLib
 
             return path;
         }
-    
+
         private string GetFilePath(string key)
         {
             return Path.Combine(GetSaveDirectoryPath(), $"{key}.{GetExtension()}");
