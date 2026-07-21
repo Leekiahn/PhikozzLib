@@ -1,12 +1,13 @@
-using UnityEngine;
-
-public enum eSoundTrackEventTypes
+namespace PhikozzLib
 {
-    MuteTrack,
-    UnmuteTrack,
-    SetVolumeTrack,
-    PlayTrack,
-    PauseTrack,
-    StopTrack,
-    FreeTrack
+    public enum eSoundTrackEventTypes
+    {
+        MuteTrack,
+        UnmuteTrack,
+        SetVolumeTrack,
+        PlayTrack,
+        PauseTrack,
+        StopTrack,
+        FreeTrack
+    }
 }

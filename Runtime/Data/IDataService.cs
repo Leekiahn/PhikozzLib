@@ -1,6 +1,7 @@
-using UnityEngine;
-
-public interface IDataService
+namespace PhikozzLib
 {
-    void Load();
+    public interface IDataService
+    {
+        void Load();
+    }
 }

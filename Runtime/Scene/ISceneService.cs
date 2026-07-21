@@ -1,5 +1,3 @@
-using UnityEngine.SceneManagement;
-using System;
 using UnityEngine;
 
 namespace PhikozzLib

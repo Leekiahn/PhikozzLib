@@ -1,10 +1,11 @@
-using System;
 using System.Collections.Generic;
 using PhikozzLib;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 
-public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
+namespace PhikozzLib
+{
+    public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
 {
     [SerializeField] private EffectDatabase _effectDatabase;
 
@@ -83,4 +84,5 @@ public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
         particle.transform.SetParent(_effectParent);
         pool.Release(particle);
     }
+}
 }
