@@ -1,9 +1,9 @@
-using System;
-using UnityEngine;
-using BansheeGz.BGDatabase;
-
-public abstract class BaseData
+namespace PhikozzLib
 {
-    public int Id { get; protected set; }
-    public string Name { get; protected set; }
+    public abstract class BaseData
+    {
+        public int Id { get; protected set; }
+        public string Name { get; protected set; }
+    }
 }
+
