@@ -18,7 +18,7 @@ namespace PhikozzLib
         
         foreach (var particleValue in _effectDatabase.ParticleSystemDic)
         {
-            string effectName = particleValue.Key;
+            string effectKey = particleValue.Key;
             ParticleSystem prefab = particleValue.Value;
 
             var pools = new TrackedPool<ParticleSystem>
@@ -38,7 +38,7 @@ namespace PhikozzLib
                 onDestroy: particle => Destroy(particle.gameObject)
             );
 
-            _effectPools.Add(effectName, pools);
+            _effectPools.Add(effectKey, pools);
         }
     }
 
@@ -47,9 +47,9 @@ namespace PhikozzLib
         ServiceLocator.Register<IEffectService>(this);
     }
 
-    public ParticleSystem Play(string effectName, Vector3 position, Quaternion rotation, Transform attachToTransform = null)
+    public ParticleSystem Play(string effectKey, Vector3 position, Quaternion rotation, Transform attachToTransform = null)
     {
-        if (_effectPools.TryGetValue(effectName, out var pool))
+        if (_effectPools.TryGetValue(effectKey, out var pool))
         {
             var effectPlayer = pool.Get();
 
