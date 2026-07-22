@@ -18,6 +18,8 @@ namespace PhikozzLib
         public static IEffectService Effect => ServiceLocator.Get<IEffectService>();
         
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
+        
+        public static ITimeService Time => ServiceLocator.Get<ITimeService>();
 
     }
 }
