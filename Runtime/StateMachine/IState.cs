@@ -1,8 +1,10 @@
-using UnityEngine;
-
-public interface IState
+namespace PhikozzLib
 {
-    void Enter();
-    void Tick();
-    void Exit();
+    public interface IState
+    {
+        void Enter();
+        void Tick();
+        void Exit();
+    }
 }
+
