@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -11,17 +12,19 @@ namespace PhikozzLib
         [Serializable]
         private class CameraData
         {
-            public eCameraType CameraType;
-            public CinemachineCamera Camera;
+            [SerializeField] private eCameraType _type;
+            [SerializeField] private CinemachineCamera _camera;
+
+            public eCameraType Type => _type;
+            public CinemachineCamera Camera => _camera;
         }
-        
+
         private const int ActivePriority = 100;
         private const int InactivePriority = 0;
 
         [SerializeField] private List<CameraData> _cameras;
+        
         private readonly Dictionary<eCameraType, CinemachineCamera> _cameraDic = new();
-
-        private CinemachineBrain _cinemaBrain;
         private CinemachineCamera _activeCamera;
 
         public event Action<CinemachineCamera> OnCameraChanged;
@@ -29,25 +32,23 @@ namespace PhikozzLib
         protected override void Awake()
         {
             base.Awake();
-            _cinemaBrain = GetComponent<CinemachineBrain>();
 
             foreach (var cam in _cameras)
             {
-                _cameraDic[cam.CameraType] = cam.Camera;
+                _cameraDic.Add(cam.Type, cam.Camera);
             }
         }
 
 
         public void RegisterCamera(eCameraType cameraType, CinemachineCamera cam)
         {
-            _cameraDic[cameraType] = cam;
+            _cameraDic.Add(cameraType, cam);
         }
 
         public void UnregisterCamera(eCameraType cameraType)
         {
             _cameraDic.Remove(cameraType);
         }
-
 
         public void SetCamera(eCameraType cameraType)
         {
@@ -89,7 +90,7 @@ namespace PhikozzLib
 
             return false;
         }
-        
+
         public bool IsCurrent(CinemachineCamera cam)
         {
             return _activeCamera == cam;
