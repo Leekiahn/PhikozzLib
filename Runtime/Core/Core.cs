@@ -20,6 +20,8 @@ namespace PhikozzLib
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
         
         public static ITimeService Time => ServiceLocator.Get<ITimeService>();
+        
+        public static InputManager Input => ServiceLocator.Get<InputManager>();
     }
 }
 

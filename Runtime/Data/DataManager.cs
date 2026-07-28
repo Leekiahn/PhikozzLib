@@ -5,8 +5,7 @@ namespace PhikozzLib
 {
     public class DataManager : MonoBehaviour, IServiceRegister
     {
-        //public DataContainer<TestData> Test { get; private set; }
-        //public DataContainer<DialogData> DialogDataContainer { get; private set; }
+        //public DataContainer<TestData> TestData { get; private set; }
 
         private void Awake()
         {
@@ -22,11 +21,12 @@ namespace PhikozzLib
         public void Load()
         {
             // InitTest();
-            // InitDialog();
         }
 
 
-        // private void InitTest()
+        // BGData를 추가한 후, 아래와 같이 초기화 메서드를 작성할 수 있습니다.
+        // 초기화 메서드를 작성한 후, Load() 메서드에서 호출해주세요.
+        // private void InitTestData()
         // {
         //     var list = new List<TestData>();
         //     
@@ -35,19 +35,7 @@ namespace PhikozzLib
         //         list.Add(new TestData(data));
         //     });
         //     
-        //     Test = new DataContainer<TestData>(list);
-        // }
-
-        // private void InitDialog()
-        // {
-        //     var list = new List<DialogData>();
-        //     
-        //     DB_Test2Data.ForEachEntity(data =>
-        //     {
-        //         list.Add(new DialogData(data));
-        //     });
-        //     
-        //     DialogDataContainer = new DataContainer<DialogData>(list);
+        //     TestData = new DataContainer<TestData>(list);
         // }
     }
 }
