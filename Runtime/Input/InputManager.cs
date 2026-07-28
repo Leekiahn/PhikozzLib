@@ -1,20 +1,23 @@
-using PhikozzLib;
 using UnityEngine;
 
-public class InputManager : MonoBehaviour, IServiceRegister
+namespace PhikozzLib
 {
-    public PlayerInputAction ActionMaps { get; private set; }
-    
-    public void RegisterService()
+    public class InputManager : MonoBehaviour, IServiceRegister
     {
-        ServiceLocator.Register(this);
+        public PlayerInputAction ActionMaps { get; private set; }
+    
+        public void RegisterService()
+        {
+            ServiceLocator.Register(this);
         
-        ActionMaps = new PlayerInputAction();
-    }
+            ActionMaps = new PlayerInputAction();
+        }
 
-    // ActionMaps의 액션을 사용하여 입력을 처리하는 메서드를 아래와 같이 추가할 수 있습니다.
-    // public Vector2 Move()
-    // {
-    //     return ActionMaps.Player.Move.ReadValue<Vector2>();
-    // }
+        // ActionMaps의 액션을 사용하여 입력을 처리하는 메서드를 아래와 같이 추가할 수 있습니다.
+        // public Vector2 Move()
+        // {
+        //     return ActionMaps.Player.Move.ReadValue<Vector2>();
+        // }
+    }
 }
+
