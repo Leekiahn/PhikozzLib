@@ -1,5 +1,4 @@
 using PhikozzLib;
-using UnityEngine;
 
 public abstract class LocalizedBaseData : BaseData
 {
