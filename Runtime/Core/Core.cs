@@ -24,6 +24,7 @@ namespace PhikozzLib
         public static InputManager Input => ServiceLocator.Get<InputManager>();
         
         public static ILocalizationService Local => ServiceLocator.Get<ILocalizationService>();
+        public static FloatingTextManager FloatingText => ServiceLocator.Get<FloatingTextManager>();
     }
 }
 
