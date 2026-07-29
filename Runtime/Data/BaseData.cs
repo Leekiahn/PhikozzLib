@@ -4,6 +4,12 @@ namespace PhikozzLib
     {
         public int Id { get; protected set; }
         public string Name { get; protected set; }
+
+        protected BaseData(int  id, string name)
+        {
+            Id = id;
+            Name = name;
+        }
     }
 }
 

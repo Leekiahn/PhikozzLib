@@ -18,12 +18,8 @@ MonoBehaviour:
   m_Metadata:
     m_Items: []
   m_TableData:
-  - m_Id: 14516336951296
-    m_Localized: Sworn Kor
-    m_Metadata:
-      m_Items: []
-  - m_Id: 26822173229056
-    m_Localized: Gun Kor
+  - m_Id: 43695484928000
+    m_Localized: s
     m_Metadata:
       m_Items: []
   references:
