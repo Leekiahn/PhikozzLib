@@ -1,7 +1,9 @@
+using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
+using Object = UnityEngine.Object;
 
 
 namespace PhikozzLib
@@ -21,13 +23,27 @@ namespace PhikozzLib
             _localizationSettings.SetSelectedLocale(locale);
         }
 
-        public string GetLocalizedString(string localeTableRef, string localeEntryRef)
+        public string GetString(string localeTableRef, string localeEntryRef)
         {
             LocalizedString localizedString = new LocalizedString { TableReference = localeTableRef, TableEntryReference = localeEntryRef };
             return localizedString.GetLocalizedString();
         }
+        
+        public string GetString(string localeTableRef, string localeEntryRef, LocalizedString.ChangeHandler onChanged, params object[] arguments)
+        {
+            LocalizedString localizedString = new LocalizedString
+            {
+                TableReference = localeTableRef,
+                TableEntryReference = localeEntryRef,
+                Arguments = arguments
+            };
+            
+            localizedString.StringChanged += onChanged;
+            localizedString.RefreshString();
+            return localizedString.GetLocalizedString();
+        }
 
-        public async UniTask<T> GetLocalizedAsset<T>(string localeTableRef, string localeEntryRef) where T : Object
+        public async UniTask<T> GetAsset<T>(string localeTableRef, string localeEntryRef) where T : Object
         {
             LocalizedAsset<T> localizedAsset = new LocalizedAsset<T> { TableReference = localeTableRef, TableEntryReference = localeEntryRef };
             return await localizedAsset.LoadAssetAsync().ToUniTask();

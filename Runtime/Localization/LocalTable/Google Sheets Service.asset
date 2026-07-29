@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Google Sheets Service
   m_EditorClassIdentifier: Unity.Localization.Editor::UnityEditor.Localization.Plugins.Google.SheetsServiceProvider
   m_ApiKey: 
-  m_ClientId: 
-  m_ClientSecret: 
+  m_ClientId: 397182867463-reje2qa7to2mkej5fjssfvtsou0bq6gc.apps.googleusercontent.com
+  m_ClientSecret: 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
   m_AuthenticationType: 1
   m_ApplicationName: PhikozzLib
   m_NewSheetProperties:

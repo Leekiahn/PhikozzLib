@@ -16,20 +16,20 @@ MonoBehaviour:
     m_Code: en
   m_SharedData: {fileID: 11400000, guid: 2969890d51dcd33429b2189bb48de8e1, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 3976251427021914212
   m_TableData:
-  - m_Id: 47898504691712
-    m_Localized: Gun
+  - m_Id: 107204243587072
+    m_Localized: '{count} amount'
     m_Metadata:
-      m_Items: []
-  - m_Id: 47586372976640
-    m_Localized: Sword
-    m_Metadata:
-      m_Items: []
-  - m_Id: 54086478823424
-    m_Localized: Test
-    m_Metadata:
-      m_Items: []
+      m_Items:
+      - rid: 3976251427021914212
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3976251427021914212
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 107204243587072

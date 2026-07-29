@@ -15,16 +15,8 @@ MonoBehaviour:
   m_TableCollectionName: Locale Table
   m_TableCollectionNameGuidString: 2969890d51dcd33429b2189bb48de8e1
   m_Entries:
-  - m_Id: 47586372976640
-    m_Key: Item_Sword
-    m_Metadata:
-      m_Items: []
-  - m_Id: 47898504691712
-    m_Key: Item_Gun
-    m_Metadata:
-      m_Items: []
-  - m_Id: 54086478823424
-    m_Key: Item_Test
+  - m_Id: 107204243587072
+    m_Key: Item_Count
     m_Metadata:
       m_Items: []
   m_Metadata:
