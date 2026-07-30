@@ -11,6 +11,8 @@
 - 로드 상태 확인
 - 개별 또는 전체 에셋 해제
 
+<br>
+
 ## Features
 
 - **라벨 캐싱**: 라벨별 `Location`, `Handle`, `Asset` 캐시 관리
@@ -19,6 +21,8 @@
 - **키 기반 조회**: `PrimaryKey` 기준 에셋 접근
 - **다운로드 지원**: 원격 Addressable dependency 다운로드
 - **메모리 해제 지원**: 개별 해제 및 라벨 전체 해제
+
+<br>
 
 ## Public API
 
