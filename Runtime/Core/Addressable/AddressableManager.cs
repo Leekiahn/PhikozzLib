@@ -100,6 +100,17 @@ namespace PhikozzLib
 
             await UniTask.WhenAll(tasks);
         }
+        
+        public bool IsLoaded(string label, string key)
+        {
+            return _labelCaches.TryGetValue(label, out var cache)
+                   && cache.AssetByKey.ContainsKey(key);
+        }
+        
+        public bool ContainsLabel(string label)
+        {
+            return _labelCaches.ContainsKey(label);
+        }
 
         public T Get<T>(string label, string key) where T : Object
         {
@@ -111,17 +122,6 @@ namespace PhikozzLib
             }
          
             return null;
-        }
-        
-        public bool IsLoaded(string label, string key)
-        {
-            return _labelCaches.TryGetValue(label, out var cache)
-                   && cache.AssetByKey.ContainsKey(key);
-        }
-        
-        public bool ContainsLabel(string label)
-        {
-            return _labelCaches.ContainsKey(label);
         }
 
         public IReadOnlyList<T> GetAll<T>(string label) where T : Object

@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIManager
   _windowLabelReference:
-    m_LabelString: Popup
+    m_LabelString: Window
   _overlayLabelReference:
-    m_LabelString: Dialog
+    m_LabelString: Overlay
   _windowParent: {fileID: 2674147600546264244}
   _overlayParent: {fileID: 5423225439226070397}
