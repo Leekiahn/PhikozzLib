@@ -41,10 +41,6 @@
    
 # 의존성
 - Feel
-- Addressables
-- Cinemachine
-- Unitask
-- Localization
 
 
 ---
