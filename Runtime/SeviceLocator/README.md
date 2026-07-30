@@ -13,4 +13,5 @@
 ```
 
 IServiceRegister 인터페이스를 상속받아 등록된 서비스는 기본적으로 DontDestroyOnLoad 속성을 가지고 있습니다.
+
 모든 씬에서 전역적으로 사용하는 서비스를 등록하세요.
