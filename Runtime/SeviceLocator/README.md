@@ -1,5 +1,5 @@
 # ServiceLocater
-- 해당 서비스 로케이터는 서비스 등록을 위해 IServiceRegister 인터페이스를 제공합니다.
+- 해당 서비스 로케이터는 전역적인 공통 시스템 서비스 등록을 위해 IServiceRegister 인터페이스를 제공합니다.
 
 <br>
 
