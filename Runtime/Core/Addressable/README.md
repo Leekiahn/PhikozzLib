@@ -22,7 +22,6 @@
 
 
 | Method | Description |
-|------|------|
 |  `DownloadDependencies(string label)` | 라벨의 dependency 다운로드 |
 |  |  |
 |  |  |
