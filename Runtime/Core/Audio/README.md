@@ -17,25 +17,120 @@
 
 ## Features
 
-- **라벨 캐싱**: 라벨별 `Location`, `Handle`, `Asset` 캐시 관리
-- **위치 프리로드**: `LoadResourceLocationsAsync`로 에셋 위치 선조회
-- **에셋 일괄 프리로드**: 라벨에 포함된 모든 에셋 비동기 로드
-- **키 기반 조회**: `PrimaryKey` 기준 에셋 접근
-- **다운로드 지원**: 원격 Addressable dependency 다운로드
-- **메모리 해제 지원**: 개별 해제 및 라벨 전체 해제
+- **BGM 재생 관리**: 플레이리스트 전환, 이전곡/다음곡, 일시정지/재개
+- **SFX 재생**: 위치 기반 재생 및 Transform 부착 재생 지원
+- **UI 사운드 재생**: 버튼 클릭 등 UI 전용 사운드 재생
+- **트랙 제어**: Master, Music, Sfx, UI, Other 트랙 제어
+- **페이드 지원**: 다양한 Tween 곡선 기반 트랙 페이드 처리
+- **서비스 접근**: `Core.Audio`로 어디서든 접근 가능
 
 <br>
 
 ## Public API
 
 | Method | Description |
-|-----|-----|
-|  `DownloadDependencies(string label)` | 라벨의 dependency 다운로드     |
-| `PreloadLocations<T>(string label)` |  라벨에 속한 에셋 위치 캐시      |
-| ` PreloadAssets<T>(string label) ` |  라벨의 에셋 전체 프리로드     |
-| ` IsLoaded(string label, string key) ` |  특정 에셋 로드 여부 확인    |
-| ` ContainsLabel(string label) ` |  라벨 캐시 존재 여부 확인  |
-| ` Get<T>(string label, string key) ` |  키로 단일 에셋 조회  |
-| ` GetAll<T>(string label) `|  라벨 내 로드된 에셋 전체 조회 |
-| ` Release(string label, string key) ` |  특정 에셋 해제 |
-| ` ReleaseAll(string label) ` |  해당 라벨의 모든 에셋 해제 |
+| --- | --- |
+| `PlayBgm(int channelKey, int index)` | 채널 키에 매핑된 플레이리스트를 재생하고, 지정한 인덱스 곡으로 시작합니다. |
+| `StopBgm()` | 현재 재생 중인 BGM을 정지합니다. |
+| `PauseBgm()` | 현재 BGM을 일시정지합니다. |
+| `ResumeBgm()` | 일시정지된 BGM을 다시 재생합니다. |
+| `PlayNextBgm()` | 현재 플레이리스트의 다음 곡을 재생합니다. |
+| `PlayPreviousBgm()` | 현재 플레이리스트의 이전 곡을 재생합니다. |
+| `SetBgmMultiplier(float volume, float pitch, bool instantly = true)` | BGM 볼륨 배수와 피치 배수를 설정합니다. |
+| `PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)` | SFX를 이름으로 찾아 위치 기반 또는 Transform 부착 방식으로 재생합니다. |
+| `PlayUi(string soundName)` | UI 사운드를 이름으로 찾아 재생합니다. |
+| `ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f)` | 특정 오디오 트랙에 대해 재생, 정지, 음소거, 볼륨 변경 등을 수행합니다. |
+| `ControlAllTrack(eAllSoundControlEventTypes type)` | 전체 사운드에 대해 일괄 재생, 정지, 해제 등을 수행합니다. |
+| `FadeTrack(eSoundTrackFadeEventModes mode, eSoundTracks track, float fadeDuration, float finalVolume, eFadeTrackTweenType fadeTween)` | 특정 트랙에 페이드 인/아웃을 적용합니다. |
+
+<br>
+
+## eSoundTrackEventTypes
+- MuteTrack
+- UnmuteTrack
+- SetVolumeTrack
+- PlayTrack
+- PauseTrack
+- StopTrack
+- FreeTrack
+
+<br>
+
+## eSoundTracks
+- Sfx
+- Music
+- UI
+- Master
+- Other
+
+<br>
+
+## eAllSoundControlEventTypes
+- Pause
+- Play
+- Stop
+- Free
+- FreeAllButPersistent
+- FreeAllLooping
+
+<br>
+
+## eSoundTrackFadeEventModes
+- PlayFade
+- StopFade
+
+<br>
+
+## eFadeTrackTweenType
+- LinearTween
+- EaseInQuadratic
+- EaseOutQuadratic
+- EaseInOutQuadratic
+- EaseInCubic
+- EaseOutCubic
+- EaseInOutCubic
+- EaseInQuartic
+- EaseOutQuartic
+- EaseInOutQuartic
+- EaseInQuintic
+- EaseOutQuintic
+- EaseInOutQuintic
+- EaseInSinusoidal
+- EaseOutSinusoidal
+- EaseInOutSinusoidal
+-EaseInBounce
+-EaseOutBounce
+-EaseInOutBounce
+-EaseInOverhead
+-EaseOutOverhead
+-EaseInOutOverhead
+-EaseInExponential
+-EaseOutExponential
+-EaseInOutExponential
+-EaseInElastic
+-EaseOutElastic
+-EaseInOutElastic
+-EaseInCircular
+-EaseOutCircular
+-EaseInOutCircular
+-AntiLinearTween
+-AlmostIdentity
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
