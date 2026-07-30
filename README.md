@@ -41,9 +41,7 @@
    
 # 의존성
 - Feel
-- BG Database
-- Odin Inspector
-- Addressable
+- Addressables
 - Cinemachine
 - Unitask
 - Localization
