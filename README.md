@@ -39,9 +39,15 @@
 
 
    
-# 의존성
+# 의존성/권장 설치 패키지
 - Feel
-
+- BG Database
+- Odin Inspector (선택)
+- Localization (자동)
+- Addressables (자동)
+- UniTask (자동)
+- Cimemachine (자동)
+- Input System (자동)
 
 ---
 
