@@ -13,12 +13,8 @@ namespace PhikozzLib
 
             foreach (var manager in config.Managers)
             {
-                var instance = Object.Instantiate(manager.ManagerPrefab);
-                
-                if (manager.DontDestroyOnLoad)
-                {
-                    Object.DontDestroyOnLoad(instance);
-                }
+                var instance = Object.Instantiate(manager);
+                Object.DontDestroyOnLoad(instance);
 
                 var registration = instance.GetComponent<IServiceRegister>();
                 registration.RegisterService();
