@@ -20,6 +20,7 @@
 - **다운로드 지원**: 원격 Addressable dependency 다운로드
 - **메모리 해제 지원**: 개별 해제 및 라벨 전체 해제
 
+## Public API
 
 | Method | Description |
 |-----|-----|
