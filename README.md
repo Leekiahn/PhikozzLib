@@ -4,7 +4,7 @@
 
 ## Core
 - [Service Locater](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/SeviceLocator)
-- Bootstap
+- [Bootstap](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Bootstrap)
 - Addressable
 - Audio
 - UI
