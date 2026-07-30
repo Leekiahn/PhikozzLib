@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "displayName": "PhikozzLib",
   "description": "Unity, Service Locater(Addressable, Audio, Data, Effect, Event, FloatingText, Input, Localization, Save, Scene, Time), Bootstrap, Camera, StateMachine Utilities",
-  "unity": "6000.3.11f1",
+  "unity": "6000.3",
   "documentationUrl": "https://github.com/Leekiahn/PhikozzLib",
   "dependencies": {
     "com.unity.addressables": "2.9.1",
