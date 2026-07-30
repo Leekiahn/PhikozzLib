@@ -1,4 +1,5 @@
 # Bootstrap
+<img width="458" height="238" alt="Image" src="https://github.com/user-attachments/assets/0a10ccbc-5ab0-4549-8073-bf75d9628b74" />
 `BootstrapConfig`에 등록된 서비스들은 씬이 시작되기 전, 자동으로 초기화되며  
 `DontDestroyOnLoad` 속성을 가지고 씬에 생성됩니다.
 
