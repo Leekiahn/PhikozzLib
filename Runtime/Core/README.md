@@ -1,5 +1,5 @@
 # Core
-```
+```csharp
 Core.Audio.PlayBgm(0, 0);
 Core.Addressable.Get<GameObject>("Dungeon");
 ```
