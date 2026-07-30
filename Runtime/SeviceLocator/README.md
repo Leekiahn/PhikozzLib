@@ -1,4 +1,4 @@
-<img width="458" height="238" alt="image" src="https://github.com/user-attachments/assets/914ae80f-b30c-4768-9f47-8a1096084e4e" /># ServiceLocater
+# ServiceLocater
 해당 서비스 로케이터는 서비스 등록을 위해 IServiceRegister 인터페이스를 제공합니다.
 
 <br>
@@ -21,6 +21,8 @@ public void RegisterService()
     ServiceLocator.Register<IEffectService>(this);
 }
 ```
+
+<img width="458" height="238" alt="Image" src="https://github.com/user-attachments/assets/0a10ccbc-5ab0-4549-8073-bf75d9628b74" />
 
 <br>
 
