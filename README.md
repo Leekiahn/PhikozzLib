@@ -3,7 +3,7 @@
 범용적인 사용성과 개발 속도 향상을 목적으로 개발되었습니다.
 
 ## Core
-- Service Locater Pattern
+- [Service Locater]<https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/SeviceLocator>
 - Bootstap
 - Addressable
 - Audio
