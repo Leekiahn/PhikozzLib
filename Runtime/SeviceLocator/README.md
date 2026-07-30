@@ -11,8 +11,9 @@ public void RegisterService()
     ServiceLocator.Register<IEffectService>(this);
 }
 ```
+
 원하는 서비스 클래스에 `IServiceRegister` 인터페이스를 상속합니다.  
-`RegisterService()` 메서드를 구현하고 `ServiceLocator.Register<T>(T service)` 메서드를 호출해 서비스를 등록합니다.
+`RegisterService()` 메서드를 안에 `ServiceLocator.Register<T>(T service)` 메서드를 호출해 서비스를 등록합니다.
 <br>  
 <br>
 <br>
@@ -29,13 +30,11 @@ public void RegisterService()
 모든 씬에서 전역적으로 사용하는 서비스를 등록하세요.  
 
 
-
-
-
+<br>  
 <br>
 <br>
     
-`ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스를 캐싱할 수 있습니다.
+
 ```
 public IAddressableService Addressable => ServiceLocator.Get<IAddressableService>();
         
@@ -43,3 +42,5 @@ public IAudioService Audio => ServiceLocator.Get<IAudioService>();
   
 public IUIService UI => ServiceLocator.Get<IUIService>();
 ```
+
+`ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스를 캐싱할 수 있습니다.
