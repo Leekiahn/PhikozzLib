@@ -61,7 +61,34 @@
 
 <img width="1143" height="532" alt="Image" src="https://github.com/user-attachments/assets/c7e3da59-946f-4d7f-a4a9-6f3ad44782b0" />
 
-- 
+- BGDatabase -> Export/Import -> Data Sources에서 구글 스프레드 시트를 추가합니다.
+
+<br>
+
+<img width="1140" height="524" alt="Image" src="https://github.com/user-attachments/assets/6f1f1e6f-de2c-408a-97ea-60ae7704f581" />
+
+- 원하는 데이터소스 타입으로 `SpreadSheet ID`를 얻습니다.
+
+<br>
+
+<img width="1141" height="526" alt="Image" src="https://github.com/user-attachments/assets/9b1e95eb-97b8-427e-9799-d0c6825b226b" />
+
+<img width="1143" height="528" alt="Image" src="https://github.com/user-attachments/assets/0914800a-794e-4ff3-89a2-cb4aae30c016" />
+
+- 똑같이 Jobs를 추가한 후, DataSource는 선택합니다.
+- `Update Ids on Import`는 체크 해제합니다.
+- Merge Mode를 Transfer로 설정합니다.
+- Import -> Save -> CodeGen을 클릭합니다.
+
+<br>
+
+<img width="1140" height="521" alt="Image" src="https://github.com/user-attachments/assets/668aac65-f815-46df-9670-d7974c947ab5" />
+
+<img width="1143" height="525" alt="Image" src="https://github.com/user-attachments/assets/fcfbb1f7-4759-454d-b049-5cce832edb82" />
+
+- Configuration Metas에 시트를 추가하고 모든 열을 등록해줍니다.
+- Import -> Save -> CodeGen을 클릭하면 Database에 해당 시트를 확인 가능합니다.
+
 
 ```csharp
 public class TestData : LocalizedBaseData
