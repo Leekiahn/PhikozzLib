@@ -6,7 +6,7 @@
 - [Service Locater](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/SeviceLocator)
 - [Bootstap](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Bootstrap)
 - [Core](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core)
-- [Addressable](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Addressable/README.md)
+- [Addressable](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Addressable)
 - Audio
 - UI
 - Data
