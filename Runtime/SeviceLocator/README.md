@@ -25,7 +25,7 @@ public void RegisterService()
 <br>
 
 
-## ServiceLocater.Get<T>()
+## ServiceLocater.Get<<T>>()
 
 ServiceLocater.Get<T>() 메서드를 호출해 해당 서비스를 캐싱할 수 있습니다.
 ```
