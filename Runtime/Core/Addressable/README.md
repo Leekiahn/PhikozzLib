@@ -22,9 +22,13 @@
 
 
 | Method | Description |
+|-----|-----|
 |  `DownloadDependencies(string label)` | 라벨의 dependency 다운로드 |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
-|  |  |
+| `PreloadLocations<T>(string label)` |  라벨에 속한 에셋 위치 캐시  |
+| ` PreloadAssets<T>(string label) ` |  라벨의 에셋 전체 프리로드  |
+| ` IsLoaded(string label, string key) ` |  특정 에셋 로드 여부 확인  |
+| ` ContainsLabel(string label) ` |  라벨 캐시 존재 여부 확인  |
+| ` Get<T>(string label, string key) ` |  키로 단일 에셋 조회  |
+| ` GetAll<T>(string label) `|  라벨 내 로드된 에셋 전체 조회 |
+| ` Release(string label, string key) ` |  특정 에셋 해제 |
+| ` ReleaseAll(string label) ` |  해당 라벨의 모든 에셋 해제 |
