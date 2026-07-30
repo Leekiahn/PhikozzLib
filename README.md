@@ -7,7 +7,7 @@
 - [Bootstap](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Bootstrap)
 - [Core](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core)
 - [Addressable](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Addressable)
-- Audio
+- [Audio](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Audio)
 - UI
 - Data
 - Event
