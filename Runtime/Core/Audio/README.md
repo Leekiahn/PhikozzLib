@@ -116,6 +116,8 @@
 - AntiLinearTween
 - AlmostIdentity
 
+<br>
+
 - `IAudioService`는 FEEL 에셋에 직접 의존하지 않으며,  
 내부 enum을 통해 오디오 제어 요청을 추상화하고 `AudioManager`에서 실제 FEEL 타입으로 매핑합니다.
 
