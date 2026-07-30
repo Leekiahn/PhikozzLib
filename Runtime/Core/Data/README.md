@@ -53,6 +53,16 @@
 
 <img width="759" height="403" alt="Image" src="https://github.com/user-attachments/assets/b39f403f-97eb-4abf-9cd7-9b4ccca9b594" />
 
+- 구글 스프레드시트를 작성합니다.
+- name(A1)열과 id(B1)열은 필수로 존재해야 합니다.
+- `LocalizedBaseData`를 상속한다면 C1열과 D1열에 각각 테이블 참조(string)과 엔트리 참조(string)가 존재해야 합니다.
+
+<br>
+
+<img width="1143" height="532" alt="Image" src="https://github.com/user-attachments/assets/c7e3da59-946f-4d7f-a4a9-6f3ad44782b0" />
+
+- 
+
 ```csharp
 public class TestData : LocalizedBaseData
 {
