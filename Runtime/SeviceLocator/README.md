@@ -26,7 +26,7 @@ public void RegisterService()
 <img width="455" height="176" alt="Image" src="https://github.com/user-attachments/assets/79326c60-57b9-4ddb-b7b8-b0cb235180d4" />
 
 - 플레이 시, 자동으로 씬에 해당 서비스가 생성됩니다.  
-- `IServiceRegister` 인터페이스를 상속받아 등록된 서비스는 기본적으로 `DontDestroyOnLoad` 속성을 가지고 있습니다.  
+- `IServiceRegister` 인터페이스를 상속받아 BootstrapConfig를 통해 생성된 서비스는 기본적으로 `DontDestroyOnLoad` 속성을 가지고 있습니다.  
 - 모든 씬에서 전역적으로 사용하는 서비스를 등록하세요.  
 
 
