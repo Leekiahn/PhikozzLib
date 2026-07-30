@@ -40,9 +40,9 @@
 
    
 # 의존성/권장 설치 패키지
-- Feel
-- BG Database
-- Odin Inspector (선택)
+- Feel (필수)
+- BG Database (필수)
+- Odin Inspector (필수)
 - Localization (자동)
 - Addressables (자동)
 - UniTask (자동)
