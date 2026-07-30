@@ -12,10 +12,23 @@ namespace PhikozzLib
     {
         private class LabelCache
         {
-            public AsyncOperationHandle<IList<IResourceLocation>> LocationsHandle;
-            public readonly Dictionary<string, IResourceLocation> LocationByKey = new();
-            public readonly Dictionary<string, AsyncOperationHandle> HandleByKey = new();
-            public readonly Dictionary<string, Object> AssetByKey = new();
+            public AsyncOperationHandle<IList<IResourceLocation>> LocationsHandle { get; }
+            public Dictionary<string, IResourceLocation> LocationByKey { get; }
+            public Dictionary<string, AsyncOperationHandle> HandleByKey { get; }
+            public Dictionary<string, Object> AssetByKey { get; }
+
+            public LabelCache(
+                AsyncOperationHandle<IList<IResourceLocation>> locationsHandle,
+                Dictionary<string, IResourceLocation> locationByKey,
+                Dictionary<string, AsyncOperationHandle> handleByKey,
+                Dictionary<string, Object> assetByKey
+                )
+            {
+                LocationsHandle = locationsHandle;
+                LocationByKey = locationByKey;
+                HandleByKey = handleByKey;
+                AssetByKey = assetByKey;
+            }
         }
 
         private readonly Dictionary<string, LabelCache> _labelCaches = new();
@@ -23,6 +36,24 @@ namespace PhikozzLib
         public void RegisterService()
         {
             ServiceLocator.Register<IAddressableService>(this);
+        }
+        
+        public async UniTask DownloadDependencies(string label)
+        {
+            var sizeHandle = Addressables.GetDownloadSizeAsync(label);
+
+            long size = await sizeHandle.ToUniTask();
+
+            Addressables.Release(sizeHandle);
+
+            if (size <= 0)
+                return;
+
+            var downloadHandle = Addressables.DownloadDependenciesAsync(label);
+
+            await downloadHandle.ToUniTask();
+
+            Addressables.Release(downloadHandle);
         }
 
         public async UniTask PreloadLocations<T>(string label) where T : Object
@@ -32,9 +63,13 @@ namespace PhikozzLib
                 return;
             }
 
-            var cache = new LabelCache();
+            var cache = new LabelCache(
+                Addressables.LoadResourceLocationsAsync(label, typeof(T)),
+                new Dictionary<string, IResourceLocation>(),
+                new Dictionary<string, AsyncOperationHandle>(),
+                new Dictionary<string, Object>()
+            );
 
-            cache.LocationsHandle = Addressables.LoadResourceLocationsAsync(label, typeof(T));
             await cache.LocationsHandle.ToUniTask();
 
             foreach (var location in cache.LocationsHandle.Result)
@@ -47,7 +82,11 @@ namespace PhikozzLib
 
         public async UniTask PreloadAssets<T>(string label) where T : Object
         {
-            var cache = _labelCaches[label];
+            if (!_labelCaches.TryGetValue(label, out var cache))
+            {
+                await PreloadLocations<T>(label);
+                cache = _labelCaches[label];
+            }
 
             var tasks = new List<UniTask>();
 
@@ -72,6 +111,17 @@ namespace PhikozzLib
             }
          
             return null;
+        }
+        
+        public bool IsLoaded(string label, string key)
+        {
+            return _labelCaches.TryGetValue(label, out var cache)
+                   && cache.AssetByKey.ContainsKey(key);
+        }
+        
+        public bool ContainsLabel(string label)
+        {
+            return _labelCaches.ContainsKey(label);
         }
 
         public IReadOnlyList<T> GetAll<T>(string label) where T : Object
