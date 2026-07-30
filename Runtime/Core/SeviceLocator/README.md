@@ -5,7 +5,7 @@
 
 ## IServiceRegister
 
-```
+```csharp
 public void RegisterService()
 {
     ServiceLocator.Register<IEffectService>(this);
@@ -35,7 +35,7 @@ public void RegisterService()
 <br>
     
 
-```
+```csharp
 public IAddressableService Addressable => ServiceLocator.Get<IAddressableService>();
         
 public IAudioService Audio => ServiceLocator.Get<IAudioService>();
