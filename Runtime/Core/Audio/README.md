@@ -1,7 +1,8 @@
 # Core.Audio
 - `AudioManager`는 PhikozzLib에서 **BGM**, **SFX**, **UI 사운드**, **트랙 제어**, **페이드 처리**를 담당하는 오디오 서비스입니다.  
 - `IAudioService` 인터페이스를 상속받아 구현합니다.
-- `AudioManager`는 MoreMountains의 Feel 에셋에 의존하고 있습니다. Feel 에셋에 의존하지 않는 다른 매니저로 교체가 가능합니다.
+- `AudioManager`는 MoreMountains의 FEEL 에셋에 의존하고 있습니다. Feel 에셋에 의존하지 않는 다른 매니저로 교체가 가능합니다.
+
 
 <br>
 
@@ -12,6 +13,7 @@
 - 전체 사운드 일괄 제어
 - 트랙 페이드 인/아웃
 - 오디오 데이터베이스(`PlaylistDatabase`, `SoundDatabase`) 연결
+- FEEL에셋의 `MMSoundManager`와 `MMSMPlaylistManager`를 통해 오디오 소스를 풀링합니다.
 
 <br>
 
