@@ -75,7 +75,7 @@
 
 <img width="1143" height="528" alt="Image" src="https://github.com/user-attachments/assets/0914800a-794e-4ff3-89a2-cb4aae30c016" />
 
-- 똑같이 Jobs를 추가한 후, DataSource는 선택합니다.
+- 똑같이 Jobs를 추가한 후, DataSource를 선택합니다.
 - `Update Ids on Import`는 체크 해제합니다.
 - Merge Mode를 Transfer로 설정합니다.
 - Import -> Save -> CodeGen을 클릭합니다.
@@ -87,8 +87,9 @@
 <img width="1143" height="525" alt="Image" src="https://github.com/user-attachments/assets/fcfbb1f7-4759-454d-b049-5cce832edb82" />
 
 - Configuration Metas에 시트를 추가하고 모든 열을 등록해줍니다.
-- Import -> Save -> CodeGen을 클릭하면 Database에 해당 시트를 확인 가능합니다.
+- Import -> Save -> CodeGen을 클릭하면 Database에 시트가 추가되었습니다.
 
+<br>
 
 ```csharp
 public class TestData : LocalizedBaseData
@@ -102,5 +103,61 @@ public class TestData : LocalizedBaseData
 }
 ```
 - `BaseData` 혹은 `LocalizedBaseData`를 상속받아 Data클래스를 작성합니다.
+
+<br>
+
+```csharp
+using System.Collections.Generic;
+using UnityEngine;
+
+namespace PhikozzLib
+{
+    public class DataManager : MonoBehaviour, IServiceRegister
+    {
+        public DataContainer<TestData> TestData { get; private set; }
+
+        private void Awake()
+        {
+            Load();
+        }
+
+        public void RegisterService()
+        {
+            ServiceLocator.Register(this);
+            Load();
+        }
+
+        public void Load()
+        {
+            InitTestData();
+        }
+
+        private void InitTestData()
+        {
+            var list = new List<TestData>();
+            
+            BG_TestData.ForEachEntity(data =>
+            {
+                list.Add(new TestData(data));
+            });
+            
+            TestData = new DataContainer<TestData>(list);
+        }
+    }
+}
+
+```
+- 위처럼 `DataManager`에 `DataContainer<T>`와 메서드를 추가해 데이터를 로드합니다.
+
+<br>
+
+```csharp
+TestData dataById = Core.Data.TestData.Get(1);
+TestData dataByName = Core.Data.TestData.Get("Sword");
+List<TestData> dataList = Core.Data.TestData.GetAll();
+```
+- 위처럼 전역적으로 데이터를 조회 가능합니다.
+
+
 
 
