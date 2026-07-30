@@ -162,7 +162,7 @@ List<TestData> dataList = Core.Data.TestData.GetAll();
 
 <img width="890" height="654" alt="Image" src="https://github.com/user-attachments/assets/a8178e6a-d760-4899-a0e1-b09d6740c739" />
 
-- `LocalizedBaseData`를 상속받았다면 Unity Localization의 Table Name과 Entry Key로 언어 대응이 가능합니다.
+- `LocalizedBaseData`를 상속받았다면 Unity Localization의 Table Name과 Entry Key로 언어 대응이 가능합니다.  
 [Local](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Localization) 
 
 
