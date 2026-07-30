@@ -9,7 +9,7 @@
 - [Addressable](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Addressable)
 - [Audio](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Audio)
 - [UI](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/UI)
-- Data
+- [Data](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Data)
 - Event
 - Scene
 - Effect
