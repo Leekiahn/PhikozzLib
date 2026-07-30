@@ -72,6 +72,8 @@ HUD, 상단 고정 UI, 상태 표시 UI처럼 오버레이 성격의 UI 베이�
 
 ## Setup
 
+<img width="624" height="360" alt="Image" src="https://github.com/user-attachments/assets/01e25f1e-e1dc-43db-9d82-7a7fcd2da334" />
+
 | Step | Description |
 |-----|-----|
 | 1 |  Window 프리팹에 UIWindow 상속 클래스를 붙입니다.  |
