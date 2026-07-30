@@ -25,7 +25,8 @@ public void RegisterService()
 <img width="458" height="238" alt="Image" src="https://github.com/user-attachments/assets/0a10ccbc-5ab0-4549-8073-bf75d9628b74" />
 
 <br>
-
+<br>
+    
 `ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스를 캐싱할 수 있습니다.
 ```
 public IAddressableService Addressable => ServiceLocator.Get<IAddressableService>();
