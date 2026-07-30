@@ -43,4 +43,4 @@ public IAudioService Audio => ServiceLocator.Get<IAudioService>();
 public IUIService UI => ServiceLocator.Get<IUIService>();
 ```
 
-`ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스를 캐싱할 수 있습니다.
+`ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스 객체를 캐싱할 수 있습니다.
