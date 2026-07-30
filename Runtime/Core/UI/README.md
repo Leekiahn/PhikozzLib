@@ -72,7 +72,9 @@ HUD, 상단 고정 UI, 상태 표시 UI처럼 오버레이 성격의 UI 베이�
 
 ## Setup
 
-<img width="624" height="360" alt="Image" src="https://github.com/user-attachments/assets/01e25f1e-e1dc-43db-9d82-7a7fcd2da334" />
+<img width="624" height="360" alt="Image" src="https://github.com/user-attachments/assets/01e25f1e-e1dc-43db-9d82-7a7fcd2da334" />  
+
+<img width="627" height="293" alt="Image" src="https://github.com/user-attachments/assets/d4802806-0d78-4d88-aab3-ec8638e453e2" />
 
 | Step | Description |
 |-----|-----|
