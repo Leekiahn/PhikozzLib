@@ -24,7 +24,7 @@
 
 <br>
 
-## Abstract UI Classes
+## Abstract UI Class
 
 | Type | Role |
 | --- | --- |
