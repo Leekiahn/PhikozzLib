@@ -5,3 +5,5 @@
 # 주의사항
 - `Bootstrapper.cs`는 `Resources`폴더에 존재하는 `BootstrapConfig`를 로드합니다.  
 `BootstrapConfig`를 꼭 `Resources`에 배치해주세요.
+- `BootstrapConfig`에 등록되는 서비스들은 모두 `IServiceRegister` 인터페이스를 상속받고  
+내부에 `ServiceLocator.Register<T>(this)`를 호출해야 합니다.
