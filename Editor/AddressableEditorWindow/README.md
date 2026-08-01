@@ -1,4 +1,7 @@
 # AddressableEditorWindow
+
+<img width="554" height="750" alt="Image" src="https://github.com/user-attachments/assets/8b482f9b-c686-4e71-98f2-3ef022feba9f" />
+
 > Addressable 라벨 다운로드, 프리로드, 캐시 상태 확인, 에셋 해제를 테스트하는 EditorWindow입니다.
 
 ---
