@@ -58,7 +58,7 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 - [Odin Inspector](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041) (필수)
 - Localization (자동)
 - Addressables (자동)
-- UniTask (자동)
+- [UniTask](https://github.com/cysharp/unitask) (자동)
 - Cimemachine (자동)
 - Input System (자동)
 
