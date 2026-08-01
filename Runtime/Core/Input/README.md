@@ -14,14 +14,6 @@
 
 ---
 
-## Public API
-
-| Member | Description |
-|---|---|
-| `PlayerInputAction ActionMaps` | 입력 액션 맵 래퍼를 제공합니다. |
-
----
-
 ## 예시
 
 ```csharp
