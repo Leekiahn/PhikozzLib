@@ -13,17 +13,6 @@
 
 <br>
 
-## Features
-
-- **라벨 캐싱**: 라벨별 `Location`, `Handle`, `Asset` 캐시 관리
-- **위치 프리로드**: `LoadResourceLocationsAsync`로 에셋 위치 선조회
-- **에셋 일괄 프리로드**: 라벨에 포함된 모든 에셋 비동기 로드
-- **키 기반 조회**: `PrimaryKey` 기준 에셋 접근
-- **다운로드 지원**: 원격 Addressable dependency 다운로드
-- **메모리 해제 지원**: 개별 해제 및 라벨 전체 해제
-
-<br>
-
 ## Public API
 
 | Method | Description |
