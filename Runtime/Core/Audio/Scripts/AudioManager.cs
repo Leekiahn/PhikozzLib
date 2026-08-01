@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using MoreMountains.Tools;
 using Sirenix.OdinInspector;
@@ -15,12 +16,14 @@ namespace PhikozzLib
 
         private MMSMPlaylistManager _playlistManager;
 
+        private void Awake()
+        {
+            _playlistManager = MMSMPlaylistManager.Instance;
+        }
 
         public void RegisterService()
         {
             ServiceLocator.Register<IAudioService>(this);
-
-            _playlistManager = MMSMPlaylistManager.Instance;
         }
 
         #region --------------- BGM ---------------
