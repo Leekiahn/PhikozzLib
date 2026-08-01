@@ -1,4 +1,7 @@
 # SceneEditorWindow
+
+<img width="468" height="461" alt="Image" src="https://github.com/user-attachments/assets/5f9de0aa-7392-4cfa-972c-82c858608ce2" />
+
 > 씬 로드/언로드/프리로드/Hold 상태를 테스트하고 현재 로드된 씬 목록을 확인하는 EditorWindow입니다.
 
 ---
