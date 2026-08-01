@@ -1,4 +1,7 @@
 # EffectEditorWindow
+
+<img width="554" height="490" alt="Image" src="https://github.com/user-attachments/assets/4ec0e4bd-0bc7-4a24-95e3-75f61047c92c" />
+
 > 등록된 이펙트 키를 확인하고 위치 또는 대상 부착 방식으로 이펙트를 재생하는 EditorWindow입니다.
 
 ---
