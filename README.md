@@ -65,3 +65,6 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 ---
 
 # 패키지 설치
+
+https://github.com/Leekiahn/PhikozzLib.git
+
