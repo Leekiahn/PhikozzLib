@@ -1,6 +1,9 @@
 # PhikozzLib Documentation
-본 PhikozzLib는 Unity 프로젝트에서 반복적으로 사용되는 공통 시스템을 모듈화한 커스텀 라이브러리입니다.  
-범용적인 사용성과 개발 속도 향상을 목적으로 개발되었습니다.
+
+PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능과 시스템을 모듈화한 커스텀 라이브러리입니다.  
+서비스 초기화, 리소스 관리, UI, 오디오, 데이터, 씬 전환 등 프로젝트 전반에서 자주 사용되는 기능을 일관된 방식으로 제공하여 개발 생산성과 유지보수성을 높이는 것을 목표로 합니다.
+
+각 기능은 독립적인 모듈로 구성되어 있어 프로젝트 요구 사항에 맞게 필요한 시스템만 선택적으로 사용할 수 있습니다. 또한 서비스 로케이터와 부트스트랩 구조를 기반으로 초기화 흐름과 의존성 관리를 단순화하며, 런타임 기능을 지원하는 다양한 EditorWindow 도구를 함께 제공합니다.
 
 ## Services
 - [Service Locater](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/SeviceLocator)
