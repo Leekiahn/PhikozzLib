@@ -101,13 +101,13 @@ namespace PhikozzLib
             await UniTask.WhenAll(tasks);
         }
         
-        public bool IsLoaded(string label, string key)
+        public bool IsLoadedAssetKey(string label, string key)
         {
             return _labelCaches.TryGetValue(label, out var cache)
                    && cache.AssetByKey.ContainsKey(key);
         }
         
-        public bool ContainsLabel(string label)
+        public bool IsCachedLabel(string label)
         {
             return _labelCaches.ContainsKey(label);
         }

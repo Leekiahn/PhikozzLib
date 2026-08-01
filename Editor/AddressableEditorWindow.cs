@@ -7,6 +7,7 @@ using PhikozzLib;
 using PhikozzLib.Editor;
 using UnityEditor;
 using UnityEngine;
+using System.Linq;
 
 public class AddressableEditorWindow : BaseEditorWindow
 {
@@ -19,9 +20,10 @@ public class AddressableEditorWindow : BaseEditorWindow
     private string _status = string.Empty;
     private Vector2 _scroll;
     private readonly Dictionary<string, bool> _foldouts = new();
+    private readonly HashSet<string> _downloadedLabels = new();
 
     [MenuItem("PhikozzLib/Addressable Editor Window")]
-    public static void ShowWindow()
+    protected static void OpenWindow()
     {
         Open<AddressableEditorWindow>("Addressable Editor");
     }
@@ -54,6 +56,7 @@ public class AddressableEditorWindow : BaseEditorWindow
             Execute(async () =>
             {
                 await downloadService.DownloadDependencies(_label);
+                _downloadedLabels.Add(_label);
                 _status = $"Downloaded: {_label}";
             });
         }
@@ -80,11 +83,18 @@ public class AddressableEditorWindow : BaseEditorWindow
 
         BeginHorizontal();
 
-        if (Button("Is Loaded") && TryGetService(out var loadedService) && RequireLabel() && RequireKey())
+        if (Button("Is Loaded Asset Key") && TryGetService(out var loadedKeyService) && RequireLabel() && RequireKey())
         {
-            _status = loadedService.IsLoaded(_label, _key)
+            _status = loadedKeyService.IsLoadedAssetKey(_label, _key)
                 ? $"Loaded: {_key}"
                 : $"Not loaded: {_key}";
+        }
+        
+        if (Button("Is Cached Label") && TryGetService(out var loadedLabelService) && RequireLabel())
+        {
+            _status = loadedLabelService.IsCachedLabel(_label)
+                ? $"Cached: {_label}"
+                : $"Not cached: {_label}";
         }
 
         if (Button("Release") && TryGetService(out var releaseService) && RequireLabel() && RequireKey())
@@ -113,56 +123,64 @@ public class AddressableEditorWindow : BaseEditorWindow
 
     private void DrawLoadedLabels()
     {
-        BoldLabel("Loaded Labels / Keys");
+        BoldLabel("Addressable Labels / Keys");
         Space();
 
-        if (_addressableManager == null)
+        IDictionary caches = null;
+        TryGetLabelCaches(out caches);
+
+        var allLabels = new HashSet<string>(_downloadedLabels);
+
+        if (caches != null)
         {
-            Info("AddressableManager를 찾으면 로드된 목록이 표시됩니다.");
-            return;
+            foreach (DictionaryEntry entry in caches)
+            {
+                if (entry.Key is string label)
+                    allLabels.Add(label);
+            }
         }
 
-        if (!TryGetLabelCaches(out var caches) || caches.Count == 0)
+        if (allLabels.Count == 0)
         {
-            Info("현재 로드된 label이 없습니다.");
+            Info("현재 표시할 label이 없습니다.");
             return;
         }
 
         _scroll = BeginScrollView(_scroll, GUILayout.Height(260f));
 
-        foreach (DictionaryEntry cacheEntry in caches)
+        foreach (var label in allLabels.OrderBy(x => x))
         {
-            string label = cacheEntry.Key as string;
-            object cache = cacheEntry.Value;
-
-            if (string.IsNullOrEmpty(label) || cache == null)
-                continue;
-
-            var locationKeys = GetKeys(cache, "LocationByKey");
-            var loadedKeys = GetKeys(cache, "AssetByKey");
+            object cache = caches?[label];
+            var locationKeys = cache != null ? GetKeys(cache, "LocationByKey") : new HashSet<string>();
+            var loadedKeys = cache != null ? GetKeys(cache, "AssetByKey") : new HashSet<string>();
+            bool isDownloaded = _downloadedLabels.Contains(label);
 
             if (!_foldouts.ContainsKey(label))
                 _foldouts[label] = true;
 
             _foldouts[label] = Foldout(
                 _foldouts[label],
-                $"{label} ({loadedKeys.Count}/{locationKeys.Count})");
+                $"{label} [{GetLabelStateText(isDownloaded, locationKeys.Count, loadedKeys.Count)}]");
 
             if (!_foldouts[label])
                 continue;
 
             BeginIndent();
 
+            Label("Downloaded", isDownloaded ? "Yes" : "No");
+            Label("Locations", locationKeys.Count.ToString());
+            Label("Loaded Assets", loadedKeys.Count.ToString());
+
             if (locationKeys.Count == 0)
             {
-                Label("- No Keys -");
+                Label(isDownloaded ? "- Downloaded dependencies only -" : "- No Keys -");
             }
             else
             {
-                foreach (var keyName in locationKeys)
+                foreach (var keyName in locationKeys.OrderBy(x => x))
                 {
                     bool isLoaded = loadedKeys.Contains(keyName);
-                    Label(isLoaded ? $"[Loaded] {keyName}" : $"[Pending] {keyName}");
+                    Label(isLoaded ? $"[Loaded] {keyName}" : $"[Location] {keyName}");
                 }
             }
 
@@ -171,6 +189,20 @@ public class AddressableEditorWindow : BaseEditorWindow
         }
 
         EndScrollView();
+    }
+    
+    private static string GetLabelStateText(bool isDownloaded, int locationCount, int loadedCount)
+    {
+        if (loadedCount > 0)
+            return $"Downloaded:{(isDownloaded ? "Y" : "N")} / Loaded:{loadedCount}/{locationCount}";
+
+        if (locationCount > 0)
+            return $"Downloaded:{(isDownloaded ? "Y" : "N")} / Locations:{locationCount}";
+
+        if (isDownloaded)
+            return "Downloaded Only";
+
+        return "Empty";
     }
 
     private bool TryGetLabelCaches(out IDictionary caches)
