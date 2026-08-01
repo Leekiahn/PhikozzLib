@@ -25,10 +25,8 @@
 ## Pooling
 - TrackedPool
 
-## Singleton
-- SingletonGlobal
-- SingletonScene
-- SingletonLazy
+## Generic Singleton
+- [Generic Singleton](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Singleton)
 
 ## StateMachine
 - StateMachine
