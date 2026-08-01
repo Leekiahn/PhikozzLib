@@ -20,7 +20,7 @@
 - [FloatingText](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/FloatingText)
 
 ## Canera
-- CameraManager
+- [CameraManager](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Camera)
 
 ## Pooling
 - TrackedPool
