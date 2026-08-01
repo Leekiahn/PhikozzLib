@@ -68,8 +68,7 @@ public class SceneEditorWindow : BaseEditorWindow
             "SceneLoadManager",
             _sceneLoadManager != null ? _sceneLoadManager : FindAnyObjectByType<SceneLoadManager>(),
             true);
-
-        Warning("Scene 테스트는 현재 Play Mode의 로드 상태를 변경할 수 있습니다. Single Load는 확인 후에만 실행하세요.");
+        
         Space();
 
         DrawSceneStatus();
@@ -84,8 +83,7 @@ public class SceneEditorWindow : BaseEditorWindow
 
         BeginHorizontal();
 
-        if (Button("Load Scene") && TryGetService(out var loadService) && RequireSceneName() &&
-            Confirm("Load Scene", $"'{_sceneName}' 씬을 Single 모드로 로드합니다. 계속할까요?"))
+        if (Button("Load Scene") && TryGetService(out var loadService) && RequireSceneName())
         {
             loadService.LoadScene(_sceneName);
             _status = $"Load scene: {_sceneName}";
@@ -93,8 +91,7 @@ public class SceneEditorWindow : BaseEditorWindow
         }
 
         if (Button("Load With Loading") && TryGetService(out var loadingService) &&
-            RequireSceneName() && RequireLoadingSceneName() &&
-            Confirm("Load Scene With Loading", $"'{_sceneName}' 씬을 Loading Scene과 함께 로드합니다. 계속할까요?"))
+            RequireSceneName() && RequireLoadingSceneName())
         {
             loadingService.LoadSceneWithLoading(_sceneName, _loadingSceneName);
             _status = $"Load scene with loading: {_sceneName} / {_loadingSceneName}";
