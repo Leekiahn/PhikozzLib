@@ -1,4 +1,7 @@
 # AudioEditorWindow
+
+<img width="637" height="993" alt="Image" src="https://github.com/user-attachments/assets/2ae9ade8-740b-4cf1-a235-f0656622c774" />
+
 > BGM, SFX, UI 사운드, 트랙 제어, 페이드 기능을 테스트하는 EditorWindow입니다.
 
 ---
