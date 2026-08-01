@@ -20,11 +20,3 @@
 | Method | Description |
 |---|---|
 | `Play(string key, Vector3 position, Quaternion rotation, Transform attachToTransform = null)` | 등록된 이펙트를 키로 찾아 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
-
----
-
-## 사용 방법
-
-1. `EffectDatabase`를 생성합니다.
-2. 키와 `ParticleSystem` 프리팹을 등록합니다.
-3. `EffectManager`에 `EffectDatabase`를 연결합니다.
