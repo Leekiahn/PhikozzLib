@@ -12,7 +12,7 @@
 - [Data](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Data)
 - [Event](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Event)
 - [Scene](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Scene)
-- Effect
+- [Effect](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Effect)
 - Save
 - Time
 - Input
