@@ -6,7 +6,7 @@ namespace PhikozzLib
 {
     public class SceneLoadManager : MonoBehaviour, ISceneService, IServiceRegister
     {
-        public MMAdditiveSceneLoadingManagerSettings settings;
+        [SerializeField] private MMAdditiveSceneLoadingManagerSettings _settings;
 
         private AsyncOperation _preloadedSceneHandle;
         private string _preloadedSceneName;
@@ -33,8 +33,8 @@ namespace PhikozzLib
 
         public void LoadAdditiveSceneWithLoading(string sceneName, string loadingSceneName)
         {
-            settings.LoadingSceneName = loadingSceneName;
-            MMAdditiveSceneLoadingManager.LoadScene(sceneName, settings);
+            _settings.LoadingSceneName = loadingSceneName;
+            MMAdditiveSceneLoadingManager.LoadScene(sceneName, _settings);
         }
 
         public AsyncOperation LoadSceneAsync(string sceneName)
