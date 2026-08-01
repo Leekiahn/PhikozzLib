@@ -20,17 +20,8 @@ public void RegisterService()
 
 ## 서비스 등록
 
-<img width="458" height="238" alt="Image" src="https://github.com/user-attachments/assets/0a10ccbc-5ab0-4549-8073-bf75d9628b74" />
-
-- 서비스 프리팹을 `BootstrapConfig`에 등록하고 `BootstrapConfig`는 Resources 폴더에 배치합니다.
-
-<br>
-
-<img width="455" height="176" alt="Image" src="https://github.com/user-attachments/assets/79326c60-57b9-4ddb-b7b8-b0cb235180d4" />
-
-- 플레이 시, 자동으로 씬에 해당 서비스가 생성됩니다.  
-- `IServiceRegister` 인터페이스를 상속받아 BootstrapConfig를 통해 생성된 서비스는 기본적으로 `DontDestroyOnLoad` 속성을 가지고 있습니다.  
-- 모든 씬에서 전역적으로 사용하는 서비스를 등록하세요.  
+- [BootstrapConfigEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/BootstrapConfigEditorWindow)
+- 서비스 등록은 위 문서를 참고하세요.
 
 
 <br>  
