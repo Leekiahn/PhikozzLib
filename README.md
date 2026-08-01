@@ -15,7 +15,7 @@
 - [Effect](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Effect)
 - [Save](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Save)
 - [Time](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Time)
-- Input
+- [Input](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Input)
 - Local
 - FloatingText
 
