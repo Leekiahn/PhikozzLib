@@ -4,7 +4,7 @@
 
 <br>
 
-## Overview
+## 주요 기능
 - Window 프리팹 프리로드
 - Overlay 프리팹 프리로드
 - 타입 기준 UI 인스턴스 생성 및 캐싱
@@ -13,18 +13,7 @@
 
 <br>
 
-## Features
-
-- **Addressables 연동**: 라벨 기반으로 Window/Overlay 프리팹을 로드합니다.
-- **타입 기반 UI 접근**: `OpenWindow<T>()`, `OpenOverlay<T>()` 형태로 사용합니다.
-- **인스턴스 재사용**: 이미 생성된 UI가 있으면 다시 Instantiate 하지 않고 재사용합니다.
-- **표시 상태 관리**: `IsVisible` 값으로 현재 표시 여부를 추적합니다.
-- **Window / Overlay 분리 구조**: 화면 성격에 따라 두 UI 타입을 구분해 관리합니다.
-- **전역 서비스 접근**: `Core.UI`로 어디서든 동일한 방식으로 접근할 수 있습니다.
-
-<br>
-
-## Abstract UI Class
+## 관련 타입
 
 | Type | Role |
 | --- | --- |
