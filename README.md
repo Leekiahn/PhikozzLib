@@ -16,7 +16,7 @@
 - [Save](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Save)
 - [Time](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Time)
 - [Input](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Input)
-- Local
+- [Local](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Localization)
 - FloatingText
 
 ## Canera
