@@ -1,4 +1,7 @@
 # CameraEditorWindow
+
+<img width="482" height="598" alt="Image" src="https://github.com/user-attachments/assets/33f83cd9-bce3-42ab-8960-7f1db76ece24" />
+
 > 등록된 카메라 상태를 확인하고 `eCameraType` 기준으로 활성 카메라를 전환하는 EditorWindow입니다.
 
 ---
