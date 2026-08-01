@@ -1,4 +1,7 @@
 # FloatingTextEditorWindow
+
+<img width="371" height="309" alt="Image" src="https://github.com/user-attachments/assets/faeada63-5964-4ac7-ae62-a383d130289f" />
+
 > 설정된 FloatingText 타입을 확인하고 샘플 텍스트를 원하는 위치로 스폰하는 EditorWindow입니다.
 
 ---
