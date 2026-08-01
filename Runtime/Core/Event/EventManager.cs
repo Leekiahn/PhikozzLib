@@ -65,10 +65,5 @@ namespace PhikozzLib
         {
             _handlers.Clear();
         }
-
-        private void OnDestroy()
-        {
-            _handlers.Clear();
-        }
     }
 }
