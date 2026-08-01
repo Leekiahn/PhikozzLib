@@ -1,4 +1,4 @@
-# Core.Camera
+# CameraManager
 
 > 카메라 전환 및 관리 기능을 제공합니다.  
 > `CameraManager`는 씬 단위 싱글톤으로 동작합니다.
