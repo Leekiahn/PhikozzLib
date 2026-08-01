@@ -17,7 +17,7 @@
 - [Time](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Time)
 - [Input](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Input)
 - [Local](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Localization)
-- FloatingText
+- [FloatingText](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/FloatingText)
 
 ## Canera
 - CameraManager
