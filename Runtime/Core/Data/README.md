@@ -26,7 +26,7 @@
 
 <br>
 
-## Abstract Data Class
+## Related Types
 
 | Type | Role |
 | --- | --- |
