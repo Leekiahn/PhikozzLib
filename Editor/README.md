@@ -1,6 +1,6 @@
 # Editor Windows
 
-<img width="296" height="264" alt="Image" src="https://github.com/user-attachments/assets/4b7e0302-6e66-48ec-beca-972eef150192" />
+<img width="297" height="246" alt="Image" src="https://github.com/user-attachments/assets/3b0282d2-1a6e-48d4-9ddc-ae2ffed6944a" />
 
 > PhikozzLib에서 제공하는 EditorWindow 도구 모음입니다.  
 > 대부분의 창은 `BaseEditorWindow`를 기반으로 하며, 메뉴 `PhikozzLib/...` 경로에서 열 수 있습니다.
