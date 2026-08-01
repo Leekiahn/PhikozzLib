@@ -12,14 +12,9 @@ namespace PhikozzLib
 
         [Title("SFX/UI Database")] 
         [SerializeField] private SoundDatabase _soundDatabase;
-
-
-        private MMSMPlaylistManager _playlistManager;
-
-        private void Awake()
-        {
-            _playlistManager = MMSMPlaylistManager.Instance;
-        }
+        
+        [Title("Playlist Manager")] 
+        [SerializeField] private MMSMPlaylistManager _playlistManager;
 
         public void RegisterService()
         {

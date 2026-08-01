@@ -111,8 +111,10 @@ public class LocalizationEditorWindow : BaseEditorWindow
             return;
         }
 
-        string selectedLocaleCode = settings.SelectedLocale != null
-            ? settings.SelectedLocale.Identifier.Code
+        var selectedLocale = settings.GetSelectedLocale();
+
+        string selectedLocaleCode = selectedLocale != null
+            ? selectedLocale.Identifier.Code
             : "-";
 
         if (string.IsNullOrWhiteSpace(_initialLocaleCode) && selectedLocaleCode != "-")

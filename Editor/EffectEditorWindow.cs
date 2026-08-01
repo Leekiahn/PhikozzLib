@@ -29,11 +29,6 @@ public class EffectEditorWindow : BaseEditorWindow
         Open<EffectEditorWindow>("Effect Editor");
     }
 
-    private void OnDisable()
-    {
-        StopLastEffect();
-    }
-
     protected override void DrawGUI()
     {
         TitleLabel("Effect Editor");
@@ -78,11 +73,6 @@ public class EffectEditorWindow : BaseEditorWindow
                 _attachTarget);
 
             SetPlayStatus();
-        }
-
-        if (Button("Stop Last Effect"))
-        {
-            StopLastEffect();
         }
 
         EndHorizontal();
@@ -130,16 +120,6 @@ public class EffectEditorWindow : BaseEditorWindow
             .Where(key => !string.IsNullOrWhiteSpace(key))
             .OrderBy(key => key)
             .ToArray();
-    }
-
-    private void StopLastEffect()
-    {
-        if (_lastEffect == null)
-            return;
-
-        _lastEffect.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        _status = "Stopped last effect.";
-        _lastEffect = null;
     }
 
     private void SetPlayStatus()
