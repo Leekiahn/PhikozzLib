@@ -10,28 +10,26 @@
 - [Audio](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Audio)
 - [UI](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/UI)
 - [Data](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Data)
-- Event
-- Scene
-- Effect
-- Save
-- Time
-- Input
-- Local
-- FloatingText
+- [Event](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Event)
+- [Scene](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Scene)
+- [Effect](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Effect)
+- [Save](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Save)
+- [Time](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Time)
+- [Input](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Input)
+- [Localization](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Localization)
+- [FloatingText](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/FloatingText)
 
 ## Canera
-- CameraManager
+- [CameraManager](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Camera)
 
 ## Pooling
-- TrackedPool
+- [TrackedPool](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Pooling)
 
-## Singleton
-- SingletonGlobal
-- SingletonScene
-- SingletonLazy
+## Generic Singleton
+- [Generic Singleton](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Singleton)
 
 ## StateMachine
-- StateMachine
+- [StateMachine](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/StateMachine)
 
 
 

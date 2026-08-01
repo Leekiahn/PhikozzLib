@@ -1,12 +1,12 @@
 # Core.Audio
-- `AudioManager`는 PhikozzLib에서 **BGM**, **SFX**, **UI 사운드**, **트랙 제어**, **페이드 처리**를 담당하는 오디오 서비스입니다.  
-- `IAudioService` 인터페이스를 상속받아 구현합니다.
-- `AudioManager`는 MoreMountains의 FEEL 에셋에 의존하고 있습니다. Feel 에셋에 의존하지 않는 다른 매니저로 교체가 가능합니다.
+> `AudioManager`는 PhikozzLib에서 **BGM**, **SFX**, **UI 사운드**, **트랙 제어**, **페이드 처리**를 담당하는 오디오 서비스입니다.  
+> `IAudioService` 인터페이스를 상속받아 구현합니다.  
+> `AudioManager`는 MoreMountains의 FEEL 에셋에 의존하고 있습니다. Feel 에셋에 의존하지 않는 다른 매니저로 교체가 가능합니다.  
 
 
 <br>
 
-## Overview
+## 주요 기능
 - 채널 기반 BGM 재생
 - SFX/UI 사운드 이름 기반 재생
 - 특정 트랙 음소거, 정지, 재생, 볼륨 제어
@@ -14,17 +14,6 @@
 - 트랙 페이드 인/아웃
 - 오디오 데이터베이스(`PlaylistDatabase`, `SoundDatabase`) 연결
 - FEEL에셋의 `MMSoundManager`와 `MMSMPlaylistManager`를 통해 오디오 소스를 풀링합니다.
-
-<br>
-
-## Features
-
-- **BGM 재생 관리**: 플레이리스트 전환, 이전곡/다음곡, 일시정지/재개
-- **SFX 재생**: 위치 기반 재생 및 Transform 부착 재생 지원
-- **UI 사운드 재생**: 버튼 클릭 등 UI 전용 사운드 재생
-- **트랙 제어**: Master, Music, Sfx, UI, Other 트랙 제어
-- **페이드 지원**: 다양한 Tween 곡선 기반 트랙 페이드 처리
-- **서비스 접근**: `Core.Audio`로 어디서든 접근 가능
 
 <br>
 
@@ -47,7 +36,9 @@
 
 <br>
 
-## eSoundTrackEventTypes
+## 관련 열거형 타입
+
+### eSoundTrackEventTypes
 - MuteTrack
 - UnmuteTrack
 - SetVolumeTrack
@@ -58,7 +49,7 @@
 
 <br>
 
-## eSoundTracks
+### eSoundTracks
 - Sfx
 - Music
 - UI
@@ -67,7 +58,7 @@
 
 <br>
 
-## eAllSoundControlEventTypes
+### eAllSoundControlEventTypes
 - Pause
 - Play
 - Stop
@@ -77,13 +68,13 @@
 
 <br>
 
-## eSoundTrackFadeEventModes
+### eSoundTrackFadeEventModes
 - PlayFade
 - StopFade
 
 <br>
 
-## eFadeTrackTweenType
+### eFadeTrackTweenType
 - LinearTween
 - EaseInQuadratic
 - EaseOutQuadratic

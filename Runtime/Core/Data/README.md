@@ -1,11 +1,11 @@
 # Core.Data
-- `BaseData.cs`를 상속받는 데이터 클래스를 `DataContainer<T>`에 담아 초기화/로드하고 ID/이름 조회합니다.
-- `IDataService` 인터페이스를 상속받아 구현합니다.
-- 현재 `BG Database` 에셋에 의존합니다.
+> `BaseData.cs`를 상속받는 데이터 클래스를 `DataContainer<T>`에 담아 초기화/로드하고 ID/이름 조회합니다.  
+> `IDataService` 인터페이스를 상속받아 구현합니다.  
+> 현재 `BG Database` 에셋에 의존합니다.  
 
 <br>
 
-## Overview
+## 주요 기능
 
 - 게임 시작 시 데이터 로드
 - 원본 데이터 엔티티를 런타임 데이터 객체로 변환
@@ -15,18 +15,7 @@
 
 <br>
 
-## Features
-
-- 타입별 데이터 관리: `DataContainer<T>`를 사용해 데이터 종류별로 분리 관리합니다.
-- 빠른 조회: Id, Name 기준 딕셔너리 조회를 지원합니다.
-- 전체 순회 지원: 리스트 기반 전체 데이터 열람이 가능합니다.
-- 확장 쉬운 구조: 새 데이터 타입을 추가하고 Load()에 초기화 메서드를 연결하면 확장할 수 있습니다.
-- 로컬라이징 대응 기반: `LocalizedBaseData`를 상속받은 데이터는 Unity Localization에 대응이 가능합니다.
-- 전역 접근: Core.Data를 통해 어디서든 접근 가능합니다.
-
-<br>
-
-## Abstract Data Class
+## 관련 타입
 
 | Type | Role |
 | --- | --- |
