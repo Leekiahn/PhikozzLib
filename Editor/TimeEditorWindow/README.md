@@ -1,4 +1,7 @@
 # TimeEditorWindow
+
+<img width="421" height="335" alt="Image" src="https://github.com/user-attachments/assets/a2c627fb-bdd8-45f3-9379-4c1cfadfb4fb" />
+
 > Time Scale, Freeze Frame, Reset 동작을 테스트하는 EditorWindow입니다.
 
 ---
