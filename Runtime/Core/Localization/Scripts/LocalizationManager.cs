@@ -43,7 +43,7 @@ namespace PhikozzLib
             return localizedString.GetLocalizedString();
         }
 
-        public async UniTask<T> GetAsset<T>(string localeTableRef, string localeEntryRef) where T : Object
+        public async UniTask<T> GetAssetAsync<T>(string localeTableRef, string localeEntryRef) where T : Object
         {
             LocalizedAsset<T> localizedAsset = new LocalizedAsset<T> { TableReference = localeTableRef, TableEntryReference = localeEntryRef };
             return await localizedAsset.LoadAssetAsync().ToUniTask();
