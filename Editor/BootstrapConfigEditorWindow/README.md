@@ -1,4 +1,7 @@
 # BootstrapConfigEditorWindow
+
+<img width="458" height="537" alt="Image" src="https://github.com/user-attachments/assets/ccb1ec0e-e295-4cd6-94e2-208f80178ce0" />
+
 > `BootstrapConfig` 에셋을 편집하고 `Resources/BootstrapConfig.asset`으로 복사 배치하는 EditorWindow입니다.
 
 ---
