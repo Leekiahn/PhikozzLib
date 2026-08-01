@@ -36,7 +36,9 @@
 
 <br>
 
-## eSoundTrackEventTypes
+## 관련 열거형 타입
+
+### eSoundTrackEventTypes
 - MuteTrack
 - UnmuteTrack
 - SetVolumeTrack
@@ -47,7 +49,7 @@
 
 <br>
 
-## eSoundTracks
+### eSoundTracks
 - Sfx
 - Music
 - UI
@@ -56,7 +58,7 @@
 
 <br>
 
-## eAllSoundControlEventTypes
+### eAllSoundControlEventTypes
 - Pause
 - Play
 - Stop
@@ -66,13 +68,13 @@
 
 <br>
 
-## eSoundTrackFadeEventModes
+### eSoundTrackFadeEventModes
 - PlayFade
 - StopFade
 
 <br>
 
-## eFadeTrackTweenType
+### eFadeTrackTweenType
 - LinearTween
 - EaseInQuadratic
 - EaseOutQuadratic
