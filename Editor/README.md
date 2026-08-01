@@ -14,8 +14,7 @@
 - [CameraEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/CameraEditorWindow)
 - [EffectEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/EffectEditorWindow)
 - [FloatingTextEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/FloatingTextEditorWindow)
-- [LocalizationEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/LocalizationEditorWindow)
-- [SaveEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/SaveEditorWindow)
+- [LocalizationEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/LocalizationEditorWindow)  
 - [SceneEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/SceneEditorWindow)
 - [TimeEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/TimeEditorWindow)
 
