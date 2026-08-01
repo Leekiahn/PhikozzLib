@@ -48,11 +48,3 @@ public class Example : MonoBehaviour
     }
 }
 ```
-
----
-
-## 관련 파일
-
-- `Runtime/Core/Effect/Scripts/EffectManager.cs`
-- `Runtime/Core/Effect/Scripts/IEffectService.cs`
-- `Runtime/Core/Effect/Scripts/EffectDatabase.cs`
