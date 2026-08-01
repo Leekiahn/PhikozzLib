@@ -69,7 +69,7 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 <img width="504" height="137" alt="Image" src="https://github.com/user-attachments/assets/1774c18c-b9ea-42ff-8d29-7262bd725619" />
 
 - Pachage Manager -> Install Package from git URL에 https://github.com/Leekiahn/PhikozzLib.git 해당 링크를 붙여넣고 Install합니다.
-- 필요로 하는 필수 패키지를 모두 설치해야 합니다.
+- 먼저 필요로 하는 필수 패키지를 모두 설치해야 합니다.
 
 
 
