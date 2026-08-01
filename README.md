@@ -10,7 +10,7 @@
 - [Audio](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Audio)
 - [UI](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/UI)
 - [Data](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Data)
-- Event
+- [Event](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Event)
 - Scene
 - Effect
 - Save
