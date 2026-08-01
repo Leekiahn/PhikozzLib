@@ -36,9 +36,9 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 
 ## Editor
 - [Editor Windows](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor)
+- [BootstrapConfigEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/BootstrapConfigEditorWindow)
 - [AddressableEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/AddressableEditorWindow)
 - [AudioEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/AudioEditorWindow)
-- [BootstrapConfigEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/BootstrapConfigEditorWindow)
 - [CameraEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/CameraEditorWindow)
 - [EffectEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/EffectEditorWindow)
 - [FloatingTextEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/FloatingTextEditorWindow)
