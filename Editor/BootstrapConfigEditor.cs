@@ -23,20 +23,6 @@ namespace PhikozzLib.Editor
 
             _config = ObjectField("Config", _config, false);
 
-            BeginHorizontal();
-
-            if (Button("Use Selection"))
-            {
-                _config = Selection.activeObject as BootstrapConfig;
-            }
-
-            if (Button("Load From Resources"))
-            {
-                _config = AssetDatabase.LoadAssetAtPath<BootstrapConfig>(ResourceAssetPath);
-            }
-
-            EndHorizontal();
-
             Space();
 
             if (_config == null)
