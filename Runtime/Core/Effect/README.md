@@ -28,23 +28,3 @@
 1. `EffectDatabase`를 생성합니다.
 2. 키와 `ParticleSystem` 프리팹을 등록합니다.
 3. `EffectManager`에 `EffectDatabase`를 연결합니다.
-4. `ServiceLocator`에 `IEffectService`로 등록된 후 `Play()`를 호출합니다.
-
-```csharp
-using UnityEngine;
-using PhikozzLib;
-
-public class Example : MonoBehaviour
-{
-    [SerializeField] private EffectManager _effectManager;
-
-    private void Start()
-    {
-        _effectManager.Play(
-            "Hit",
-            transform.position,
-            Quaternion.identity
-        );
-    }
-}
-```
