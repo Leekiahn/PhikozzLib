@@ -53,9 +53,9 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 
    
 # 의존성/권장 설치 패키지
-- Feel (필수)
-- BG Database (필수)
-- Odin Inspector (필수)
+- [Feel](https://assetstore.unity.com/packages/tools/particles-effects/feel-183370) (필수)
+- [BG Database](https://assetstore.unity.com/packages/tools/integration/bg-database-data-editor-with-google-sheets-and-excel-syncing-112262) (필수)
+- [Odin Inspector](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041) (필수)
 - Localization (자동)
 - Addressables (자동)
 - UniTask (자동)
