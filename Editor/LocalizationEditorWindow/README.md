@@ -1,4 +1,7 @@
 # LocalizationEditorWindow
+
+<img width="436" height="536" alt="Image" src="https://github.com/user-attachments/assets/3527da19-da8d-4855-834d-df74f173b37a" />
+
 > 현재 Locale 상태를 확인하고 Locale 전환 및 로컬라이즈 문자열 조회를 테스트하는 EditorWindow입니다.
 
 ---
