@@ -9,6 +9,6 @@ namespace PhikozzLib
         void SetLocale(string localeCode);
         string GetString(string localizationTable, string entryKey);
         string GetString(string localeTableRef, string localeEntryRef, LocalizedString.ChangeHandler onChanged, params object[] arguments);
-        UniTask<T> GetAsset<T>(string localeTableRef, string localeEntryRef) where T : Object;
+        UniTask<T> GetAssetAsync<T>(string localeTableRef, string localeEntryRef) where T : Object;
     }
 }
