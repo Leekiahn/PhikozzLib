@@ -146,7 +146,7 @@ public class AddressableEditorWindow : BaseEditorWindow
             return;
         }
 
-        _scroll = BeginScrollView(_scroll, GUILayout.Height(260f));
+        _scroll = BeginScrollView(_scroll);
 
         foreach (var label in allLabels.OrderBy(x => x))
         {
