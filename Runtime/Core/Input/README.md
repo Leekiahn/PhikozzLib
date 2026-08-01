@@ -23,11 +23,11 @@ namespace PhikozzLib
 {
     public class InputManager : MonoBehaviour, IServiceRegister
     {
-        public PlayerInputAction ActionMaps { get; private set; }
-    
+        private PlayerInputAction _actionMaps;
+
         private void Awake()
         {
-            ActionMaps = new PlayerInputAction();
+            _actionMaps = new PlayerInputAction();
         }
 
         public void RegisterService()
