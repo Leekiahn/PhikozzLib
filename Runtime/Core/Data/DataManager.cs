@@ -1,41 +1,30 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace PhikozzLib
 {
-    public class DataManager : MonoBehaviour, IServiceRegister
+    public class DataManager : MonoBehaviour, IDataService, IServiceRegister
     {
-        //public DataContainer<TestData> TestData { get; private set; }
-
-        private void Awake()
-        {
-            Load();
-        }
+        private readonly Dictionary<Type, object> _dataContainers = new();
 
         public void RegisterService()
         {
             ServiceLocator.Register(this);
-            Load();
         }
 
-        public void Load()
+        public void Register<T>(DataContainer<T> container) where T : BaseData
         {
-            InitTestData();
+            _dataContainers[typeof(T)] = container;
         }
-
-
-        // BGData를 추가한 후, 아래와 같이 초기화 메서드를 작성할 수 있습니다.
-        // 초기화 메서드를 작성한 후, Load() 메서드에서 호출해주세요.
-        private void InitTestData()
+        
+        public DataContainer<T> Get<T>() where T : BaseData
         {
-            // var list = new List<TestData>();
-            //
-            // BG_TestData.ForEachEntity(data =>
-            // {
-            //     list.Add(new TestData(data));
-            // });
-            //
-            // TestData = new DataContainer<TestData>(list);
+            if (_dataContainers.TryGetValue(typeof(T), out var container))
+            {
+                return container as DataContainer<T>;
+            }
+            return null;
         }
     }
 }
