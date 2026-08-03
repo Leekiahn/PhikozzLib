@@ -10,7 +10,14 @@ namespace PhikozzLib
 {
     public class LocalizationManager : MonoBehaviour, ILocalizationService, IServiceRegister
     {
-        [SerializeField] private LocalizationSettings _localizationSettings;
+        private const string LocalizationSettingsResourcePath = "LocalizationSettings.asset";
+        
+        private LocalizationSettings _localizationSettings;
+
+        private void Awake()
+        {
+            _localizationSettings = Resources.Load<LocalizationSettings>(LocalizationSettingsResourcePath);
+        }
 
         public void RegisterService()
         {
