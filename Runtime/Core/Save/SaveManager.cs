@@ -8,8 +8,17 @@ namespace PhikozzLib
 {
     public class SaveManager : MonoBehaviour, ISaveService, IServiceRegister
     {
-        [SerializeField] private eSaveType saveType = eSaveType.Json;
+        private const string SaveConfigPath = "SaveConfig";
+        
+        private SaveConfig _saveConfig;
 
+        private eSaveType SaveType => _saveConfig.SaveType;
+
+        private void Awake()
+        {
+            _saveConfig = Resources.Load<SaveConfig>(SaveConfigPath);
+        }
+        
         public void RegisterService()
         {
             ServiceLocator.Register<ISaveService>(this);
@@ -19,7 +28,7 @@ namespace PhikozzLib
         {
             string filePath = GetFilePath(key);
 
-            switch (saveType)
+            switch (SaveType)
             {
                 case eSaveType.Json:
                 {
@@ -61,7 +70,7 @@ namespace PhikozzLib
         {
             string path = GetFilePath(key);
 
-            switch (saveType)
+            switch (SaveType)
             {
                 case eSaveType.Json:
                 {
@@ -95,7 +104,7 @@ namespace PhikozzLib
         {
             string filePath = GetFilePath(key);
 
-            switch (saveType)
+            switch (SaveType)
             {
                 case eSaveType.Json:
                 {
@@ -155,7 +164,7 @@ namespace PhikozzLib
 
         private string GetSaveDirectoryPath()
         {
-            string path = Path.Combine(Application.persistentDataPath, "Save");
+            string path = Path.Combine(Application.persistentDataPath, _saveConfig.SaveDirectory);
 
             if (!Directory.Exists(path))
             {
@@ -172,7 +181,7 @@ namespace PhikozzLib
 
         private string GetExtension()
         {
-            switch (saveType)
+            switch (SaveType)
             {
                 case eSaveType.Json:
                     return "json";
