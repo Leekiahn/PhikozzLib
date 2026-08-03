@@ -4,29 +4,34 @@ using MoreMountains.Feedbacks;
 using PhikozzLib;
 using UnityEngine;
 
-public class FloatingTextManager : MonoBehaviour, IServiceRegister
+namespace PhikozzLib
 {
-    [Serializable]
-    private class FloatingTextData
+    public class FloatingTextManager : MonoBehaviour, IServiceRegister, IFloatingTextService
     {
-        [SerializeField] private eFloatingTextType _type;
-        [SerializeField] private MMFloatingTextSpawner _spawner;
-
-        public eFloatingTextType Type => _type;
-        public MMFloatingTextSpawner Spawner => _spawner;
-    }
-
-    [SerializeField] private List<FloatingTextData> _floatingTextSpawners = new List<FloatingTextData>();
+        private readonly Dictionary<eFloatingTextType, MMFloatingTextSpawner> _floatingTextSpawners = new();
 
 
-    public void RegisterService()
-    {
-        ServiceLocator.Register(this);
-    }
+        public void RegisterService()
+        {
+            ServiceLocator.Register<IFloatingTextService>(this);
+        }
 
-    public void Spawn(eFloatingTextType type, string value, Vector3 position, Vector3 direction)
-    {
-        var data = _floatingTextSpawners.Find(x => x.Type == type);
-        data.Spawner.Spawn(value, position, direction);
+        public void RegisterFloatingText(BaseFloatingTextLoader loader)
+        {
+            _floatingTextSpawners[loader.FloatingTextType] = loader.Spawner;
+        }
+
+        public void UnRegisterFloatingText(eFloatingTextType type)
+        {
+            _floatingTextSpawners.Remove(type);
+        }
+
+        public void Spawn(eFloatingTextType type, string value, Vector3 position, Vector3 direction)
+        {
+            if (_floatingTextSpawners.TryGetValue(type, out var spawner))
+            {
+                spawner.Spawn(value, position, direction);
+            }
+        }
     }
 }

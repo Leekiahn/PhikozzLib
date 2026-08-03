@@ -10,7 +10,7 @@ namespace PhikozzLib
 
         public void RegisterService()
         {
-            ServiceLocator.Register(this);
+            ServiceLocator.Register<IDataService>(this);
         }
 
         public void Register<T>(DataContainer<T> container) where T : BaseData

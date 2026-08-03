@@ -5,7 +5,7 @@ namespace PhikozzLib
         public static IAddressableService Addressable => ServiceLocator.Get<IAddressableService>();
         public static IAudioService Audio => ServiceLocator.Get<IAudioService>();
         public static IUIService UI => ServiceLocator.Get<IUIService>();
-        public static DataManager Data => ServiceLocator.Get<DataManager>();
+        public static IDataService Data => ServiceLocator.Get<IDataService>();
         public static IEventService Event => ServiceLocator.Get<IEventService>();
         public static ISceneService Scene => ServiceLocator.Get<ISceneService>();
         public static IEffectService Effect => ServiceLocator.Get<IEffectService>();
@@ -13,7 +13,7 @@ namespace PhikozzLib
         public static ITimeService Time => ServiceLocator.Get<ITimeService>();
         public static InputManager Input => ServiceLocator.Get<InputManager>();
         public static ILocalizationService Local => ServiceLocator.Get<ILocalizationService>();
-        public static FloatingTextManager FloatingText => ServiceLocator.Get<FloatingTextManager>();
+        public static IFloatingTextService FloatingText => ServiceLocator.Get<IFloatingTextService>();
     }
 }
 

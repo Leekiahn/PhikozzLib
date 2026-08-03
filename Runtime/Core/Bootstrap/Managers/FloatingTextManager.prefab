@@ -45,9 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd02194dfb50924ba24c49b331cf53f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FloatingTextManager
-  _floatingTextSpawners:
-  - _type: 0
-    _spawner: {fileID: 4537272040534385231}
 --- !u!1 &4502802814882783312
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,6 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3409126156908612047}
   - component: {fileID: 4537272040534385231}
+  - component: {fileID: 3276442755899536678}
   m_Layer: 0
   m_Name: DefaultSpawner
   m_TagString: Untagged
@@ -325,3 +323,15 @@ MonoBehaviour:
   DebugInterval: {x: 0.3, y: 0.5}
   TestSpawnOneBtn: 0
   TestSpawnManyBtn: 0
+--- !u!114 &3276442755899536678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4502802814882783312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83f9ee12d8a35ab498a72325d7ec5742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DefaultFloatingTextLoader
