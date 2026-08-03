@@ -6,7 +6,7 @@ namespace PhikozzLib
 {
     public abstract class BaseFloatingTextLoader : MonoBehaviour
     {
-        public abstract eFloatingTextType FloatingTextType { get; }
+        public abstract string FloatingTextKey { get; }
         private MMFloatingTextSpawner _spawner;
 
         public MMFloatingTextSpawner Spawner => _spawner;
@@ -23,12 +23,12 @@ namespace PhikozzLib
 
         private void OnDisable()
         {
-            Core.FloatingText.UnRegisterFloatingText(FloatingTextType);
+            Core.FloatingText.UnRegisterFloatingText(FloatingTextKey);
         }
 
         private void OnDestroy()
         {
-            Core.FloatingText.UnRegisterFloatingText(FloatingTextType);
+            Core.FloatingText.UnRegisterFloatingText(FloatingTextKey);
         }
     }
 }

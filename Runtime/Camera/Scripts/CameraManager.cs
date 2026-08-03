@@ -8,37 +8,27 @@ namespace PhikozzLib
     [RequireComponent(typeof(Camera), typeof(CinemachineBrain), typeof(AudioListener))]
     public class CameraManager : SingletonScene<CameraManager>
     {
-        [Serializable]
-        private class CameraData
-        {
-            [SerializeField] private eCameraType _type;
-            [SerializeField] private CinemachineCamera _camera;
-
-            public eCameraType Type => _type;
-            public CinemachineCamera Camera => _camera;
-        }
-
         private const int ActivePriority = 100;
         private const int InactivePriority = 0;
 
-        private readonly Dictionary<eCameraType, CinemachineCamera> _cameraByType = new();
+        private readonly Dictionary<string, CinemachineCamera> _cameraByKey = new();
         private CinemachineCamera _activeCamera;
 
         public event Action<CinemachineCamera> OnCameraChanged;
 
-        public void RegisterCamera(eCameraType cameraType, CinemachineCamera cam)
+        public void RegisterCamera(string cameraKey, CinemachineCamera cam)
         {
-            _cameraByType.Add(cameraType, cam);
+            _cameraByKey.Add(cameraKey, cam);
         }
 
-        public void UnregisterCamera(eCameraType cameraType)
+        public void UnregisterCamera(string cameraKey)
         {
-            _cameraByType.Remove(cameraType);
+            _cameraByKey.Remove(cameraKey);
         }
 
-        public void SetCamera(eCameraType cameraType)
+        public void SetCamera(string cameraKey)
         {
-            if (_cameraByType.TryGetValue(cameraType, out var cam))
+            if (_cameraByKey.TryGetValue(cameraKey, out var cam))
             {
                 if (_activeCamera != null)
                 {
@@ -52,9 +42,9 @@ namespace PhikozzLib
             }
         }
 
-        public CinemachineCamera GetCamera(eCameraType cameraType)
+        public CinemachineCamera GetCamera(string cameraKey)
         {
-            if (_cameraByType.TryGetValue(cameraType, out var cam))
+            if (_cameraByKey.TryGetValue(cameraKey, out var cam))
             {
                 return cam;
             }
@@ -67,9 +57,9 @@ namespace PhikozzLib
             return _activeCamera;
         }
 
-        public bool IsCurrent(eCameraType cameraType)
+        public bool IsCurrent(string cameraKey)
         {
-            if (_cameraByType.TryGetValue(cameraType, out var cam))
+            if (_cameraByKey.TryGetValue(cameraKey, out var cam))
             {
                 return _activeCamera == cam;
             }

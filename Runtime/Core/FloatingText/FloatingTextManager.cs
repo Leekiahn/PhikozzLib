@@ -8,7 +8,7 @@ namespace PhikozzLib
 {
     public class FloatingTextManager : MonoBehaviour, IServiceRegister, IFloatingTextService
     {
-        private readonly Dictionary<eFloatingTextType, MMFloatingTextSpawner> _floatingTextSpawners = new();
+        private readonly Dictionary<string, MMFloatingTextSpawner> _floatingTextSpawners = new();
 
 
         public void RegisterService()
@@ -18,17 +18,17 @@ namespace PhikozzLib
 
         public void RegisterFloatingText(BaseFloatingTextLoader loader)
         {
-            _floatingTextSpawners[loader.FloatingTextType] = loader.Spawner;
+            _floatingTextSpawners[loader.FloatingTextKey] = loader.Spawner;
         }
 
-        public void UnRegisterFloatingText(eFloatingTextType type)
+        public void UnRegisterFloatingText(string key)
         {
-            _floatingTextSpawners.Remove(type);
+            _floatingTextSpawners.Remove(key);
         }
 
-        public void Spawn(eFloatingTextType type, string value, Vector3 position, Vector3 direction)
+        public void Spawn(string key, string value, Vector3 position, Vector3 direction)
         {
-            if (_floatingTextSpawners.TryGetValue(type, out var spawner))
+            if (_floatingTextSpawners.TryGetValue(key, out var spawner))
             {
                 spawner.Spawn(value, position, direction);
             }

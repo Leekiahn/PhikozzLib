@@ -5,7 +5,7 @@ namespace PhikozzLib
 {
     public abstract class BaseCameraLoader : MonoBehaviour
     {
-        protected abstract eCameraType CameraType { get; }
+        protected abstract string CameraKey { get; }
         private CinemachineCamera _camera;
 
         private void Awake()
@@ -15,17 +15,17 @@ namespace PhikozzLib
 
         private void Start()
         {
-            CameraManager.Instance.RegisterCamera(CameraType, _camera);
+            CameraManager.Instance.RegisterCamera(CameraKey, _camera);
         }
 
         private void OnDisable()
         {
-            CameraManager.Instance.UnregisterCamera(CameraType);
+            CameraManager.Instance.UnregisterCamera(CameraKey);
         }
 
         private void OnDestroy()
         {
-            CameraManager.Instance.UnregisterCamera(CameraType);
+            CameraManager.Instance.UnregisterCamera(CameraKey);
         }
     }
 }
