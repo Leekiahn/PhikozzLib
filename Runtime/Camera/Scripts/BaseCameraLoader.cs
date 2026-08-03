@@ -3,11 +3,11 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
-    public class CameraLoader : MonoBehaviour
+    public abstract class BaseCameraLoader : MonoBehaviour
     {
-        [SerializeField] private CinemachineCamera _camera;
-        [SerializeField] private eCameraType _cameraType;
-
+        protected abstract eCameraType CameraType { get; }
+        private CinemachineCamera _camera;
+        
         private void Awake()
         {
             if (_camera == null)
@@ -18,17 +18,17 @@ namespace PhikozzLib
 
         private void OnEnable()
         {
-            CameraManager.Instance.RegisterCamera(_cameraType, _camera);
+            CameraManager.Instance.RegisterCamera(CameraType, _camera);
         }
 
         private void OnDisable()
         {
-            CameraManager.Instance.UnregisterCamera(_cameraType);
+            CameraManager.Instance.UnregisterCamera(CameraType);
         }
 
         private void OnDestroy()
         {
-            CameraManager.Instance.UnregisterCamera(_cameraType);
+            CameraManager.Instance.UnregisterCamera(CameraType);
         }
     }
 }
