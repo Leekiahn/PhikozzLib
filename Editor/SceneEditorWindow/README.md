@@ -37,7 +37,3 @@
 - `Preload Additive`
 - `Activate Preloaded`
 - `Apply Hold`
-
-## 참고
-- `Load Scene`, `Load With Loading`은 현재 Play Mode 씬 상태를 크게 바꿀 수 있어 확인 다이얼로그를 표시합니다.
-- 창을 닫으면 이 창이 로드한 Additive 씬과 Hold 상태를 정리합니다.
