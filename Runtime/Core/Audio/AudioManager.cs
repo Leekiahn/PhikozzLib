@@ -5,7 +5,8 @@ namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
-        private const string AudioConfigResourcePath = "AudioConfig";
+        private const string PlaylistDatabaseResourcePath = "Audio/PlaylistDatabase";
+        private const string AudioDatabaseResourcePath = "Audio/AudioDatabase";
         
         private PlaylistDatabase _playlistDatabase;
         private AudioDatabase _audioDatabase;
@@ -16,9 +17,8 @@ namespace PhikozzLib
         {
             _playlistManager = GetComponentInChildren<MMSMPlaylistManager>();
             
-            var config = Resources.Load<AudioConfig>(AudioConfigResourcePath);
-            _playlistDatabase = config.PlaylistDatabase;
-            _audioDatabase = config.AudioDatabase;
+            _playlistDatabase = Resources.Load<PlaylistDatabase>(PlaylistDatabaseResourcePath);
+            _audioDatabase = Resources.Load<AudioDatabase>(AudioDatabaseResourcePath);
         }
 
         public void RegisterService()
