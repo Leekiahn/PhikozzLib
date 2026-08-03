@@ -5,8 +5,8 @@ using UnityEngine;
 public class AudioConfig : ScriptableObject
 {
     [SerializeField] private PlaylistDatabase _playlistDatabase;
-    [SerializeField] private SoundDatabase _soundDatabase;
+    [SerializeField] private AudioDatabase audioDatabase;
 
     public PlaylistDatabase PlaylistDatabase => _playlistDatabase;
-    public SoundDatabase SoundDatabase => _soundDatabase;
+    public AudioDatabase AudioDatabase => audioDatabase;
 }

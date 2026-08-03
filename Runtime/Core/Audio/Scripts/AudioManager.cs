@@ -8,7 +8,7 @@ namespace PhikozzLib
         private const string AudioConfigResourcePath = "AudioConfig";
         
         private PlaylistDatabase _playlistDatabase;
-        private SoundDatabase _soundDatabase;
+        private AudioDatabase _audioDatabase;
         
         private MMSMPlaylistManager _playlistManager;
 
@@ -18,7 +18,7 @@ namespace PhikozzLib
             
             var config = Resources.Load<AudioConfig>(AudioConfigResourcePath);
             _playlistDatabase = config.PlaylistDatabase;
-            _soundDatabase = config.SoundDatabase;
+            _audioDatabase = config.AudioDatabase;
         }
 
         public void RegisterService()
@@ -85,7 +85,7 @@ namespace PhikozzLib
         
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
-            if (_soundDatabase.SfxSoundDataDic.TryGetValue(soundName, out var soundData))
+            if (_audioDatabase.SfxAudioDataDic.TryGetValue(soundName, out var soundData))
             {
                 if (attachToTransform != null)
                 {
@@ -101,7 +101,7 @@ namespace PhikozzLib
 
         public void PlayUi(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
-            if (_soundDatabase.UiSoundDataDic.TryGetValue(soundName, out var soundData))
+            if (_audioDatabase.UIAudioDataDic.TryGetValue(soundName, out var soundData))
             {
                 if (attachToTransform != null)
                 {
@@ -117,7 +117,7 @@ namespace PhikozzLib
         
         public void PlayOther(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
-            if (_soundDatabase.OtherSoundDataDic.TryGetValue(soundName, out var soundData))
+            if (_audioDatabase.OtherAudioDataDic.TryGetValue(soundName, out var soundData))
             {
                 if (attachToTransform != null)
                 {
