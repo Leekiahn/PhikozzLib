@@ -21,37 +21,24 @@ namespace PhikozzLib
         private const int ActivePriority = 100;
         private const int InactivePriority = 0;
 
-        [SerializeField] private List<CameraData> _cameras;
-        
-        private readonly Dictionary<eCameraType, CinemachineCamera> _cameraDic = new();
+        private readonly Dictionary<eCameraType, CinemachineCamera> _cameraByType = new();
         private CinemachineCamera _activeCamera;
 
         public event Action<CinemachineCamera> OnCameraChanged;
 
-        protected override void Awake()
-        {
-            base.Awake();
-
-            foreach (var cam in _cameras)
-            {
-                _cameraDic.Add(cam.Type, cam.Camera);
-            }
-        }
-
-
         public void RegisterCamera(eCameraType cameraType, CinemachineCamera cam)
         {
-            _cameraDic.Add(cameraType, cam);
+            _cameraByType.Add(cameraType, cam);
         }
 
         public void UnregisterCamera(eCameraType cameraType)
         {
-            _cameraDic.Remove(cameraType);
+            _cameraByType.Remove(cameraType);
         }
 
         public void SetCamera(eCameraType cameraType)
         {
-            if (_cameraDic.TryGetValue(cameraType, out var cam))
+            if (_cameraByType.TryGetValue(cameraType, out var cam))
             {
                 if (_activeCamera != null)
                 {
@@ -67,7 +54,7 @@ namespace PhikozzLib
 
         public CinemachineCamera GetCamera(eCameraType cameraType)
         {
-            if (_cameraDic.TryGetValue(cameraType, out var cam))
+            if (_cameraByType.TryGetValue(cameraType, out var cam))
             {
                 return cam;
             }
@@ -82,7 +69,7 @@ namespace PhikozzLib
 
         public bool IsCurrent(eCameraType cameraType)
         {
-            if (_cameraDic.TryGetValue(cameraType, out var cam))
+            if (_cameraByType.TryGetValue(cameraType, out var cam))
             {
                 return _activeCamera == cam;
             }
