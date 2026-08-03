@@ -7,16 +7,13 @@ namespace PhikozzLib
     {
         protected abstract eCameraType CameraType { get; }
         private CinemachineCamera _camera;
-        
+
         private void Awake()
         {
-            if (_camera == null)
-            {
-                _camera = GetComponent<CinemachineCamera>();
-            }
+            _camera = GetComponent<CinemachineCamera>();
         }
 
-        private void OnEnable()
+        private void Start()
         {
             CameraManager.Instance.RegisterCamera(CameraType, _camera);
         }
