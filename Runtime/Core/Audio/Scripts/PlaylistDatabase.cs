@@ -12,9 +12,9 @@ namespace PhikozzLib
         [OdinSerialize]
         [Searchable]
         [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.Foldout)]
-        private Dictionary<int, MMSMPlaylist> _playlistDic = new();
+        private Dictionary<string, MMSMPlaylist> _playlistDic = new();
     
-        public Dictionary<int, MMSMPlaylist> PlaylistDic => _playlistDic;
+        public Dictionary<string, MMSMPlaylist> PlaylistDic => _playlistDic;
     }
 }
 

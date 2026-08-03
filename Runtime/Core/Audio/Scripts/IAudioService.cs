@@ -4,7 +4,7 @@ namespace PhikozzLib
 {
     public interface IAudioService
     {
-        public void PlayBgm(int channelKey, int index);
+        public void PlayBgm(string channelKey, int index);
         public void StopBgm();
         public void PauseBgm();
         public void ResumeBgm();
@@ -14,7 +14,8 @@ namespace PhikozzLib
         
         
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null);
-        public void PlayUi(string soundName);
+        public void PlayUi(string soundName, Vector3 position = default, Transform attachToTransform = null);
+        public void PlayOther(string soundName, Vector3 position = default, Transform attachToTransform = null);
 
         
         public void ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f);

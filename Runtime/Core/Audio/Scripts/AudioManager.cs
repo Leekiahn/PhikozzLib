@@ -1,20 +1,25 @@
-using System;
 using UnityEngine;
 using MoreMountains.Tools;
-using Sirenix.OdinInspector;
 
 namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
-        [Title("BGM Database")] 
-        [SerializeField] private PlaylistDatabase _playlistDatabase;
-
-        [Title("SFX/UI Database")] 
-        [SerializeField] private SoundDatabase _soundDatabase;
+        private const string AudioConfigResourcePath = "AudioConfig";
         
-        [Title("Playlist Manager")] 
-        [SerializeField] private MMSMPlaylistManager _playlistManager;
+        private PlaylistDatabase _playlistDatabase;
+        private SoundDatabase _soundDatabase;
+        
+        private MMSMPlaylistManager _playlistManager;
+
+        private void Awake()
+        {
+            _playlistManager = GetComponentInChildren<MMSMPlaylistManager>();
+            
+            var config = Resources.Load<AudioConfig>(AudioConfigResourcePath);
+            _playlistDatabase = config.PlaylistDatabase;
+            _soundDatabase = config.SoundDatabase;
+        }
 
         public void RegisterService()
         {
@@ -25,7 +30,7 @@ namespace PhikozzLib
 
         
         
-        public void PlayBgm(int channelKey, int index)
+        public void PlayBgm(string channelKey, int index)
         {
             if (_playlistDatabase.PlaylistDic.TryGetValue(channelKey, out var playlist))
             {
@@ -94,11 +99,35 @@ namespace PhikozzLib
             }
         }
 
-        public void PlayUi(string soundName)
+        public void PlayUi(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
             if (_soundDatabase.UiSoundDataDic.TryGetValue(soundName, out var soundData))
             {
-                soundData.Play(Vector3.zero);
+                if (attachToTransform != null)
+                {
+                    soundData.AttachToTransform = attachToTransform;
+                    soundData.Play(attachToTransform.position);
+                }
+                else
+                {
+                    soundData.Play(position);
+                }
+            }
+        }
+        
+        public void PlayOther(string soundName, Vector3 position = default, Transform attachToTransform = null)
+        {
+            if (_soundDatabase.OtherSoundDataDic.TryGetValue(soundName, out var soundData))
+            {
+                if (attachToTransform != null)
+                {
+                    soundData.AttachToTransform = attachToTransform;
+                    soundData.Play(attachToTransform.position);
+                }
+                else
+                {
+                    soundData.Play(position);
+                }
             }
         }
 
