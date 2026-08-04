@@ -11,7 +11,6 @@ namespace PhikozzLib
         public static IEffectService Effect => ServiceLocator.Get<IEffectService>();
         public static ISaveService Save => ServiceLocator.Get<ISaveService>();
         public static ITimeService Time => ServiceLocator.Get<ITimeService>();
-        public static InputManager Input => ServiceLocator.Get<InputManager>();
         public static ILocalizationService Local => ServiceLocator.Get<ILocalizationService>();
         public static IFloatingTextService FloatingText => ServiceLocator.Get<IFloatingTextService>();
     }
