@@ -1,4 +1,4 @@
-# Core.Time
+# TimeManager
 
 > 게임 시간 제어 서비스를 제공합니다.  
 > `ITimeService` 인터페이스를 상속받아 구현합니다.
