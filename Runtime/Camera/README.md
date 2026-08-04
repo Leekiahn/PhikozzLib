@@ -7,7 +7,7 @@
 
 ## 주요 기능
 
-- `eCameraType` 기반 카메라 등록/조회
+- Key 기반 카메라 등록/조회
 - 활성 카메라 전환
 - 카메라 우선순위 제어
 - 현재 활성 카메라 확인
@@ -16,16 +16,20 @@
 
 ---
 
+## BaseCameraLoader
+
+- `BaseCameraLoader`를 상속받은 Loader를 통해 `CameraManager`의 카메라를 Key로 등록합니다.
+
 ## Public API
 
 | Method | Description |
 |---|---|
-| `RegisterCamera(eCameraType cameraType, CinemachineCamera cam)` | 카메라 타입과 카메라 인스턴스를 등록합니다. |
-| `UnregisterCamera(eCameraType cameraType)` | 등록된 카메라를 제거합니다. |
-| `SetCamera(eCameraType cameraType)` | 지정한 타입의 카메라를 활성화합니다. |
-| `GetCamera(eCameraType cameraType)` | 지정한 타입의 카메라를 반환합니다. |
+| `RegisterCamera(string cameraKey, CinemachineCamera cam)` | 카메라 Key와 카메라 인스턴스를 등록합니다. |
+| `UnregisterCamera(string cameraKey)` | 등록된 카메라를 제거합니다. |
+| `SetCamera(string cameraKey)` | 지정한 Key의 카메라를 활성화합니다. |
+| `GetCamera(string cameraKey)` | 지정한 Key의 카메라를 반환합니다. |
 | `GetActiveCamera()` | 현재 활성 카메라를 반환합니다. |
-| `IsCurrent(eCameraType cameraType)` | 해당 타입의 카메라가 현재 활성 카메라인지 확인합니다. |
+| `IsCurrent(string cameraKey)` | 해당 Key의 카메라가 현재 활성 카메라인지 확인합니다. |
 | `IsCurrent(CinemachineCamera cam)` | 해당 카메라가 현재 활성 카메라인지 확인합니다. |
 
 ---
