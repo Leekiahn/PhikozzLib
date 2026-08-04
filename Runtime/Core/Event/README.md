@@ -1,4 +1,4 @@
-# Core.Event
+# EventManager
 > 이벤트 구조체의 등록/발행 서비스를 제공합니다.  
 > `IEventService` 인터페이스를 상속받아 구현합니다  
 
