@@ -1,4 +1,4 @@
-# AddressableService
+# AddressableManager
 > Unity Addressables를 라벨 단위로 캐싱하고 필요한 에셋을 프리로드/조회/해제하는 서비스입니다.  
 > `IAddressableService` 인터페이스를 상속받아 구현합니다.
 
