@@ -1,4 +1,4 @@
-# Core.Effect
+# EffectManager
 
 > 이펙트(ParticleSystem) 재생 및 관리 서비스를 제공합니다.  
 > `IEffectService` 인터페이스를 상속받아 구현합니다.
@@ -11,7 +11,7 @@
 - 이펙트 구독/사용 없이 `Play()`로 즉시 재생
 - Attach 대상 Transform에 이펙트 부착 가능
 - 재생 종료 후 자동 반환(Pool Release)
-- `EffectDatabase`를 통한 ScriptableObject 기반 관리
+- `EffectDatabase`를 통한 ScriptableObject 기반 관리. `Resources`폴더에서 자동으로 참조합니다. 이름을 바꾸지 마세요.
 
 ---
 
