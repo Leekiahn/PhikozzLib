@@ -14,7 +14,7 @@
 - 전체 저장 데이터 삭제
 - `Application.persistentDataPath/Save` 경로 사용
 - 비동기 저장(`SaveAsync`) 지원
-- `SceneLoadingSettingsConfig`를 `Resources`폴더에서 자동으로 참조합니다. 이름을 바꾸지 마세요.
+- `SaveConfig`를 `Resources`폴더에서 자동으로 참조합니다. 이름을 바꾸지 마세요.
 
 ---
 
