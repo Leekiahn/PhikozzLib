@@ -7,8 +7,7 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 
 ## Services
 - [Service Locater](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/SeviceLocator/README.md)
-- [Bootstap](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Bootstrap/README.md)
-- [Core](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/README.md)
+- [Bootstrap](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Bootstrap/README.md)
 - [Addressable](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Addressable/README.md)
 - [Audio](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Audio/README.md)
 - [UI](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/UI/README.md)
