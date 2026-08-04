@@ -1,7 +1,7 @@
 # FloatingTextManager
 
 > 플로팅 텍스트 스폰 서비스를 제공합니다.  
-> `ServiceLocator`에 등록하여 사용합니다.
+> `IFloatingTextService`을 상속받아 사용합니다.
 
 ---
 
