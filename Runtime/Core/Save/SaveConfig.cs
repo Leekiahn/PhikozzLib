@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
-    [CreateAssetMenu(fileName = "SaveConfig", menuName = "PhikozzLib/Save/SaveConfig")]
+    [CreateAssetMenu(fileName = "SaveConfig", menuName = "PhikozzLib/SaveConfig", order = 30)]
     public class SaveConfig : ScriptableObject
     {
         [SerializeField] private eSaveType _saveType = eSaveType.Json;

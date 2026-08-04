@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
-    [CreateAssetMenu(fileName = "AudioDatabase", menuName = "PhikozzLib/AudioDatabase", order = 40)]
+    [CreateAssetMenu(fileName = "AudioDatabase", menuName = "PhikozzLib/AudioDatabase", order = 50)]
     public class AudioDatabase : SerializedScriptableObject
     {
         [OdinSerialize] 
