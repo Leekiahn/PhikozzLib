@@ -1,34 +1,38 @@
 ﻿using System;
 using MoreMountains.Feedbacks;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 namespace PhikozzLib
 {
     public abstract class BaseFloatingTextLoader : MonoBehaviour
     {
-        public abstract string FloatingTextKey { get; }
         private MMFloatingTextSpawner _spawner;
 
+        public abstract string FloatingTextKey { get; }
+        
         public MMFloatingTextSpawner Spawner => _spawner;
+        private IFloatingTextService _floatingTextService;
         
         private void Awake()
         {
             _spawner = GetComponent<MMFloatingTextSpawner>();
+            _floatingTextService = ServiceLocator.Get<IFloatingTextService>();
         }
 
         private void Start()
         {
-            Core.FloatingText.RegisterFloatingText(this);
+            _floatingTextService.RegisterFloatingText(this);
         }
 
         private void OnDisable()
         {
-            Core.FloatingText.UnRegisterFloatingText(FloatingTextKey);
+            _floatingTextService.UnRegisterFloatingText(FloatingTextKey);
         }
 
         private void OnDestroy()
         {
-            Core.FloatingText.UnRegisterFloatingText(FloatingTextKey);
+            _floatingTextService.UnRegisterFloatingText(FloatingTextKey);
         }
     }
 }
