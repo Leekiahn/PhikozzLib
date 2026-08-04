@@ -81,11 +81,57 @@ namespace PhikozzLib
 
             return null;
         }
+        
+        public ParticleSystem Play(string effectKey, Vector3 position, Quaternion rotation, float duration,
+            Transform attachToTransform = null)
+        {
+            if (_effectPools.TryGetValue(effectKey, out var pool))
+            {
+                var effectPlayer = pool.Get();
+
+                var tr = effectPlayer.transform;
+
+                if (attachToTransform != null)
+                {
+                    tr.SetParent(attachToTransform);
+                    tr.localPosition = Vector3.zero;
+                    tr.localRotation = Quaternion.identity;
+                }
+                else
+                {
+                    tr.SetParent(_effectParent);
+                    tr.SetPositionAndRotation(position, rotation);
+                }
+
+                effectPlayer.Play(true);
+
+                ReleaseAfterDurationAsync(pool, effectPlayer, duration).Forget();
+
+                return effectPlayer;
+            }
+
+            return null;
+        }
+        
 
         private async UniTaskVoid ReleaseAsync(TrackedPool<ParticleSystem> pool, ParticleSystem particle)
         {
             await UniTask.WaitUntil(() => !particle.IsAlive(true));
 
+            particle.transform.SetParent(_effectParent);
+            pool.Release(particle);
+        }
+        
+        private async UniTaskVoid ReleaseAfterDurationAsync(TrackedPool<ParticleSystem> pool, ParticleSystem particle, float duration)
+        {
+            await UniTask.Delay(System.TimeSpan.FromSeconds(duration));
+
+            if (particle == null || !particle.gameObject.activeInHierarchy)
+            {
+                return;
+            }
+
+            particle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
             particle.transform.SetParent(_effectParent);
             pool.Release(particle);
         }
