@@ -19,4 +19,8 @@
 
 | Method | Description |
 |---|---|
-| `Play(string key, Vector3 position, Quaternion rotation, Transform attachToTransform = null)` | 등록된 이펙트를 키로 찾아 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
+| `Play(string effectKey, Vector3 position, Quaternion rotation, Transform attachToTransform = null)` | 등록된 이펙트를 키로 찾아 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
+| `Play(string effectKey, Vector3 position, Quaternion rotation, float duration, Transform attachToTransform = null)` | `duration` 동안 등록된 이펙트를 키로 찾아 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
+
+
+
