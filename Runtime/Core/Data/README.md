@@ -95,7 +95,7 @@ public class TestData : LocalizedBaseData
 }
 ```
 - `BaseData` 혹은 `LocalizedBaseData`를 상속받아 Data클래스를 작성합니다.
-- `ExampleDataLoader`코드를 참고해 `DataLoader` 스크립트를 작성하세요.
+- `ExampleDataLoader`코드를 참고해 `DataLoader` 스크립트를 작성하세요. [여기](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Data/ExampleDataLoader.cs)
 
 <br>
 
