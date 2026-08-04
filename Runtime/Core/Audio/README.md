@@ -12,7 +12,7 @@
 - 특정 트랙 음소거, 정지, 재생, 볼륨 제어
 - 전체 사운드 일괄 제어
 - 트랙 페이드 인/아웃
-- 오디오 데이터베이스(`PlaylistDatabase`, `SoundDatabase`)를 `Resources`폴더에 생성하면 자동으로 참조합니다. 이름을 바꾸지 마세요.
+- 오디오 데이터베이스(`PlaylistDatabase`, `AudioDatabase`)를 `Resources`폴더에 생성하면 자동으로 참조합니다. 이름을 바꾸지 마세요.
 - FEEL에셋의 `MMSoundManager`와 `MMSMPlaylistManager`를 통해 오디오 소스를 풀링합니다.
 
 <br>
