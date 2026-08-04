@@ -35,7 +35,7 @@
 | ` Get(string name) `|  Name으로 데이터를 조회합니다.  |
 | ` GetAll() ` |  전체 데이터를 반환합니다.  |
 
-### `DataContainter<T>`
+### `IDataService`
 
 | Method | Description |
 |-----|-----|
