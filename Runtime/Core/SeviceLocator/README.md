@@ -18,22 +18,9 @@ public void RegisterService()
 <br>  
 <br>
 
-## 서비스 등록
+## 서비스 등록 및 호출
 
-- [BootstrapConfigEditorWindow](https://github.com/Leekiahn/PhikozzLib/tree/main/Editor/BootstrapConfigEditorWindow)
-- 서비스 등록은 위 문서를 참고하세요.
-
-
-<br>  
-<br>
-    
-
-```csharp
-public IAddressableService Addressable => ServiceLocator.Get<IAddressableService>();
-        
-public IAudioService Audio => ServiceLocator.Get<IAudioService>();
-  
-public IUIService UI => ServiceLocator.Get<IUIService>();
-```
-
-`ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스 객체를 캐싱할 수 있습니다.
+<img width="442" height="157" alt="Image" src="https://github.com/user-attachments/assets/27d4d172-5b56-4bbe-baae-6e3d67536c0e" />
+- `Resources` 폴더에 `BootstrapConfig`를 생성합니다. 이름을 변경하지 마세요.
+- 원하는 서비스 프리팹을 등록합니다.
+- `ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스 객체를 캐싱할 수 있습니다.
