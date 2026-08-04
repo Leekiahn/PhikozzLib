@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
-    [CreateAssetMenu(fileName = "SceneLoadingSettingsConfig", menuName = "PhikozzLib/Scene/SceneLoadingSettingsConfig")]
-    public class SceneLoadingSettingsConfig : ScriptableObject
+    [CreateAssetMenu(fileName = "SceneLoadManagerConfig", menuName = "PhikozzLib/SceneLoadManagerConfig", order = 20)]
+    public class SceneLoadManagerConfig : ScriptableObject
     {
         [SerializeField] private MMAdditiveSceneLoadingManagerSettings _settings;
         

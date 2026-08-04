@@ -8,7 +8,7 @@ namespace PhikozzLib
     {
         private const string SceneLoadingSettingsConfigResourcePath = "SceneLoadingSettingsConfig";
         
-        private SceneLoadingSettingsConfig _sceneLoadingSettingsConfig;
+        private SceneLoadManagerConfig _sceneLoadManagerConfig;
         private MMAdditiveSceneLoadingManagerSettings _settings;
 
         private AsyncOperation _preloadedSceneHandle;
@@ -16,8 +16,8 @@ namespace PhikozzLib
 
         private void Awake()
         {
-            _sceneLoadingSettingsConfig = Resources.Load<SceneLoadingSettingsConfig>(SceneLoadingSettingsConfigResourcePath);
-            _settings = _sceneLoadingSettingsConfig.Settings;
+            _sceneLoadManagerConfig = Resources.Load<SceneLoadManagerConfig>(SceneLoadingSettingsConfigResourcePath);
+            _settings = _sceneLoadManagerConfig.Settings;
         }
         
         

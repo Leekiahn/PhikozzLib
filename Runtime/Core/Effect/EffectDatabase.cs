@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
-    [CreateAssetMenu(fileName = "EffectDatabase", menuName = "PhikozzLib/Effect/EffectDatabase")]
+    [CreateAssetMenu(fileName = "EffectDatabase", menuName = "PhikozzLib/EffectDatabase", order = 50)]
     public class EffectDatabase : SerializedScriptableObject
     {
         [OdinSerialize] 

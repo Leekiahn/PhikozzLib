@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-[CreateAssetMenu(fileName = "UIConfig", menuName = "PhikozzLib/UI/UIConfig")]
-public class UIConfig : ScriptableObject
+[CreateAssetMenu(fileName = "UIManagerConfig", menuName = "PhikozzLib/UIManagerConfig", order = 10)]
+public class UIManagerConfig : ScriptableObject
 {
     [SerializeField] private AssetLabelReference _windowLabelReference;
     [SerializeField] private AssetLabelReference _overlayLabelReference;
