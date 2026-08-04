@@ -18,7 +18,7 @@ namespace PhikozzLib
             _dataContainers[typeof(T)] = container;
         }
         
-        public DataContainer<T> Get<T>() where T : BaseData
+        public DataContainer<T> GetContainer<T>() where T : BaseData
         {
             if (_dataContainers.TryGetValue(typeof(T), out var container))
             {
