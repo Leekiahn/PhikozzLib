@@ -104,7 +104,7 @@ namespace PhikozzLib
                 }
 
                 effectPlayer.Play(true);
-
+                
                 ReleaseAfterDurationAsync(pool, effectPlayer, duration).Forget();
 
                 return effectPlayer;
