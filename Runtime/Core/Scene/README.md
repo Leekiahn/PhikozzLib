@@ -16,6 +16,7 @@
 - 씬 언로드
 - Additive Scene Loading Hold 제어
 - Service Locator 기반 서비스 등록
+- `SceneLoadManagerConfig`를 `Resources`폴더에서 자동으로 참조합니다. 이름을 바꾸지 마세요.
 
 <br>
 
