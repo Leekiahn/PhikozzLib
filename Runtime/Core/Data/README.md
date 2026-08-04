@@ -99,58 +99,22 @@ public class TestData : LocalizedBaseData
 }
 ```
 - `BaseData` 혹은 `LocalizedBaseData`를 상속받아 Data클래스를 작성합니다.
+- `ExampleDataLoader`코드를 참고해 `DataLoader` 스크립트를 작성하세요.
 
 <br>
 
 ```csharp
-using System.Collections.Generic;
-using UnityEngine;
+private IDataService _dataService;
 
-namespace PhikozzLib
+private void Awake()
 {
-    public class DataManager : MonoBehaviour, IServiceRegister
-    {
-        public DataContainer<TestData> TestData { get; private set; }
-
-        private void Awake()
-        {
-            Load();
-        }
-
-        public void RegisterService()
-        {
-            ServiceLocator.Register(this);
-            Load();
-        }
-
-        public void Load()
-        {
-            InitTestData();
-        }
-
-        private void InitTestData()
-        {
-            var list = new List<TestData>();
-            
-            BG_TestData.ForEachEntity(data =>
-            {
-                list.Add(new TestData(data));
-            });
-            
-            TestData = new DataContainer<TestData>(list);
-        }
-    }
+    _dataService = ServiceLocator.Get<IDataService>();
 }
 
-```
-- 위처럼 `DataManager`에 `DataContainer<T>`와 메서드를 추가해 데이터를 로드합니다.
-
-<br>
-
-```csharp
-TestData dataById = Core.Data.TestData.Get(1);
-TestData dataByName = Core.Data.TestData.Get("Sword");
-List<TestData> dataList = Core.Data.TestData.GetAll();
+public void DataTest()
+{
+    var data = _dataService.GetContainer<TestData>().Get(1);
+ }
 ```
 - 위처럼 전역적으로 데이터를 조회 가능합니다.
 
