@@ -12,27 +12,26 @@ namespace PhikozzLib
         public abstract string FloatingTextKey { get; }
         
         public MMFloatingTextSpawner Spawner => _spawner;
-        private IFloatingTextService _floatingTextService;
+        private IFloatingTextService FloatingTextService => ServiceLocator.Get<IFloatingTextService>();
         
         private void Awake()
         {
             _spawner = GetComponent<MMFloatingTextSpawner>();
-            _floatingTextService = ServiceLocator.Get<IFloatingTextService>();
         }
 
         private void Start()
         {
-            _floatingTextService.RegisterFloatingText(this);
+            FloatingTextService.RegisterFloatingText(this);
         }
 
         private void OnDisable()
         {
-            _floatingTextService.UnRegisterFloatingText(FloatingTextKey);
+            FloatingTextService.UnRegisterFloatingText(FloatingTextKey);
         }
 
         private void OnDestroy()
         {
-            _floatingTextService.UnRegisterFloatingText(FloatingTextKey);
+            FloatingTextService.UnRegisterFloatingText(FloatingTextKey);
         }
     }
 }

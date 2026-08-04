@@ -5,8 +5,8 @@ namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
-        private const string PlaylistDatabaseResourcePath = "Audio/PlaylistDatabase";
-        private const string AudioDatabaseResourcePath = "Audio/AudioDatabase";
+        private const string PlaylistDatabaseResourcePath = "PlaylistDatabase";
+        private const string AudioDatabaseResourcePath = "AudioDatabase";
         
         private PlaylistDatabase _playlistDatabase;
         private AudioDatabase _audioDatabase;
