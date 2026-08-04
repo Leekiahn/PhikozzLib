@@ -20,9 +20,12 @@ namespace PhikozzLib
         private readonly Dictionary<Type, UIOverlay> _openedOverlays = new();
 
 
+        private IAddressableService _addressableService;
+        
         private async void Awake()
         {
             _uiManagerConfig = Resources.Load<UIManagerConfig>(UIConfigResourcePath);
+            _addressableService = ServiceLocator.Get<IAddressableService>();
             
             try
             {
@@ -49,10 +52,10 @@ namespace PhikozzLib
 
         public async UniTask LoadWindowPrefabs(string label)
         {
-            await Core.Addressable.PreloadLocations<GameObject>(label);
-            await Core.Addressable.PreloadAssets<GameObject>(label);
+            await _addressableService.PreloadLocations<GameObject>(label);
+            await _addressableService.PreloadAssets<GameObject>(label);
 
-            var windowPrefabs = Core.Addressable.GetAll<GameObject>(label);
+            var windowPrefabs = _addressableService.GetAll<GameObject>(label);
 
             foreach (var prefab in windowPrefabs)
             {
@@ -63,10 +66,10 @@ namespace PhikozzLib
 
         public async UniTask LoadOverlayPrefabs(string label)
         {
-            await Core.Addressable.PreloadLocations<GameObject>(label);
-            await Core.Addressable.PreloadAssets<GameObject>(label);
+            await _addressableService.PreloadLocations<GameObject>(label);
+            await _addressableService.PreloadAssets<GameObject>(label);
 
-            var overlayPrefabs = Core.Addressable.GetAll<GameObject>(label);
+            var overlayPrefabs = _addressableService.GetAll<GameObject>(label);
 
             foreach (var prefab in overlayPrefabs)
             {

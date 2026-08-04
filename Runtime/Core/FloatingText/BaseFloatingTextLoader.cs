@@ -1,15 +1,18 @@
 ﻿using System;
 using MoreMountains.Feedbacks;
+using Unity.Android.Gradle.Manifest;
 using UnityEngine;
 
 namespace PhikozzLib
 {
     public abstract class BaseFloatingTextLoader : MonoBehaviour
     {
-        public abstract string FloatingTextKey { get; }
         private MMFloatingTextSpawner _spawner;
 
+        public abstract string FloatingTextKey { get; }
+        
         public MMFloatingTextSpawner Spawner => _spawner;
+        private IFloatingTextService FloatingTextService => ServiceLocator.Get<IFloatingTextService>();
         
         private void Awake()
         {
@@ -18,17 +21,17 @@ namespace PhikozzLib
 
         private void Start()
         {
-            Core.FloatingText.RegisterFloatingText(this);
+            FloatingTextService.RegisterFloatingText(this);
         }
 
         private void OnDisable()
         {
-            Core.FloatingText.UnRegisterFloatingText(FloatingTextKey);
+            FloatingTextService.UnRegisterFloatingText(FloatingTextKey);
         }
 
         private void OnDestroy()
         {
-            Core.FloatingText.UnRegisterFloatingText(FloatingTextKey);
+            FloatingTextService.UnRegisterFloatingText(FloatingTextKey);
         }
     }
 }
