@@ -116,7 +116,7 @@ public void DataTest()
     var data = _dataService.GetContainer<TestData>().Get(1);
  }
 ```
-- 위처럼 전역적으로 데이터를 조회 가능합니다.
+- 위처럼 전역적으로 데이터 조회가 가능합니다.
 
 <br>
 
