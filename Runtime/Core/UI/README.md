@@ -54,7 +54,7 @@ HUD, 상단 고정 UI, 상태 표시 UI처럼 오버레이 성격의 UI 베이�
 | ` CloseAllWindow() `|  현재 열린 모든 Window를 닫습니다. |
 | ` OpenOverlay<T>() `|  타입에 해당하는 Overlay를 열고, 이미 생성된 인스턴스가 있으면 재사용합니다. |
 | ` CloseOverlay<T>() `|  타입에 해당하는 Overlay를 닫습니다. |
-| `  CloseOverlay(UIOverlay overlay) ` |  전달한 Overlay 인스턴스를 기준으로 닫습니다. |
+| ` CloseOverlay(UIOverlay overlay) ` |  전달한 Overlay 인스턴스를 기준으로 닫습니다. |
 | ` CloseAllOverlay() `|  현재 열린 모든 Overlay를 닫습니다. |
 
 
