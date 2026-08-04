@@ -21,7 +21,7 @@
 
 | Method | Description |
 | --- | --- |
-| `PlayBgm(int channelKey, int index)` | 채널 키에 매핑된 플레이리스트를 재생하고, 지정한 인덱스 곡으로 시작합니다. |
+| `PlayBgm(string channelKey, int index)` | 채널 키에 매핑된 플레이리스트를 재생하고, 지정한 인덱스 곡으로 시작합니다. |
 | `StopBgm()` | 현재 재생 중인 BGM을 정지합니다. |
 | `PauseBgm()` | 현재 BGM을 일시정지합니다. |
 | `ResumeBgm()` | 일시정지된 BGM을 다시 재생합니다. |
@@ -29,7 +29,8 @@
 | `PlayPreviousBgm()` | 현재 플레이리스트의 이전 곡을 재생합니다. |
 | `SetBgmMultiplier(float volume, float pitch, bool instantly = true)` | BGM 볼륨 배수와 피치 배수를 설정합니다. |
 | `PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)` | SFX를 이름으로 찾아 위치 기반 또는 Transform 부착 방식으로 재생합니다. |
-| `PlayUi(string soundName)` | UI 사운드를 이름으로 찾아 재생합니다. |
+| `PlayUi(string soundName, Vector3 position = default, Transform attachToTransform = null)` | UI 사운드를 이름으로 찾아 재생합니다. |
+| `PlayOther(string soundName, Vector3 position = default, Transform attachToTransform = null)` | Other 사운드를 이름으로 찾아 재생합니다. |
 | `ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f)` | 특정 오디오 트랙에 대해 재생, 정지, 음소거, 볼륨 변경 등을 수행합니다. |
 | `ControlAllTrack(eAllSoundControlEventTypes type)` | 전체 사운드에 대해 일괄 재생, 정지, 해제 등을 수행합니다. |
 | `FadeTrack(eSoundTrackFadeEventModes mode, eSoundTracks track, float fadeDuration, float finalVolume, eFadeTrackTweenType fadeTween)` | 특정 트랙에 페이드 인/아웃을 적용합니다. |
