@@ -16,6 +16,10 @@
 
 ---
 
+## BaseCameraLoader
+
+- `BaseCameraLoader`를 상속받은 Loader를 통해 `CameraManager`의 카메라를 Key로 등록합니다.
+
 ## Public API
 
 | Method | Description |
