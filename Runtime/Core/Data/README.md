@@ -35,6 +35,13 @@
 | ` Get(string name) `|  Name으로 데이터를 조회합니다.  |
 | ` GetAll() ` |  전체 데이터를 반환합니다.  |
 
+### `DataContainter<T>`
+
+| Method | Description |
+|-----|-----|
+| ` Register<T>(DataContainer<T> container) ` |  DataContainer를 등록합니다.  |
+| ` DataContainer<T> GetContainer<T>() `|  Containter를 타입으로 조회합니다.  |
+
 
 <br>
 
