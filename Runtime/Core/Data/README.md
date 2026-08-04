@@ -1,7 +1,6 @@
 # DataManager
 > `BaseData.cs`를 상속받는 데이터 클래스를 `DataContainer<T>`에 담아 초기화/로드하고 ID/이름 조회합니다.  
 > `IDataService` 인터페이스를 상속받아 구현합니다.  
-> 현재 `BG Database` 에셋에 의존합니다.  
 
 <br>
 
