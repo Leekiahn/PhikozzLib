@@ -13,6 +13,7 @@
 - 로컬라이즈된 에셋 비동기 로드
 - 한국어/영어 Locale 상수 제공
 - Google Sheets 연동 가능
+- `LocalizationSettings`를 `Resources`폴더에서 자동으로 참조합니다.
 
 ---
 
