@@ -33,7 +33,7 @@ private IFloatingTextService _floatingTextService;
         
 private void Awake()
 {
-_floatingTextService = ServiceLocator.Get<IFloatingTextService>();
+    _floatingTextService = ServiceLocator.Get<IFloatingTextService>();
 }
 ```
 - `ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스 객체를 캐싱할 수 있습니다.
