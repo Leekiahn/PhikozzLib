@@ -18,6 +18,7 @@ namespace PhikozzLib
             public MMFloatingTextSpawner Spawner => _spawner;
         }
 
+        [InfoBox("FloatingTextManager 프리팹 하위에 MMFloatingTextSpawner를 배치하고 추가해주세요.")]
         [SerializeField] private List<SpawnerData> _spawners = new();
 
         private readonly Dictionary<string, MMFloatingTextSpawner> _floatingTextSpawnersDict = new();
