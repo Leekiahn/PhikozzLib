@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -18,7 +20,7 @@ namespace PhikozzLib
             public CinemachineCamera Camera => _camera;
         }
 
-        [SerializeField] private List<CameraData> _cameras = new();
+        [SerializeField, Searchable] private List<CameraData> _cameras = new();
 
 
         private const int ActivePriority = 100;
@@ -32,23 +34,26 @@ namespace PhikozzLib
         protected override void Awake()
         {
             base.Awake();
-
+            
             foreach (var cameraData in _cameras)
             {
                 _cameraByKey[cameraData.Key] = cameraData.Camera;
             }
         }
 
+        [Button]
         public void RegisterCamera(string cameraKey, CinemachineCamera cam)
         {
             _cameraByKey.Add(cameraKey, cam);
         }
 
+        [Button]
         public void UnregisterCamera(string cameraKey)
         {
             _cameraByKey.Remove(cameraKey);
         }
 
+        [Button]
         public void SetCamera(string cameraKey)
         {
             if (_cameraByKey.TryGetValue(cameraKey, out var cam))
@@ -75,12 +80,14 @@ namespace PhikozzLib
             return null;
         }
 
+        [ShowIf("@_activeCamera != null")]
+        [Button(ButtonSizes.Medium, ButtonStyle.FoldoutButton)]
         public CinemachineCamera GetActiveCamera()
         {
             return _activeCamera;
         }
 
-        public bool IsCurrent(string cameraKey)
+        public bool IsActive(string cameraKey)
         {
             if (_cameraByKey.TryGetValue(cameraKey, out var cam))
             {
@@ -90,7 +97,7 @@ namespace PhikozzLib
             return false;
         }
 
-        public bool IsCurrent(CinemachineCamera cam)
+        public bool IsActive(CinemachineCamera cam)
         {
             return _activeCamera == cam;
         }
