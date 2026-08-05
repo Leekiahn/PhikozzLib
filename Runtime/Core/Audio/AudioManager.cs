@@ -3,8 +3,12 @@ using MoreMountains.Tools;
 
 namespace PhikozzLib
 {
+    
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
+        [SerializeField] private MMSoundManager _soundManagerPrefab;
+        [SerializeField] private MMSMPlaylistManager _playlistManagerPrefab;
+        
         [SerializeField] private PlaylistDatabase _playlistDatabase;
         [SerializeField] private AudioDatabase _audioDatabase;
         
@@ -12,7 +16,8 @@ namespace PhikozzLib
 
         private void Awake()
         {
-            _playlistManager = GetComponentInChildren<MMSMPlaylistManager>();
+            _playlistManager = Instantiate(_playlistManagerPrefab, transform);
+            Instantiate(_soundManagerPrefab.gameObject, transform);
         }
 
         public void RegisterService()
