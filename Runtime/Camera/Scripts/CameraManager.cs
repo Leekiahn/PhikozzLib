@@ -39,6 +39,16 @@ namespace PhikozzLib
             }
         }
         
+        public void RegisterCamera(string cameraKey, CinemachineCamera cam)
+        {
+            _cameraByKey.Add(cameraKey, cam);
+        }
+
+        public void UnregisterCamera(string cameraKey)
+        {
+            _cameraByKey.Remove(cameraKey);
+        }
+        
         public void SetCamera(string cameraKey)
         {
             if (_cameraByKey.TryGetValue(cameraKey, out var cam))
