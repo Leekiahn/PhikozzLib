@@ -13,14 +13,14 @@ namespace PhikozzLib
         {
             [SerializeField] private string _key;
             [SerializeField] private CinemachineCamera _camera;
-            
+
             public string Key => _key;
             public CinemachineCamera Camera => _camera;
         }
-        
+
         [SerializeField] private List<CameraData> _cameras = new();
-        
-        
+
+
         private const int ActivePriority = 100;
         private const int InactivePriority = 0;
 
@@ -32,23 +32,26 @@ namespace PhikozzLib
         protected override void Awake()
         {
             base.Awake();
-            
+
             foreach (var cameraData in _cameras)
             {
                 _cameraByKey[cameraData.Key] = cameraData.Camera;
             }
         }
-        
+
         public void RegisterCamera(string cameraKey, CinemachineCamera cam)
         {
-            _cameraByKey.Add(cameraKey, cam);
+            if (!_cameraByKey.ContainsKey(cameraKey))
+            {
+                _cameraByKey.Add(cameraKey, cam);
+            }
         }
 
         public void UnregisterCamera(string cameraKey)
         {
             _cameraByKey.Remove(cameraKey);
         }
-        
+
         public void SetCamera(string cameraKey)
         {
             if (_cameraByKey.TryGetValue(cameraKey, out var cam))
