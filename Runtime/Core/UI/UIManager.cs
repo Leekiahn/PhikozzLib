@@ -49,7 +49,7 @@ namespace PhikozzLib
             await LoadOverlayPrefabs(_overlayLabelReference.labelString);
         }
 
-        public async UniTask LoadWindowPrefabs(string label)
+        private async UniTask LoadWindowPrefabs(string label)
         {
             await _addressableService.PreloadLocations<GameObject>(label);
             await _addressableService.PreloadAssets<GameObject>(label);
@@ -63,7 +63,7 @@ namespace PhikozzLib
             }
         }
 
-        public async UniTask LoadOverlayPrefabs(string label)
+        private async UniTask LoadOverlayPrefabs(string label)
         {
             await _addressableService.PreloadLocations<GameObject>(label);
             await _addressableService.PreloadAssets<GameObject>(label);

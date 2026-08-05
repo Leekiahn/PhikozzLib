@@ -1,4 +1,5 @@
 using MoreMountains.Tools;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -16,39 +17,47 @@ namespace PhikozzLib
             ServiceLocator.Register<ISceneService>(this);
         }
 
+        [PropertySpace(SpaceBefore = 30f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void LoadScene(string sceneName)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void LoadSceneWithLoading(string sceneName, string loadingSceneName)
         {
             MMSceneLoadingManager.LoadScene(sceneName, loadingSceneName);
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void LoadAdditiveScene(string sceneName)
         {
             SceneManager.LoadScene(sceneName, LoadSceneMode.Additive);
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void LoadAdditiveSceneWithLoading(string sceneName, string loadingSceneName)
         {
             _settings.LoadingSceneName = loadingSceneName;
             MMAdditiveSceneLoadingManager.LoadScene(sceneName, _settings);
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AsyncOperation LoadSceneAsync(string sceneName)
         {
             AsyncOperation handle = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
             return handle;
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AsyncOperation LoadAdditiveSceneAsync(string sceneName)
         {
             AsyncOperation handle = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             return handle;
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AsyncOperation PreloadSceneAsync(string sceneName)
         {
             AsyncOperation handle = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
@@ -63,6 +72,7 @@ namespace PhikozzLib
             return handle;
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AsyncOperation GetPreloadedSceneHandle()
         {
             if (_preloadedSceneHandle != null)
@@ -73,6 +83,7 @@ namespace PhikozzLib
             return null;
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void ActivatePreloadedScene()
         {
             if (_preloadedSceneHandle == null)
@@ -100,12 +111,14 @@ namespace PhikozzLib
             preloadedSceneHandle.allowSceneActivation = true;
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AsyncOperation UnloadSceneAsync(string sceneName)
         {
             AsyncOperation handle = SceneManager.UnloadSceneAsync(sceneName);
             return handle;
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetHold(eSceneLoadingHoldMode holdMode, bool status)
         {
             MMAdditiveSceneLoadingManager.HoldModes mode = default;

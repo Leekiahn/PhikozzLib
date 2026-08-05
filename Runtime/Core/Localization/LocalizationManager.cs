@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
@@ -16,6 +17,8 @@ namespace PhikozzLib
             ServiceLocator.Register<ILocalizationService>(this);
         }
 
+        [PropertySpace(SpaceBefore = 30f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetLocale(string localeCode)
         {
             var locale = _localizationSettings.GetAvailableLocales().GetLocale(localeCode);

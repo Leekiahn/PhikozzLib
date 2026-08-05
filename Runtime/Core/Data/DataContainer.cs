@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 namespace PhikozzLib
 {
@@ -40,6 +42,5 @@ namespace PhikozzLib
         {
             return _dataList;
         }
-
     }
 }

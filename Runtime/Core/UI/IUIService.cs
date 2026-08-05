@@ -4,9 +4,6 @@ namespace PhikozzLib
 {
     public interface IUIService
     {
-        UniTask LoadWindowPrefabs(string label);
-        UniTask LoadOverlayPrefabs(string label);
-    
         T OpenWindow<T>() where T : UIWindow;
         void CloseWindow<T>() where T : UIWindow;
         void CloseWindow(UIWindow window);

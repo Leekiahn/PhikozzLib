@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MoreMountains.Feedbacks;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace PhikozzLib
@@ -36,6 +37,8 @@ namespace PhikozzLib
             ServiceLocator.Register<IFloatingTextService>(this);
         }
 
+        [PropertySpace(SpaceBefore = 30f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void Spawn(string key, string value, Vector3 position, Vector3 direction)
         {
             if (_floatingTextSpawnersDict.TryGetValue(key, out var spawner))
