@@ -8,6 +8,19 @@ namespace PhikozzLib
     [RequireComponent(typeof(Camera), typeof(CinemachineBrain), typeof(AudioListener))]
     public class CameraManager : SingletonScene<CameraManager>
     {
+        [Serializable]
+        private class CameraData
+        {
+            [SerializeField] private string _key;
+            [SerializeField] private CinemachineCamera _camera;
+            
+            public string Key => _key;
+            public CinemachineCamera Camera => _camera;
+        }
+        
+        [SerializeField] private List<CameraData> _cameras = new();
+        
+        
         private const int ActivePriority = 100;
         private const int InactivePriority = 0;
 
@@ -16,16 +29,16 @@ namespace PhikozzLib
 
         public event Action<CinemachineCamera> OnCameraChanged;
 
-        public void RegisterCamera(string cameraKey, CinemachineCamera cam)
+        protected override void Awake()
         {
-            _cameraByKey.Add(cameraKey, cam);
+            base.Awake();
+            
+            foreach (var cameraData in _cameras)
+            {
+                _cameraByKey[cameraData.Key] = cameraData.Camera;
+            }
         }
-
-        public void UnregisterCamera(string cameraKey)
-        {
-            _cameraByKey.Remove(cameraKey);
-        }
-
+        
         public void SetCamera(string cameraKey)
         {
             if (_cameraByKey.TryGetValue(cameraKey, out var cam))
