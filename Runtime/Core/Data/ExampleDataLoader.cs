@@ -23,6 +23,6 @@
 //             list.Add(new TestData(data));
 //         });
 //         
-//         _dataService.Register<TestData>(new DataContainer<TestData>(list));
+//         _dataService.AddDataContainer<TestData>(new DataContainer<TestData>(list));
 //     }
 // }

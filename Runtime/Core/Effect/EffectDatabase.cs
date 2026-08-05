@@ -1,19 +1,45 @@
+using System;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using Sirenix.Serialization;
 using UnityEngine;
 
 namespace PhikozzLib
 {
     [CreateAssetMenu(fileName = "EffectDatabase", menuName = "PhikozzLib/EffectDatabase", order = 60)]
-    public class EffectDatabase : SerializedScriptableObject
+    public class EffectDatabase : ScriptableObject
     {
-        [OdinSerialize] 
-        [Searchable] 
-        [DictionaryDrawerSettings(DisplayMode = DictionaryDisplayOptions.Foldout)]
-        private Dictionary<string, ParticleSystem> _particleSystemDic = new();
-    
-        public Dictionary<string, ParticleSystem> ParticleSystemDic => _particleSystemDic;
+        [Serializable]
+        public class ParticleSystemData
+        {
+            [LabelText("Particle Key")]
+            [SerializeField] private string _particleKey;
+
+            [LabelText("Prefab")]
+            [SerializeField] private ParticleSystem _particleSystem;
+
+            public string ParticleKey => _particleKey;
+            public ParticleSystem ParticleSystem => _particleSystem;
+        }
+
+        [Serializable]
+        public class EffectGroup
+        {
+            [TitleGroup("$Key")]
+            [HideLabel]
+            [SerializeField] private string _key;
+
+            [TitleGroup("$Key")]
+            [ListDrawerSettings]
+            [Searchable]
+            [SerializeField] private List<ParticleSystemData> _particles = new();
+
+            public string Key => _key;
+            public List<ParticleSystemData> Particles => _particles;
+        }
+
+        [ListDrawerSettings]
+        [SerializeField] private List<EffectGroup> _effectGroups = new();
+
+        public List<EffectGroup> EffectGroups => _effectGroups;
     }
 }
-

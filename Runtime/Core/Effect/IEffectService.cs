@@ -4,8 +4,7 @@ namespace PhikozzLib
 {
     public interface IEffectService
     {
-        ParticleSystem Play(string key, Vector3 position, Quaternion rotation,Transform attachToTransform = null);
-        ParticleSystem Play(string key, Vector3 position, Quaternion rotation, float duration, Transform attachToTransform = null);
+        ParticleSystem Play(string categoryKey, string particleKey, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null);
     }
 }
 

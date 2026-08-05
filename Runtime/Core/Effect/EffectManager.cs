@@ -1,45 +1,63 @@
 using System.Collections.Generic;
-using PhikozzLib;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using Sirenix.OdinInspector;
 
 namespace PhikozzLib
 {
     public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
     {
         [SerializeField] private EffectDatabase _effectDatabase;
+        
+        [PropertySpace(SpaceBefore = 20f)]
+        [Title("Effect Pool")]
+        [SerializeField] private int _effectPoolCapacity = 10;
+        [SerializeField] private int _effectPoolMaxSize = 20;
 
         private Transform _effectParent;
-        private readonly Dictionary<string, TrackedPool<ParticleSystem>> _effectPools = new();
+        private readonly Dictionary<string, Dictionary<string, TrackedPool<ParticleSystem>>> _effectPools = new();
 
         private void Awake()
         {
             _effectParent = transform;
 
-            foreach (var particleValue in _effectDatabase.ParticleSystemDic)
+            foreach (var effectGroup in _effectDatabase.EffectGroups)
             {
-                string effectKey = particleValue.Key;
-                ParticleSystem prefab = particleValue.Value;
-
-                var pools = new TrackedPool<ParticleSystem>
-                (
-                    onCreate: () =>
-                    {
-                        var particle = Instantiate(prefab, _effectParent);
-                        particle.gameObject.SetActive(false);
-                        return particle;
-                    },
-                    onGet: particle =>
-                    {
-                        particle.gameObject.SetActive(true);
-                        particle.Clear(true);
-                    },
-                    onRelease: particle => particle.gameObject.SetActive(false),
-                    onDestroy: particle => Destroy(particle.gameObject)
-                );
-
-                _effectPools.Add(effectKey, pools);
+                string effectKey = effectGroup.Key;
+                var particlePools = new Dictionary<string, TrackedPool<ParticleSystem>>();
+            
+                foreach (var particleData in effectGroup.Particles)
+                {
+                    string particleKey = particleData.ParticleKey;
+                    ParticleSystem prefab = particleData.ParticleSystem;
+                    
+                    particlePools.Add(particleKey, CreatePool(prefab));
+                }
+                
+                _effectPools.Add(effectKey, particlePools);
             }
+        }
+        
+        private TrackedPool<ParticleSystem> CreatePool(ParticleSystem prefab)
+        {
+            return new TrackedPool<ParticleSystem>
+            (
+                onCreate: () =>
+                {
+                    var particle = Instantiate(prefab, _effectParent);
+                    particle.gameObject.SetActive(false);
+                    return particle;
+                },
+                onGet: particle =>
+                {
+                    particle.gameObject.SetActive(true);
+                    particle.Clear(true);
+                },
+                onRelease: particle => particle.gameObject.SetActive(false),
+                onDestroy: particle => Destroy(particle.gameObject),
+                defaultCapacity: _effectPoolCapacity,
+                maxSize: _effectPoolMaxSize
+            );
         }
 
         public void RegisterService()
@@ -47,14 +65,15 @@ namespace PhikozzLib
             ServiceLocator.Register<IEffectService>(this);
         }
 
-        public ParticleSystem Play(string effectKey, Vector3 position, Quaternion rotation,
-            Transform attachToTransform = null)
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
+        public ParticleSystem Play(string categoryKey, string particleKey, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null)
         {
-            if (_effectPools.TryGetValue(effectKey, out var pool))
+            if (_effectPools.TryGetValue(categoryKey, out var particlePools) && particlePools.TryGetValue(particleKey, out var pool))
             {
-                var effectPlayer = pool.Get();
+                var particle = pool.Get();
 
-                var tr = effectPlayer.transform;
+                var tr = particle.transform;
 
                 if (attachToTransform != null)
                 {
@@ -68,42 +87,18 @@ namespace PhikozzLib
                     tr.SetPositionAndRotation(position, rotation);
                 }
 
-                effectPlayer.Play(true);
+                particle.Play(true);
 
-                ReleaseAsync(pool, effectPlayer).Forget();
-
-                return effectPlayer;
-            }
-
-            return null;
-        }
-        
-        public ParticleSystem Play(string effectKey, Vector3 position, Quaternion rotation, float duration,
-            Transform attachToTransform = null)
-        {
-            if (_effectPools.TryGetValue(effectKey, out var pool))
-            {
-                var effectPlayer = pool.Get();
-
-                var tr = effectPlayer.transform;
-
-                if (attachToTransform != null)
+                if (duration > 0f)
                 {
-                    tr.SetParent(attachToTransform);
-                    tr.localPosition = Vector3.zero;
-                    tr.localRotation = Quaternion.identity;
+                    ReleaseAfterDurationAsync(pool, particle, duration).Forget();
                 }
                 else
                 {
-                    tr.SetParent(_effectParent);
-                    tr.SetPositionAndRotation(position, rotation);
+                    ReleaseAsync(pool, particle).Forget();
                 }
 
-                effectPlayer.Play(true);
-                
-                ReleaseAfterDurationAsync(pool, effectPlayer, duration).Forget();
-
-                return effectPlayer;
+                return particle;
             }
 
             return null;
@@ -121,13 +116,10 @@ namespace PhikozzLib
         private async UniTaskVoid ReleaseAfterDurationAsync(TrackedPool<ParticleSystem> pool, ParticleSystem particle, float duration)
         {
             await UniTask.Delay(System.TimeSpan.FromSeconds(duration));
-
-            if (particle == null || !particle.gameObject.activeInHierarchy)
-            {
-                return;
-            }
-
-            particle.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
+            
+            await UniTask.WaitUntil(() => !particle.IsAlive(true));
+            
             particle.transform.SetParent(_effectParent);
             pool.Release(particle);
         }

@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using MoreMountains.Tools;
 using Sirenix.OdinInspector;
@@ -7,11 +9,28 @@ namespace PhikozzLib
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
         [InfoBox("AudioManager 프리팹 하위에 MMSMPlaylistManager, MMSoundManager를 배치해야 합니다.")] 
-        [SerializeField] private MMSMPlaylistManager _playlistManager;
 
         [SerializeField] private PlaylistDatabase _playlistDatabase;
         [SerializeField] private AudioDatabase _audioDatabase;
+        
+        private MMSMPlaylistManager _playlistManager;
+        private readonly Dictionary<string, Dictionary<string, MMF_MMSoundManagerSoundData>> _soundGroupDic = new();
 
+        private void Awake()
+        {
+            _playlistManager = GetComponentInChildren<MMSMPlaylistManager>();
+            
+            foreach (var soundGroup in _audioDatabase.SoundGroups)
+            {
+                var soundDic = new Dictionary<string, MMF_MMSoundManagerSoundData>();
+                foreach (var soundEntry in soundGroup.SoundEntries)
+                {
+                    soundDic[soundEntry.AudioKey] = soundEntry.SoundData;
+                }
+                _soundGroupDic[soundGroup.Key] = soundDic;
+            }
+        }
+        
         public void RegisterService()
         {
             ServiceLocator.Register<IAudioService>(this);
@@ -81,43 +100,9 @@ namespace PhikozzLib
         [PropertySpace(SpaceBefore = 30f)]
         [Title("SFX/UI/Other")]
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
-        public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)
+        public void Play(string groupName, string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
-            if (_audioDatabase.SfxAudioDataDic.TryGetValue(soundName, out var soundData))
-            {
-                if (attachToTransform != null)
-                {
-                    soundData.AttachToTransform = attachToTransform;
-                    soundData.Play(attachToTransform.position);
-                }
-                else
-                {
-                    soundData.Play(position);
-                }
-            }
-        }
-
-        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
-        public void PlayUi(string soundName, Vector3 position = default, Transform attachToTransform = null)
-        {
-            if (_audioDatabase.UIAudioDataDic.TryGetValue(soundName, out var soundData))
-            {
-                if (attachToTransform != null)
-                {
-                    soundData.AttachToTransform = attachToTransform;
-                    soundData.Play(attachToTransform.position);
-                }
-                else
-                {
-                    soundData.Play(position);
-                }
-            }
-        }
-
-        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
-        public void PlayOther(string soundName, Vector3 position = default, Transform attachToTransform = null)
-        {
-            if (_audioDatabase.OtherAudioDataDic.TryGetValue(soundName, out var soundData))
+            if (_soundGroupDic.TryGetValue(groupName, out var soundDic) && soundDic.TryGetValue(soundName, out var soundData))
             {
                 if (attachToTransform != null)
                 {
