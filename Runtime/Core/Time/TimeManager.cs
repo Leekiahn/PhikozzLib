@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace PhikozzLib
 {
+    [RequireComponent(typeof(MMTimeManager))]
     public class TimeManager : MonoBehaviour, ITimeService, IServiceRegister
     {
         public void RegisterService()

@@ -41,10 +41,7 @@ namespace PhikozzLib
 
         public void RegisterCamera(string cameraKey, CinemachineCamera cam)
         {
-            if (!_cameraByKey.ContainsKey(cameraKey))
-            {
-                _cameraByKey.Add(cameraKey, cam);
-            }
+            _cameraByKey.Add(cameraKey, cam);
         }
 
         public void UnregisterCamera(string cameraKey)

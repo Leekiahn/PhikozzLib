@@ -13,12 +13,12 @@ namespace PhikozzLib
             ServiceLocator.Register<IDataService>(this);
         }
 
-        public void Register<T>(DataContainer<T> container) where T : BaseData
+        public void AddDataContainer<T>(DataContainer<T> container) where T : BaseData
         {
             _dataContainers[typeof(T)] = container;
         }
         
-        public DataContainer<T> GetContainer<T>() where T : BaseData
+        public DataContainer<T> GetDataContainer<T>() where T : BaseData
         {
             if (_dataContainers.TryGetValue(typeof(T), out var container))
             {
