@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Sirenix.OdinInspector;
 using Unity.Cinemachine;
 using UnityEngine;
@@ -41,19 +40,22 @@ namespace PhikozzLib
             }
         }
 
-        [Button]
+        [PropertySpace(SpaceBefore = 10f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void RegisterCamera(string cameraKey, CinemachineCamera cam)
         {
             _cameraByKey.Add(cameraKey, cam);
         }
 
-        [Button]
+        [PropertySpace(SpaceBefore = 10f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void UnregisterCamera(string cameraKey)
         {
             _cameraByKey.Remove(cameraKey);
         }
 
-        [Button]
+        [PropertySpace(SpaceBefore = 10f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetCamera(string cameraKey)
         {
             if (_cameraByKey.TryGetValue(cameraKey, out var cam))
@@ -80,8 +82,9 @@ namespace PhikozzLib
             return null;
         }
 
+        [PropertySpace(SpaceBefore = 10f)]
         [ShowIf("@_activeCamera != null")]
-        [Button(ButtonSizes.Medium, ButtonStyle.FoldoutButton)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public CinemachineCamera GetActiveCamera()
         {
             return _activeCamera;

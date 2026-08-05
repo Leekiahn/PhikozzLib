@@ -79,7 +79,7 @@ namespace PhikozzLib
 
             _labelCaches[label] = cache;
         }
-
+        
         public async UniTask PreloadAssets<T>(string label) where T : Object
         {
             if (!_labelCaches.TryGetValue(label, out var cache))

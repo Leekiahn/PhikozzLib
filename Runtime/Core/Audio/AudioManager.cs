@@ -1,24 +1,16 @@
 using UnityEngine;
 using MoreMountains.Tools;
+using Sirenix.OdinInspector;
 
 namespace PhikozzLib
 {
-    
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
-        [SerializeField] private MMSoundManager _soundManagerPrefab;
-        [SerializeField] private MMSMPlaylistManager _playlistManagerPrefab;
-        
+        [InfoBox("AudioManager 프리팹 하위에 MMSMPlaylistManager, MMSoundManager를 배치해야 합니다.")] 
+        [SerializeField] private MMSMPlaylistManager _playlistManager;
+
         [SerializeField] private PlaylistDatabase _playlistDatabase;
         [SerializeField] private AudioDatabase _audioDatabase;
-        
-        private MMSMPlaylistManager _playlistManager;
-
-        private void Awake()
-        {
-            _playlistManager = Instantiate(_playlistManagerPrefab, transform);
-            Instantiate(_soundManagerPrefab.gameObject, transform);
-        }
 
         public void RegisterService()
         {
@@ -26,9 +18,10 @@ namespace PhikozzLib
         }
 
         #region --------------- BGM ---------------
-
         
-        
+        [PropertySpace(SpaceBefore = 30f)]
+        [Title("BGM")]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void PlayBgm(string channelKey, int index)
         {
             if (_playlistDatabase.PlaylistDic.TryGetValue(channelKey, out var playlist))
@@ -43,45 +36,51 @@ namespace PhikozzLib
             }
         }
 
+        [ButtonGroup]
         public void StopBgm()
         {
             _playlistManager.Stop();
         }
 
+        [ButtonGroup]
         public void PauseBgm()
         {
             _playlistManager.Pause();
         }
 
+        [ButtonGroup]
         public void ResumeBgm()
         {
             _playlistManager.Play();
         }
 
+        [ButtonGroup]
         public void PlayNextBgm()
         {
             _playlistManager.PlayNextSong();
         }
 
+        [ButtonGroup]
         public void PlayPreviousBgm()
         {
             _playlistManager.PlayPreviousSong();
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetBgmMultiplier(float volume = 1f, float pitch = 1f, bool instantly = true)
         {
             _playlistManager.SetVolumeMultiplier(volume);
             _playlistManager.SetPitchMultiplier(pitch);
         }
 
-        
-        
         #endregion
+        
 
         #region -------------- SFX/UI --------------
 
-        
-        
+        [PropertySpace(SpaceBefore = 30f)]
+        [Title("SFX/UI/Other")]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void PlaySfx(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
             if (_audioDatabase.SfxAudioDataDic.TryGetValue(soundName, out var soundData))
@@ -98,6 +97,7 @@ namespace PhikozzLib
             }
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void PlayUi(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
             if (_audioDatabase.UIAudioDataDic.TryGetValue(soundName, out var soundData))
@@ -113,7 +113,8 @@ namespace PhikozzLib
                 }
             }
         }
-        
+
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void PlayOther(string soundName, Vector3 position = default, Transform attachToTransform = null)
         {
             if (_audioDatabase.OtherAudioDataDic.TryGetValue(soundName, out var soundData))
@@ -130,14 +131,13 @@ namespace PhikozzLib
             }
         }
 
-        
-        
         #endregion
-        
+
         #region -------------- Track --------------
 
-        
-        
+        [PropertySpace(SpaceBefore = 30f)]
+        [Title("Tracks")]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f)
         {
             MMSoundManagerTrackEventTypes eventType = default;
@@ -190,6 +190,7 @@ namespace PhikozzLib
             MMSoundManagerTrackEvent.Trigger(eventType, trackType, volume);
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void ControlAllTrack(eAllSoundControlEventTypes type)
         {
             MMSoundManagerAllSoundsControlEventTypes eventType = default;
@@ -219,6 +220,7 @@ namespace PhikozzLib
             MMSoundManagerAllSoundsControlEvent.Trigger(eventType);
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void FadeTrack(eSoundTrackFadeEventModes mode, eSoundTracks track, float fadeDuration, float finalVolume,
             eFadeTrackTweenType fadeTween)
         {
@@ -358,8 +360,6 @@ namespace PhikozzLib
             MMSoundManagerTrackFadeEvent.Trigger(fadeMode, trackType, fadeDuration, finalVolume, tweenType);
         }
 
-        
-        
         #endregion
     }
 }
