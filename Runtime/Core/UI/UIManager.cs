@@ -8,8 +8,8 @@ namespace PhikozzLib
 {
     public class UIManager : MonoBehaviour, IUIService, IServiceRegister
     {
-        private const string UIConfigResourcePath = "UIConfig";
-        private UIManagerConfig _uiManagerConfig;
+        [SerializeField] private AssetLabelReference _windowLabelReference;
+        [SerializeField] private AssetLabelReference _overlayLabelReference;
         
         [SerializeField] private Transform _windowParent;
         [SerializeField] private Transform _overlayParent;
@@ -24,7 +24,6 @@ namespace PhikozzLib
         
         private async void Awake()
         {
-            _uiManagerConfig = Resources.Load<UIManagerConfig>(UIConfigResourcePath);
             _addressableService = ServiceLocator.Get<IAddressableService>();
             
             try
@@ -34,7 +33,7 @@ namespace PhikozzLib
             catch (Exception e)
             {
                 throw new Exception(
-                    $"Failed to load UI prefabs with labels: {_uiManagerConfig.WindowLabelReference.labelString}, {_uiManagerConfig.OverlayLabelReference.labelString}",
+                    $"Failed to load UI prefabs with labels: {_windowLabelReference.labelString}, {_overlayLabelReference.labelString}",
                     e);
             }
         }
@@ -46,8 +45,8 @@ namespace PhikozzLib
 
         private async UniTask PreLoad()
         {
-            await LoadWindowPrefabs(_uiManagerConfig.WindowLabelReference.labelString);
-            await LoadOverlayPrefabs(_uiManagerConfig.OverlayLabelReference.labelString);
+            await LoadWindowPrefabs(_windowLabelReference.labelString);
+            await LoadOverlayPrefabs(_overlayLabelReference.labelString);
         }
 
         public async UniTask LoadWindowPrefabs(string label)

@@ -6,20 +6,10 @@ namespace PhikozzLib
 {
     public class SceneLoadManager : MonoBehaviour, ISceneService, IServiceRegister
     {
-        private const string SceneLoadingSettingsConfigResourcePath = "SceneLoadingSettingsConfig";
-        
-        private SceneLoadManagerConfig _sceneLoadManagerConfig;
-        private MMAdditiveSceneLoadingManagerSettings _settings;
+        [SerializeField] private MMAdditiveSceneLoadingManagerSettings _settings;
 
         private AsyncOperation _preloadedSceneHandle;
         private string _preloadedSceneName;
-
-        private void Awake()
-        {
-            _sceneLoadManagerConfig = Resources.Load<SceneLoadManagerConfig>(SceneLoadingSettingsConfigResourcePath);
-            _settings = _sceneLoadManagerConfig.Settings;
-        }
-        
         
         public void RegisterService()
         {
