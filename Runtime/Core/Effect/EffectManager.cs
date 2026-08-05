@@ -7,17 +7,13 @@ namespace PhikozzLib
 {
     public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
     {
-        private const string EffectDatabaseResourcePath = "EffectDatabase";
-        
-        private EffectDatabase _effectDatabase;
+        [SerializeField] private EffectDatabase _effectDatabase;
 
         private Transform _effectParent;
         private readonly Dictionary<string, TrackedPool<ParticleSystem>> _effectPools = new();
 
         private void Awake()
         {
-            _effectDatabase = Resources.Load<EffectDatabase>(EffectDatabaseResourcePath);
-            
             _effectParent = transform;
 
             foreach (var particleValue in _effectDatabase.ParticleSystemDic)

@@ -5,20 +5,14 @@ namespace PhikozzLib
 {
     public class AudioManager : MonoBehaviour, IAudioService, IServiceRegister
     {
-        private const string PlaylistDatabaseResourcePath = "PlaylistDatabase";
-        private const string AudioDatabaseResourcePath = "AudioDatabase";
-        
-        private PlaylistDatabase _playlistDatabase;
-        private AudioDatabase _audioDatabase;
+        [SerializeField] private PlaylistDatabase _playlistDatabase;
+        [SerializeField] private AudioDatabase _audioDatabase;
         
         private MMSMPlaylistManager _playlistManager;
 
         private void Awake()
         {
             _playlistManager = GetComponentInChildren<MMSMPlaylistManager>();
-            
-            _playlistDatabase = Resources.Load<PlaylistDatabase>(PlaylistDatabaseResourcePath);
-            _audioDatabase = Resources.Load<AudioDatabase>(AudioDatabaseResourcePath);
         }
 
         public void RegisterService()
