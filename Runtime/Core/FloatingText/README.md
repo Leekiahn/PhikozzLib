@@ -1,5 +1,8 @@
 # FloatingTextManager
 
+<img width="608" height="290" alt="image" src="https://github.com/user-attachments/assets/ba516690-143b-47b5-b747-112ef3ebb825" />
+
+
 > 플로팅 텍스트 스폰 서비스를 제공합니다.  
 > `IFloatingTextService`을 상속받아 사용합니다.
 
