@@ -1,13 +1,16 @@
 # EffectManager
 
+<img width="611" height="366" alt="Image" src="https://github.com/user-attachments/assets/212b5653-f860-4c78-affb-0fe5b8269b91" />
+
 > 이펙트(ParticleSystem) 재생 및 관리 서비스를 제공합니다.  
 > `IEffectService` 인터페이스를 상속받아 구현합니다.
+> `Odin Inspector`을 활용해 테스트 기능을 제공합니다.
 
 ---
 
 ## 주요 기능
 
-- 제네릭 키 기반 이펙트 등록 및 재생
+- 그룹 이펙트 등록 및 재생
 - 이펙트 구독/사용 없이 `Play()`로 즉시 재생
 - Attach 대상 Transform에 이펙트 부착 가능
 - 재생 종료 후 자동 반환(Pool Release)
@@ -19,8 +22,7 @@
 
 | Method | Description |
 |---|---|
-| `Play(string effectKey, Vector3 position, Quaternion rotation, Transform attachToTransform = null)` | 등록된 이펙트를 키로 찾아 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
-| `Play(string effectKey, Vector3 position, Quaternion rotation, float duration, Transform attachToTransform = null)` | `duration` 동안 등록된 이펙트를 키로 찾아 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
+| `Play(string categoryKey, string particleKey, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null)` | 등록된 이펙트를 이름으로 찾아 `duration` 동안 재생합니다. `attachToTransform`이 있으면 해당 Transform에 붙여 재생합니다. |
 
 
 
