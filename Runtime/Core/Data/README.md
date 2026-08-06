@@ -35,7 +35,7 @@
 
 | Method | Description |
 |-----|-----|
-| ` Register<T>(DataContainer<T> container) ` |  DataContainer를 등록합니다.  |
+| ` AddDataContainer<T>(DataContainer<T> container) ` |  DataContainer를 등록합니다.  |
 | ` DataContainer<T> GetContainer<T>() `|  Containter를 타입으로 조회합니다.  |
 
 
