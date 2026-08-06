@@ -1,5 +1,7 @@
 # CameraManager
 
+<img width="612" height="481" alt="Image" src="https://github.com/user-attachments/assets/b8dd4964-0bd5-43b3-9dc2-7ce89a05307e" />
+
 > 카메라 전환 및 관리 기능을 제공합니다.  
 > `CameraManager`는 씬 단위 싱글톤으로 동작합니다.
 
@@ -15,10 +17,6 @@
 - Cinemachine 기반 카메라 시스템 사용
 
 ---
-
-## BaseCameraLoader
-
-- `BaseCameraLoader`를 상속받은 Loader를 통해 `CameraManager`의 카메라를 Key로 등록합니다.
 
 ## Public API
 
