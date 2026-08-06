@@ -10,7 +10,6 @@
 - 타입 기준 UI 인스턴스 생성 및 캐싱
 - 이미 생성된 UI 재사용
 - Window / Overlay 개별 닫기 및 전체 닫기
-- `UIConfig`를 `Resources`폴더에서 자동으로 참조합니다. 이름을 바꾸지 마세요.
 
 <br>
 
@@ -46,8 +45,6 @@ HUD, 상단 고정 UI, 상태 표시 UI처럼 오버레이 성격의 UI 베이�
 
 | Method | Description |
 |-----|-----|
-| ` LoadWindowPrefabs(string label) ` |  지정한 라벨의 Window 프리팹을 프리로드합니다. |
-| ` LoadOverlayPrefabs(string label) `|  지정한 라벨의 Overlay 프리팹을 프리로드합니다. |
 | ` OpenWindow<T>() ` |  타입에 해당하는 Window를 열고, 이미 생성된 인스턴스가 있으면 재사용합니다. |
 | ` CloseWindow<T>() ` |  타입에 해당하는 Window를 닫습니다. |
 | ` CloseWindow(UIWindow window) `|  전달한 Window 인스턴스를 기준으로 닫습니다. |
