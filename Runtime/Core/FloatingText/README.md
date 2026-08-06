@@ -14,16 +14,6 @@
 
 ---
 
-## BaseFloatingTextLoader
-
-```csharp
-public class DefaultFloatingTextLoader : BaseFloatingTextLoader
-{
-    public override string FloatingTextKey => "Default";
-}
-```
-- `FloatingTextManager` 프리팹 하위에 있는 `MMFloatingTextSpawner`에 붙여 Spawner를 등록/해제합니다.
-
 
 ## Public API
 
