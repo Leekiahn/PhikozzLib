@@ -1,5 +1,7 @@
 # TimeManager
 
+<img width="607" height="368" alt="Image" src="https://github.com/user-attachments/assets/89b2e654-f325-42a5-b3f4-b33d8111fa8c" />
+
 > 게임 시간 제어 서비스를 제공합니다.  
 > `ITimeService` 인터페이스를 상속받아 구현합니다.
 
