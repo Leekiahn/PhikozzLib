@@ -19,7 +19,5 @@
 
 | Method | Description |
 |---|---|
-| `RegisterFloatingText(BaseFloatingTextLoader loader)` | `BaseFloatingTextLoader`를 통해 Key로 Spawner를 등록합니다.
-| `UnRegisterFloatingText(string key)` | Key로 Spawner를 해제합니다.
 | `Spawn(string key, string value, Vector3 position, Vector3 direction)` | Key의 플로팅 텍스트를 생성합니다. |
 
