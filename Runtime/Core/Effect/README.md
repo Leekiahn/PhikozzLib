@@ -3,7 +3,7 @@
 <img width="611" height="366" alt="Image" src="https://github.com/user-attachments/assets/212b5653-f860-4c78-affb-0fe5b8269b91" />
 
 > 이펙트(ParticleSystem) 재생 및 관리 서비스를 제공합니다.  
-> `IEffectService` 인터페이스를 상속받아 구현합니다.
+> `IEffectService` 인터페이스를 상속받아 구현합니다.  
 > `Odin Inspector`을 활용해 테스트 기능을 제공합니다.
 
 ---
