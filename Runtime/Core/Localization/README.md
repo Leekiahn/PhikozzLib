@@ -1,5 +1,7 @@
 # LocalizationManager
 
+<img width="611" height="183" alt="Image" src="https://github.com/user-attachments/assets/937b3920-c153-4b3b-966e-f5e3dfe77a43" />
+
 > 로컬라이제이션 서비스와 테이블 기반 문자열/에셋 조회를 제공합니다.  
 > `ILocalizationService` 인터페이스를 상속받아 구현합니다.
 
