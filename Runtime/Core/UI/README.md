@@ -69,4 +69,3 @@ HUD, 상단 고정 UI, 상태 표시 UI처럼 오버레이 성격의 UI 베이�
 | 2 |  Overlay 프리팹에 UIOverlay 상속 클래스를 붙입니다.  |
 | 3 |  각 프리팹을 Addressables에 등록합니다.  |
 | 4 |  Window용 라벨과 Overlay용 라벨을 설정합니다.  |
-| 5 |  `UIConfig`의 `windowLabelReference`, `overlayLabelReference`를 연결합니다. |
