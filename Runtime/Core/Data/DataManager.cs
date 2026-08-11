@@ -7,7 +7,7 @@ namespace PhikozzLib
 {
     public class DataManager : MonoBehaviour, IDataService, IServiceRegister
     {
-        private readonly Dictionary<Type, DataContainer<BaseData>> _dataContainers = new();
+        private readonly Dictionary<Type, object> _dataContainers = new();
 
         public void RegisterService()
         {
@@ -16,7 +16,7 @@ namespace PhikozzLib
 
         public void AddDataContainer<T>(DataContainer<T> container) where T : BaseData
         {
-            _dataContainers[typeof(T)] = container as DataContainer<BaseData>;
+            _dataContainers[typeof(T)] = container;
         }
         
         public DataContainer<T> GetDataContainer<T>() where T : BaseData
