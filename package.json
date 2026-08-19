@@ -1,6 +1,6 @@
 {
   "name": "com.phikozz.phikozzlib",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "displayName": "PhikozzLib",
   "description": "Unity, Service Locater(Addressable, Audio, Data, Effect, Event, FloatingText, Localization, Save, Scene, Time), Bootstrap, Camera, StateMachine Utilities",
   "unity": "6000.3",
