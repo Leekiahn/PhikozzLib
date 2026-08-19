@@ -2,12 +2,10 @@ namespace PhikozzLib
 {
     public abstract class BaseData
     {
-        public int Id { get; protected set; }
         public string Name { get; protected set; }
 
-        protected BaseData(int  id, string name)
+        protected BaseData(string name)
         {
-            Id = id;
             Name = name;
         }
     }
