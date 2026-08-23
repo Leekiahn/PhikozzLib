@@ -52,6 +52,7 @@ namespace PhikozzLib
                 }
 
                 _playlistManager.ChangePlaylist(playlist);
+                _playlistManager.PlaySongAt(index);
             }
         }
 
