@@ -107,8 +107,9 @@ namespace PhikozzLib
 
         private async UniTaskVoid ReleaseAsync(TrackedPool<ParticleSystem> pool, ParticleSystem particle)
         {
-            await UniTask.WaitUntil(() => !particle.IsAlive(true));
+            await UniTask.WaitUntil(() => particle == null || !particle.IsAlive(true));
 
+            if (particle == null) return;
             particle.transform.SetParent(_effectParent);
             pool.Release(particle);
         }
@@ -118,8 +119,9 @@ namespace PhikozzLib
             await UniTask.Delay(System.TimeSpan.FromSeconds(duration));
             particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             
-            await UniTask.WaitUntil(() => !particle.IsAlive(true));
-            
+            await UniTask.WaitUntil(() => particle == null || !particle.IsAlive(true));
+
+            if (particle == null) return;
             particle.transform.SetParent(_effectParent);
             pool.Release(particle);
         }
