@@ -117,6 +117,15 @@ namespace PhikozzLib
             }
         }
 
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
+        public void Stop(string groupName, string soundName, Vector3 position = default, Transform attachToTransform = null)
+        {
+            if (_soundGroupDic.TryGetValue(groupName, out var soundDic) && soundDic.TryGetValue(soundName, out var soundData))
+            {
+                soundData.Stop();
+            }
+        }
+
         #endregion
 
         #region -------------- Track --------------

@@ -14,6 +14,7 @@ namespace PhikozzLib
 
 
         void Play(string groupName, string soundName, Vector3 position = default, Transform attachToTransform = null);
+        void Stop(string groupName, string soundName, Vector3 position = default, Transform attachToTransform = null);
 
         
         void ControlTrack(eSoundTrackEventTypes type, eSoundTracks track, float volume = 1f);
