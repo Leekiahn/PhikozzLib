@@ -17,6 +17,11 @@ namespace PhikozzLib
             ServiceLocator.Register<ILocalizationService>(this);
         }
 
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<ILocalizationService>();
+        }
+
         [PropertySpace(SpaceBefore = 30f)]
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetLocale(string localeCode)

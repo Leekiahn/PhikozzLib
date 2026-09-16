@@ -14,6 +14,11 @@ namespace PhikozzLib
             ServiceLocator.Register<IDataService>(this);
         }
 
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<IDataService>();
+        }
+
         public void AddDataContainer<T>(DataContainer<T> container) where T : BaseData
         {
             _dataContainers[typeof(T)] = container;

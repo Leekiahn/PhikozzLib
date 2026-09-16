@@ -4,14 +4,9 @@ namespace PhikozzLib
 {
     public interface IUIService
     {
-        T OpenWindow<T>() where T : UIWindow;
-        void CloseWindow<T>() where T : UIWindow;
-        void CloseWindow(UIWindow window);
-        void CloseAllWindow();
-    
-        T OpenOverlay<T>() where T : UIOverlay;
-        void CloseOverlay<T>() where T : UIOverlay;
-        void CloseOverlay(UIOverlay overlay);
-        void CloseAllOverlay();
+        T OpenPopup<T>() where T : UIPopup;
+        void ClosePopup<T>() where T : UIPopup;
+        void ClosePopup(UIPopup window);
+        void CloseAllPopup();
     }
 }

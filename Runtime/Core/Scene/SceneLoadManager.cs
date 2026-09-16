@@ -17,6 +17,11 @@ namespace PhikozzLib
             ServiceLocator.Register<ISceneService>(this);
         }
 
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<ISceneService>();
+        }
+
         [PropertySpace(SpaceBefore = 30f)]
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void LoadScene(string sceneName)

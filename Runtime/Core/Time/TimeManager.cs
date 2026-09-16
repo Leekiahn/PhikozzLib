@@ -12,6 +12,11 @@ namespace PhikozzLib
             ServiceLocator.Register<ITimeService>(this);
         }
 
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<ITimeService>();
+        }
+
         [PropertySpace(SpaceBefore = 30f)]
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetTimeScale(eTimeScaleMethods timeScaleMethod, float timeScale, float duration, bool lerp, float lerpSpeed, bool infinite)

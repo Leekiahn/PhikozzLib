@@ -7,37 +7,26 @@ namespace PhikozzLib
 {
     public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
     {
-        [SerializeField] private EffectDatabase _effectDatabase;
-        
         [PropertySpace(SpaceBefore = 20f)]
         [Title("Effect Pool")]
         [SerializeField] private int _effectPoolCapacity = 10;
         [SerializeField] private int _effectPoolMaxSize = 20;
 
         private Transform _effectParent;
-        private readonly Dictionary<string, Dictionary<string, TrackedPool<ParticleSystem>>> _effectPools = new();
+        private readonly Dictionary<string, TrackedPool<ParticleSystem>> _effectPools = new();
 
         private void Awake()
         {
             _effectParent = transform;
-
-            foreach (var effectGroup in _effectDatabase.EffectGroups)
-            {
-                string effectKey = effectGroup.Key;
-                var particlePools = new Dictionary<string, TrackedPool<ParticleSystem>>();
-            
-                foreach (var particleData in effectGroup.Particles)
-                {
-                    string particleKey = particleData.ParticleKey;
-                    ParticleSystem prefab = particleData.ParticleSystem;
-                    
-                    particlePools.Add(particleKey, CreatePool(prefab));
-                }
-                
-                _effectPools.Add(effectKey, particlePools);
-            }
         }
-        
+
+        // 이펙트 데이터 소스(BGDatabase 등)는 PhikozzLib 패키지가 아니라 각 게임 프로젝트에서 채워 넣습니다.
+        // 예시는 Data/ExampleDataLoader.cs 참고.
+        public void RegisterEffect(string key, ParticleSystem prefab)
+        {
+            _effectPools[key] = CreatePool(prefab);
+        }
+
         private TrackedPool<ParticleSystem> CreatePool(ParticleSystem prefab)
         {
             return new TrackedPool<ParticleSystem>
@@ -65,11 +54,16 @@ namespace PhikozzLib
             ServiceLocator.Register<IEffectService>(this);
         }
 
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<IEffectService>();
+        }
+
         [PropertySpace(SpaceBefore = 20f)]
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
-        public ParticleSystem Play(string categoryKey, string particleKey, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null)
+        public ParticleSystem Play(string key, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null)
         {
-            if (_effectPools.TryGetValue(categoryKey, out var particlePools) && particlePools.TryGetValue(particleKey, out var pool))
+            if (_effectPools.TryGetValue(key, out var pool))
             {
                 var particle = pool.Get();
 

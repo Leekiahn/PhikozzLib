@@ -37,6 +37,11 @@ namespace PhikozzLib
         {
             ServiceLocator.Register<IAddressableService>(this);
         }
+
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<IAddressableService>();
+        }
         
         public async UniTask DownloadDependencies(string label)
         {

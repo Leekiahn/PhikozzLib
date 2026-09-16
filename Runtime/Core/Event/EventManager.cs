@@ -6,11 +6,46 @@ namespace PhikozzLib
 {
     public class EventManager : MonoBehaviour, IEventService, IServiceRegister
     {
+        private class EventUnsubscriber : MonoBehaviour
+        {
+            private readonly List<Action> _unsubscribers = new();
+
+            public void Track(Action unsubscribe)
+            {
+                _unsubscribers.Add(unsubscribe);
+            }
+
+            private void OnDestroy()
+            {
+                foreach (var unsubscribe in _unsubscribers)
+                {
+                    unsubscribe();
+                }
+            }
+        }
+
         private readonly Dictionary<Type, Delegate> _handlers = new();
 
         public void RegisterService()
         {
             ServiceLocator.Register<IEventService>(this);
+        }
+
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<IEventService>();
+        }
+
+        public void Subscribe<T>(Component owner, Action<T> handler) where T : struct
+        {
+            Subscribe(handler);
+
+            if (!owner.TryGetComponent<EventUnsubscriber>(out var unsubscriber))
+            {
+                unsubscriber = owner.gameObject.AddComponent<EventUnsubscriber>();
+            }
+
+            unsubscriber.Track(() => Unsubscribe(handler));
         }
 
         public void Subscribe<T>(Action<T> handler) where T : struct

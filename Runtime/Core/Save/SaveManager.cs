@@ -16,6 +16,11 @@ namespace PhikozzLib
             ServiceLocator.Register<ISaveService>(this);
         }
 
+        public void UnregisterService()
+        {
+            ServiceLocator.Unregister<ISaveService>();
+        }
+
         public void Save<T>(string key, T data)
         {
             string filePath = GetFilePath(key);
@@ -106,8 +111,9 @@ namespace PhikozzLib
                         data = JsonUtility.FromJson<T>(json);
                         return true;
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Debug.LogWarning($"Failed to load save data as JSON for key '{key}'.\n{e}");
                         data = default;
                         return false;
                     }
@@ -124,8 +130,9 @@ namespace PhikozzLib
 
                         return true;
                     }
-                    catch
+                    catch (Exception e)
                     {
+                        Debug.LogWarning($"Failed to load save data as Binary for key '{key}'.\n{e}");
                         data = default;
                         return false;
                     }

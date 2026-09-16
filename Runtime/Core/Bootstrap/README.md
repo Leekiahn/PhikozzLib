@@ -11,3 +11,6 @@
 `BootstrapConfig`를 꼭 `Resources`에 배치해주세요.
 - `BootstrapConfig`에 등록되는 서비스들은 모두 `IServiceRegister` 인터페이스를 상속받고  
 내부에 `ServiceLocator.Register<T>(this)`를 호출해야 합니다.
+- `Bootstrapper`는 목록에 있는 모든 서비스의 `RegisterService()`를 먼저 전부 호출한 뒤,  
+`IServiceInit`을 구현한 서비스에 한해서만 `Init()`을 호출합니다.  
+다른 서비스를 참조해야 하는 초기화 로직은 `Awake()`가 아니라 `IServiceInit.Init()`에 작성하세요.

@@ -3,7 +3,7 @@ using UnityEngine;
 namespace PhikozzLib
 {
     [RequireComponent(typeof(CanvasGroup))]
-    public abstract class UIWindow : UIBase
+    public abstract class UIPopup : UIBase
     {
         private CanvasGroup _canvasGroup;
 
