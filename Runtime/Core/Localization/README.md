@@ -13,8 +13,6 @@
 - 문자열 로컬라이즈 조회
 - Smart String 파라미터 지원
 - 로컬라이즈된 에셋 비동기 로드
-- 한국어/영어 Locale 상수 제공
-- Google Sheets 연동 가능
 
 ---
 
@@ -22,16 +20,30 @@
 
 | Method | Description |
 |---|---|
-| `SetLocale(string localeCode)` | 현재 로케일을 변경합니다. |
+| `SetLocale(string localeCode)` | 현재 로케일을 변경합니다. Unity Localization의 로케일 코드(예: `"ko"`, `"en"`)를 그대로 씁니다. |
 | `GetString(string localeTableRef, string localeEntryRef)` | 테이블과 엔트리로 문자열을 가져옵니다. |
-| `GetString(string localeTableRef, string localeEntryRef, LocalizedString.ChangeHandler onChanged, params object[] arguments)` | 변경 콜백 및 파라미터를 포함한 문자열을 가져옵니다. |
+| `GetString(string localeTableRef, string localeEntryRef, LocalizedString.ChangeHandler onChanged, params object[] arguments)` | 변경 콜백 및 Smart String 파라미터를 포함한 문자열을 가져옵니다. |
 | `GetAssetAsync<T>(string localeTableRef, string localeEntryRef)` | 로컬라이즈된 에셋을 비동기로 가져옵니다. |
 
----
+<br>
 
-## Locale 상수
+## 사용 예시
 
-| Name | Value |
-|---|---|
-| `Locales.Korean` | `ko-KR` |
-| `Locales.English` | `en` |
+```csharp
+private ILocalizationService _localizationService;
+
+private void Start()
+{
+    _localizationService = ServiceLocator.Get<ILocalizationService>();
+}
+
+public void OnClickEnglishButton()
+{
+    _localizationService.SetLocale("en");
+}
+
+public string GetGreeting()
+{
+    return _localizationService.GetString("UITable", "Greeting");
+}
+```

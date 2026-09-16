@@ -119,24 +119,27 @@ namespace PhikozzLib
 
         public T Get<T>(string label, string key) where T : Object
         {
-            var cache = _labelCaches[label];
+            var cache = GetCacheOrThrow(label);
 
             if (cache.AssetByKey.TryGetValue(key, out var loadedAsset))
             {
                 return loadedAsset as T;
             }
-         
+
             return null;
         }
 
         public IReadOnlyList<T> GetAll<T>(string label) where T : Object
         {
-            return _labelCaches[label].AssetByKey.Values.OfType<T>().ToList();
+            return GetCacheOrThrow(label).AssetByKey.Values.OfType<T>().ToList();
         }
 
         public void Release(string label, string key)
         {
-            var cache = _labelCaches[label];
+            if (!_labelCaches.TryGetValue(label, out var cache))
+            {
+                return;
+            }
 
             if (cache.HandleByKey.TryGetValue(key, out var handle))
             {
@@ -149,7 +152,10 @@ namespace PhikozzLib
 
         public void ReleaseAll(string label)
         {
-            var cache = _labelCaches[label];
+            if (!_labelCaches.TryGetValue(label, out var cache))
+            {
+                return;
+            }
 
             foreach (var handle in cache.HandleByKey.Values)
             {
@@ -158,6 +164,16 @@ namespace PhikozzLib
 
             cache.HandleByKey.Clear();
             cache.AssetByKey.Clear();
+        }
+
+        private LabelCache GetCacheOrThrow(string label)
+        {
+            if (_labelCaches.TryGetValue(label, out var cache))
+            {
+                return cache;
+            }
+
+            throw new System.Exception($"Label '{label}' has not been preloaded. Call PreloadLocations first.");
         }
 
         private async UniTask LoadAsset<T>(

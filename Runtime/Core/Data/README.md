@@ -1,13 +1,14 @@
 # DataManager
-> `BaseData.cs`를 상속받는 데이터 클래스를 `DataContainer<T>`에 담아 초기화/로드하고 ID/이름 조회합니다.  
-> `IDataService` 인터페이스를 상속받아 구현합니다.  
+
+> `BaseData`를 상속받는 데이터 클래스를 `DataContainer<T>`에 담아 타입별로 등록/조회합니다.  
+> `IDataService` 인터페이스를 상속받아 구현합니다.
 
 <br>
 
 ## 주요 기능
 
-- 게임 시작 시 데이터 로드
-- `DataContainer<T>` 등록 및 반환
+- 타입별 `DataContainer<T>` 등록 및 조회
+- 이름(`string`) 기준 개별 데이터 조회, 전체 조회
 
 <br>
 
@@ -15,39 +16,68 @@
 
 | Type | Role |
 | --- | --- |
-| `BaseData` |  모든 데이터 모델의 공통 베이스 클래스  |
-| `LocalizedBaseData ` | 로컬라이징 참조 정보를 포함하는 데이터 베이스 클래스 |
+| `BaseData` | 모든 데이터 모델의 공통 베이스 클래스. `Name`만 가집니다 |
 | `DataContainer<T>` | 타입별 데이터 조회/보관 컨테이너 |
 
 <br>
 
 ## Public API
 
-### `DataContainter<T>`
+### `DataContainer<T>`
 
 | Method | Description |
 |-----|-----|
-| ` Get(int id) ` |  Id로 데이터를 조회합니다.  |
-| ` Get(string name) `|  Name으로 데이터를 조회합니다.  |
-| ` GetAll() ` |  전체 데이터를 반환합니다.  |
+| `Get(string name)` | Name으로 데이터를 조회합니다. |
+| `GetAll()` | 전체 데이터를 반환합니다. |
 
 ### `IDataService`
 
 | Method | Description |
 |-----|-----|
-| ` AddDataContainer<T>(DataContainer<T> container) ` |  DataContainer를 등록합니다.  |
-| ` DataContainer<T> GetContainer<T>() `|  Containter를 타입으로 조회합니다.  |
-
+| `AddDataContainer<T>(DataContainer<T> container)` | `DataContainer`를 타입 기준으로 등록합니다. |
+| `GetDataContainer<T>()` | 타입으로 `DataContainer`를 조회합니다. 등록된 적 없으면 `null`을 반환합니다. |
 
 <br>
 
-## Setup
+## Effect 모듈과 같은 이유로, 데이터 소스는 패키지 밖에서 채운다
+
+`DataManager`는 `AddDataContainer`/`GetDataContainer`만 제공하고, 데이터를 실제로 어디서 가져오는지 전혀 모릅니다. 이 패키지는 git URL로 설치되므로, 특정 프로젝트에서만 존재하는 BGDatabase 생성 코드(`BG_TestData` 등)를 패키지가 직접 참조하면 다른 프로젝트에서는 컴파일이 깨집니다.
+
+그래서 `ExampleDataLoader.cs`는 **전체가 주석 처리된 예시 코드**로만 존재합니다. 실제로 쓰려면 이 내용을 프로젝트 쪽 스크립트로 복사해서 주석을 풀고 쓰세요.
+
+```csharp
+// ExampleDataLoader.cs 내용
+public class TestData : BaseData
+{
+    public int Power { get; private set; }
+
+    public TestData(BG_TestData data) : base(data.name)
+    {
+        Power = data.power;
+    }
+}
+
+[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
+private static void LoadData()
+{
+    var dataService = ServiceLocator.Get<IDataService>();
+    var list = new List<TestData>();
+
+    BG_TestData.ForEachEntity(data => list.Add(new TestData(data)));
+
+    dataService.AddDataContainer(new DataContainer<TestData>(list));
+}
+```
+
+BGDatabase가 아니어도 상관없습니다 — `BaseData`를 상속한 클래스의 리스트만 만들 수 있으면, `AddDataContainer`로 등록하면 됩니다.
+
+<br>
+
+## BGDatabase로 데이터를 만드는 방법 (Google Sheets 연동 예시)
 
 <img width="759" height="403" alt="Image" src="https://github.com/user-attachments/assets/b39f403f-97eb-4abf-9cd7-9b4ccca9b594" />
 
-- 구글 스프레드시트를 작성합니다.
-- name(A1)열과 id(B1)열은 필수로 존재해야 합니다.
-- `LocalizedBaseData`를 상속한다면 C1열과 D1열에 각각 테이블 참조(string)과 엔트리 참조(string)가 존재해야 합니다.
+- 구글 스프레드시트를 작성합니다. `name`(A1)열은 필수로 존재해야 합니다(BGDatabase 엔티티의 내장 이름 필드).
 
 <br>
 
@@ -83,42 +113,18 @@
 
 <br>
 
-```csharp
-public class TestData : LocalizedBaseData
-{
-    public int Power { get; private set; }
-    
-    public TestData(BG_TestData data) : base(data.id, data.name, data.locale_table_ref, data.locale_entry_ref)
-    {
-        Power = data.power;
-    }
-}
-```
-- `BaseData` 혹은 `LocalizedBaseData`를 상속받아 Data클래스를 작성합니다.
-- `ExampleDataLoader`코드를 참고해 `DataLoader` 스크립트를 작성하세요. [여기](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Data/ExampleDataLoader.cs)
-
-<br>
+## 사용 예시
 
 ```csharp
 private IDataService _dataService;
 
-private void Awake()
+private void Start()
 {
     _dataService = ServiceLocator.Get<IDataService>();
 }
 
 public void DataTest()
 {
-    var data = _dataService.GetContainer<TestData>().Get(1);
- }
+    var data = _dataService.GetDataContainer<TestData>().Get("Sword");
+}
 ```
-- 위처럼 전역적으로 데이터 조회가 가능합니다.
-
-<br>
-
-<img width="890" height="654" alt="Image" src="https://github.com/user-attachments/assets/a8178e6a-d760-4899-a0e1-b09d6740c739" />
-
-- `LocalizedBaseData`를 상속받았다면 Unity Localization의 Table Name과 Entry Key로 언어 대응이 가능합니다.  
-[Local](https://github.com/Leekiahn/PhikozzLib/tree/main/Runtime/Core/Localization) 
-
-

@@ -44,13 +44,19 @@ namespace PhikozzLib
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void RegisterCamera(string cameraKey, CinemachineCamera cam)
         {
-            _cameraByKey.Add(cameraKey, cam);
+            _cameraByKey[cameraKey] = cam;
         }
 
         [PropertySpace(SpaceBefore = 10f)]
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void UnregisterCamera(string cameraKey)
         {
+            if (_cameraByKey.TryGetValue(cameraKey, out var cam) && _activeCamera == cam)
+            {
+                _activeCamera = null;
+                OnCameraChanged?.Invoke(null);
+            }
+
             _cameraByKey.Remove(cameraKey);
         }
 
@@ -58,18 +64,21 @@ namespace PhikozzLib
         [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetCamera(string cameraKey)
         {
-            if (_cameraByKey.TryGetValue(cameraKey, out var cam))
+            if (!_cameraByKey.TryGetValue(cameraKey, out var cam))
             {
-                if (_activeCamera != null)
-                {
-                    _activeCamera.Priority = InactivePriority;
-                }
-
-                cam.Priority = ActivePriority;
-                _activeCamera = cam;
-
-                OnCameraChanged?.Invoke(_activeCamera);
+                Debug.LogWarning($"[CameraManager] Camera '{cameraKey}' not found.");
+                return;
             }
+
+            if (_activeCamera != null)
+            {
+                _activeCamera.Priority = InactivePriority;
+            }
+
+            cam.Priority = ActivePriority;
+            _activeCamera = cam;
+
+            OnCameraChanged?.Invoke(_activeCamera);
         }
 
         public CinemachineCamera GetCamera(string cameraKey)

@@ -1,27 +1,62 @@
 using UnityEngine;
+using Sirenix.OdinInspector;
+using MoreMountains.Feedbacks;
 
 namespace PhikozzLib
 {
-    [RequireComponent(typeof(CanvasGroup))]
     public abstract class UIPopup : UIBase
     {
-        private CanvasGroup _canvasGroup;
+        public bool IsVisible { get; protected set; }
+
+
+        [SerializeField] private bool _useOpenFeedback;
+        [ShowIf("_useOpenFeedback")]
+        [SerializeField] private MMF_Player _openFeedback;
+
+        [SerializeField] private bool _useCloseFeedback;
+        [ShowIf("_useCloseFeedback")]
+        [SerializeField] private MMF_Player _closeFeedback;
 
         public virtual void Init()
         {
-            _canvasGroup = GetComponent<CanvasGroup>();
+            if (_useCloseFeedback && _closeFeedback != null)
+            {
+                _closeFeedback.Events.OnComplete.AddListener(() =>
+                {
+                    gameObject.SetActive(false);
+                });
+            }
         }
-        
+
         public void Open()
         {
+            if (_useCloseFeedback && _closeFeedback != null)
+            {
+                _closeFeedback.StopFeedbacks();
+            }
+
             Refresh();
             OnOpen();
+
+            if (_useOpenFeedback && _openFeedback != null)
+            {
+                _openFeedback.PlayFeedbacks();
+            }
+
             IsVisible = true;
         }
 
         public void Close()
         {
-            OnClose();
+            if (_useCloseFeedback && _closeFeedback != null)
+            {
+                _closeFeedback.PlayFeedbacks();
+            }
+            else
+            {
+                OnClose();
+            }
+
             IsVisible = false;
         }
 
@@ -34,6 +69,6 @@ namespace PhikozzLib
         {
             gameObject.SetActive(false);
         }
-        
+
     }
 }

@@ -66,3 +66,12 @@ private void Start()
 ```
 - `ServiceLocater.Get<T>()` 메서드를 호출해 해당 서비스 객체를 캐싱할 수 있습니다.
 - `Bootstrapper`가 생성하는 서비스가 아닌, 씬에 배치된 오브젝트에서 참조할 때는 `Awake()`가 아닌 `Start()`(또는 그 이후 시점)에서 호출하세요. `Awake()` 시점에는 `Bootstrapper`의 서비스 등록이 끝나지 않았을 수 있습니다.
+
+<br>
+<br>
+
+## Editor에서 Reload Domain을 끄고 반복 재생하는 경우
+
+`ServiceLocator._services`는 `static`이라, Unity 에디터의 **Enter Play Mode Options**에서 "Reload Domain"을 꺼두면 플레이 세션 사이에 초기화되지 않습니다. 등록된 서비스를 인터페이스 타입으로 들고 있으면 죽은 오브젝트인지 감지가 안 되기 때문에(파괴된 오브젝트가 `== null`로 안 잡힘), 등록 목록이 이전 세션 기준으로 꼬일 수 있습니다.
+
+`ServiceLocator`는 `[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]`으로 매 플레이 세션 시작 시 `_services`를 강제로 비웁니다. 이 시점은 `Bootstrapper`(`BeforeSceneLoad`)보다 항상 먼저 실행되므로, 리셋 이후 재등록되는 흐름이 항상 보장됩니다.

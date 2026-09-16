@@ -12,6 +12,11 @@ namespace PhikozzLib
         {
             var config = Resources.Load<BootstrapConfig>(BootstrapConfigResourcePath);
 
+            if (config == null)
+            {
+                throw new System.Exception($"Resources/{BootstrapConfigResourcePath}.asset not found. No services will be registered.");
+            }
+
             var instances = new List<GameObject>();
 
             foreach (var manager in config.Managers)

@@ -20,10 +20,13 @@ namespace PhikozzLib
             _effectParent = transform;
         }
 
-        // 이펙트 데이터 소스(BGDatabase 등)는 PhikozzLib 패키지가 아니라 각 게임 프로젝트에서 채워 넣습니다.
-        // 예시는 Data/ExampleDataLoader.cs 참고.
         public void RegisterEffect(string key, ParticleSystem prefab)
         {
+            if (_effectPools.TryGetValue(key, out var existingPool))
+            {
+                existingPool.Clear();
+            }
+
             _effectPools[key] = CreatePool(prefab);
         }
 

@@ -4,8 +4,8 @@ namespace PhikozzLib
 {
     public interface IUIService
     {
-        void RegisterPopup(UIPopup prefab);
-        void UnregisterPopup(UIPopup prefab);
+        void RegisterPopup<T>(T prefab) where T : UIPopup;
+        void UnregisterPopup<T>(T prefab) where T : UIPopup;
 
         T OpenPopup<T>() where T : UIPopup;
         void ClosePopup<T>() where T : UIPopup;

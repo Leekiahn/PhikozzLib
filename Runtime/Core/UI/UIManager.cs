@@ -12,7 +12,7 @@ namespace PhikozzLib
         [SerializeField] private Transform _popupParent;
 
         private readonly Dictionary<Type, UIPopup> _popups = new();
-        private readonly Dictionary<Type, UIPopup> _openedpopups = new();
+        private readonly Dictionary<Type, UIPopup> _openedPopups = new();
 
 
         private IAddressableService _addressableService;
@@ -63,20 +63,20 @@ namespace PhikozzLib
         }
 
 
-        #region ---------------UIWindow---------------
-
-        public void RegisterPopup(UIPopup prefab)
+        public void RegisterPopup<T>(T prefab) where T : UIPopup
         {
             _popups[prefab.GetType()] = prefab;
         }
 
-        public void UnregisterPopup(UIPopup prefab)
+        public void UnregisterPopup<T>(T prefab) where T : UIPopup
         {
-            if (_openedpopups.TryGetValue(prefab.GetType(), out var openedPopup))
+            if (_openedPopups.TryGetValue(typeof(T), out var openedPopup))
             {
-                openedPopup.Close();
-                _openedpopups.Remove(prefab.GetType());
+                Destroy(openedPopup.gameObject);
+                _openedPopups.Remove(typeof(T));
             }
+
+            _popups.Remove(typeof(T));
         }
 
         public T OpenPopup<T>() where T : UIPopup
@@ -87,7 +87,7 @@ namespace PhikozzLib
                 return null;
             }
 
-            if (_openedpopups.TryGetValue(typeof(T), out var openedPopup))
+            if (_openedPopups.TryGetValue(typeof(T), out var openedPopup))
             {
                 if (!openedPopup.IsVisible)
                 {
@@ -100,22 +100,22 @@ namespace PhikozzLib
             var popupInstance = Instantiate(prefab, _popupParent);
             popupInstance.Init();
             popupInstance.Open();
-            _openedpopups[typeof(T)] = popupInstance;
+            _openedPopups[typeof(T)] = popupInstance;
             return (T)popupInstance;
         }
 
         public void ClosePopup<T>() where T : UIPopup
         {
-            if (_openedpopups.TryGetValue(typeof(T), out var openedPopup))
+            if (_openedPopups.TryGetValue(typeof(T), out var openedPopup))
             {
                 openedPopup.Close();
             }
         }
 
-        public void ClosePopup(UIPopup window)
+        public void ClosePopup(UIPopup popup)
         {
-            var type = window.GetType();
-            if (_openedpopups.TryGetValue(type, out var openedPopup))
+            var type = popup.GetType();
+            if (_openedPopups.TryGetValue(type, out var openedPopup))
             {
                 openedPopup.Close();
             }
@@ -123,12 +123,10 @@ namespace PhikozzLib
 
         public void CloseAllPopup()
         {
-            foreach (var openedPopup in _openedpopups.Values)
+            foreach (var openedPopup in _openedPopups.Values)
             {
                 openedPopup.Close();
             }
         }
-
-        #endregion
     }
 }

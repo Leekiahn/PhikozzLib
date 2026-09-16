@@ -14,3 +14,4 @@
 - `Bootstrapper`는 목록에 있는 모든 서비스의 `RegisterService()`를 먼저 전부 호출한 뒤,  
 `IServiceInit`을 구현한 서비스에 한해서만 `Init()`을 호출합니다.  
 다른 서비스를 참조해야 하는 초기화 로직은 `Awake()`가 아니라 `IServiceInit.Init()`에 작성하세요.
+- `Resources`에 `BootstrapConfig.asset`이 없으면 원인 불명의 `NullReferenceException` 대신, 무엇이 없는지 알려주는 명확한 예외를 던집니다.
