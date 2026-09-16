@@ -8,8 +8,8 @@ namespace PhikozzLib
 {
     public class UIManager : MonoBehaviour, IUIService, IServiceRegister, IServiceInit
     {
-        [SerializeField] private AssetLabelReference _windowLabelReference;
-        [SerializeField] private Transform _windowParent;
+        [SerializeField] private AssetLabelReference _popupLabelReference;
+        [SerializeField] private Transform _popupParent;
 
         private readonly Dictionary<Type, UIPopup> _popups = new();
         private readonly Dictionary<Type, UIPopup> _openedpopups = new();
@@ -38,14 +38,14 @@ namespace PhikozzLib
             catch (Exception e)
             {
                 throw new Exception(
-                    $"Failed to load UI prefabs with labels: {_windowLabelReference.labelString}",
+                    $"Failed to load UI prefabs with labels: {_popupLabelReference.labelString}",
                     e);
             }
         }
 
         private async UniTask PreLoad()
         {
-            await LoadPopupPrefabs(_windowLabelReference.labelString);
+            await LoadPopupPrefabs(_popupLabelReference.labelString);
         }
 
         private async UniTask LoadPopupPrefabs(string label)
@@ -65,11 +65,25 @@ namespace PhikozzLib
 
         #region ---------------UIWindow---------------
 
+        public void RegisterPopup(UIPopup prefab)
+        {
+            _popups[prefab.GetType()] = prefab;
+        }
+
+        public void UnregisterPopup(UIPopup prefab)
+        {
+            if (_openedpopups.TryGetValue(prefab.GetType(), out var openedPopup))
+            {
+                openedPopup.Close();
+                _openedpopups.Remove(prefab.GetType());
+            }
+        }
+
         public T OpenPopup<T>() where T : UIPopup
         {
             if (!_popups.TryGetValue(typeof(T), out var prefab))
             {
-                Debug.LogWarning($"[UIManager] '{typeof(T).Name}' 팝업을 찾을 수 없습니다. 라벨 '{_windowLabelReference.labelString}'에 프리팹이 등록되어 있는지 확인하세요.");
+                Debug.LogWarning($"[UIManager] Popup '{typeof(T).Name}' not found. Check that its prefab is registered under label '{_popupLabelReference.labelString}'.");
                 return null;
             }
 
@@ -83,7 +97,7 @@ namespace PhikozzLib
                 return (T)openedPopup;
             }
 
-            var popupInstance = Instantiate(prefab, _windowParent);
+            var popupInstance = Instantiate(prefab, _popupParent);
             popupInstance.Init();
             popupInstance.Open();
             _openedpopups[typeof(T)] = popupInstance;
