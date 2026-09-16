@@ -48,8 +48,6 @@ public class UIManager : MonoBehaviour, IUIService, IServiceRegister, IServiceIn
 
 ## 서비스 등록 및 호출
 
-<img width="444" height="159" alt="Image" src="https://github.com/user-attachments/assets/f615353a-8819-4858-b67b-0bc9667858ce" />  
-
 - `Resources` 폴더에 `BootstrapConfig`를 생성합니다. 이름을 변경하지 마세요. `Create/PhikozzLib`
 
 <img width="612" height="425" alt="Image" src="https://github.com/user-attachments/assets/cd5e7405-d452-4ce7-b0e6-96c3ea82770e" />
