@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace PhikozzLib
 {
-    public abstract class UISlot<TData> : UIBase, IPointerClickHandler
+    public abstract class UISlot<TData> : UIBase, IUISlotDataSwap, IPointerClickHandler
     {
         protected TData Data { get; private set; }
 
@@ -15,11 +15,29 @@ namespace PhikozzLib
             Refresh();
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public void SwapDataWith(IUISlotDataSwap other)
         {
-            OnClick();
+            if (other is UISlot<TData> otherSlot)
+            {
+                (Data, otherSlot.Data) = (otherSlot.Data, Data);
+                Refresh();
+                otherSlot.Refresh();
+            }
         }
 
-        protected abstract void OnClick();
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                OnLeftClick();
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                OnRightClick();
+            }
+        }
+
+        protected virtual void OnLeftClick() {}
+        protected virtual void OnRightClick() {}
     }
 }

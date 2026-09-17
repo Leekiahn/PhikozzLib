@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace PhikozzLib
 {
-    public class UIPointerFeedback : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerExitHandler, IPointerEnterHandler
+    public class UILeftPointerFeedback : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerExitHandler, IPointerEnterHandler
     {
         [Title("Pointer Feedbacks Settings")]
         [SerializeField] private bool _usePointerUpFeedback;
@@ -40,6 +40,7 @@ namespace PhikozzLib
 
         public void OnPointerUp(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
             if (_usePointerUpFeedback && _pointerUpFeedback != null)
             {
                 _pointerUpFeedback.PlayFeedbacks();
@@ -48,6 +49,7 @@ namespace PhikozzLib
 
         public void OnPointerDown(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
             if (_usePointerDownFeedback && _pointerDownFeedback != null)
             {
                 _pointerDownFeedback.PlayFeedbacks();
@@ -56,6 +58,7 @@ namespace PhikozzLib
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
             if (_usePointerClickFeedback && _pointerClickFeedback != null)
             {
                 _pointerClickFeedback.PlayFeedbacks();
@@ -64,6 +67,7 @@ namespace PhikozzLib
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
             if (_usePointerExitFeedback && _pointerExitFeedback != null)
             {
                 _pointerExitFeedback.PlayFeedbacks();
@@ -72,6 +76,7 @@ namespace PhikozzLib
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (eventData.button != PointerEventData.InputButton.Left) return;
             if (_usePointerEnterFeedback && _pointerEnterFeedback != null)
             {
                 _pointerEnterFeedback.PlayFeedbacks();
