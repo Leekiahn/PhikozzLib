@@ -9,20 +9,6 @@ namespace PhikozzLib
     {
         protected TData Data { get; private set; }
 
-        [SerializeField] private bool _useClickFeedback;
-
-        [ShowIf("_useClickFeedback")]
-        [SerializeField] private MMF_Player _clickFeedback;
-
-        private void OnDisable()
-        {
-            if (_clickFeedback != null)
-            {
-                _clickFeedback.StopFeedbacks();
-            }
-        }
-
-
         public void SetData(TData data)
         {
             Data = data;
@@ -31,11 +17,6 @@ namespace PhikozzLib
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (_useClickFeedback && _clickFeedback != null)
-            {
-                _clickFeedback.PlayFeedbacks();
-            }
-
             OnClick();
         }
 

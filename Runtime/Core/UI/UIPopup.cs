@@ -8,7 +8,6 @@ namespace PhikozzLib
     {
         public bool IsVisible { get; protected set; }
 
-
         [SerializeField] private bool _useOpenFeedback;
         [ShowIf("_useOpenFeedback")]
         [SerializeField] private MMF_Player _openFeedback;
