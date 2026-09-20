@@ -8,17 +8,16 @@ namespace PhikozzLib
     {
         public bool IsVisible { get; protected set; }
 
-        [SerializeField] private bool _useOpenFeedback;
-        [ShowIf("_useOpenFeedback")]
+        [SerializeField] private bool _useFeedback;
+        [ShowIf("_useFeedback")]
         [SerializeField] private MMF_Player _openFeedback;
 
-        [SerializeField] private bool _useCloseFeedback;
-        [ShowIf("_useCloseFeedback")]
+        [ShowIf("_useFeedback")]
         [SerializeField] private MMF_Player _closeFeedback;
 
         public virtual void Init()
         {
-            if (_useCloseFeedback && _closeFeedback != null)
+            if (_useFeedback && _closeFeedback != null)
             {
                 _closeFeedback.Events.OnComplete.AddListener(() =>
                 {
@@ -29,7 +28,7 @@ namespace PhikozzLib
 
         public void Open()
         {
-            if (_useCloseFeedback && _closeFeedback != null)
+            if (_useFeedback && _closeFeedback != null)
             {
                 _closeFeedback.StopFeedbacks();
             }
@@ -37,7 +36,7 @@ namespace PhikozzLib
             Refresh();
             OnOpen();
 
-            if (_useOpenFeedback && _openFeedback != null)
+            if (_useFeedback && _openFeedback != null)
             {
                 _openFeedback.PlayFeedbacks();
             }
@@ -47,7 +46,7 @@ namespace PhikozzLib
 
         public void Close()
         {
-            if (_useCloseFeedback && _closeFeedback != null)
+            if (_useFeedback && _closeFeedback != null)
             {
                 _closeFeedback.PlayFeedbacks();
             }
