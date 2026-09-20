@@ -69,10 +69,10 @@ namespace PhikozzLib
         {
             if (_draggedHandler != this)
             {
-                var fromSwap = _draggedHandler.GetComponent<IUISlotDataSwap>();
-                var toSwap = GetComponent<IUISlotDataSwap>();
+                var fromHandler = _draggedHandler.GetComponent<IUIDragDataHandler>();
+                var toHandler = GetComponent<IUIDragDataHandler>();
 
-                fromSwap?.SwapDataWith(toSwap);
+                fromHandler?.HandleDragDataWith(toHandler);
                 _draggedHandler.OnSlotDropped?.Invoke(_draggedHandler, this);
             }
         }

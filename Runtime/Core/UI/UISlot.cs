@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace PhikozzLib
 {
-    public abstract class UISlot<TData> : UIBase, IUISlotDataSwap, IPointerClickHandler
+    public abstract class UISlot<TData> : UIBase, IUIDragDataHandler, IPointerClickHandler
     {
         protected TData Data { get; private set; }
 
@@ -15,14 +15,8 @@ namespace PhikozzLib
             Refresh();
         }
 
-        public void SwapDataWith(IUISlotDataSwap other)
+        public virtual void HandleDragDataWith(IUIDragDataHandler other)
         {
-            if (other is UISlot<TData> otherSlot)
-            {
-                (Data, otherSlot.Data) = (otherSlot.Data, Data);
-                Refresh();
-                otherSlot.Refresh();
-            }
         }
 
         public void OnPointerClick(PointerEventData eventData)
