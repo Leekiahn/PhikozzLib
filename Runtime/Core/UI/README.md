@@ -12,6 +12,8 @@
 | `UIBase` | 모든 UI 요소의 공통 베이스. `Refresh()`만 약속한다 |
 | `UIPopup` | 열기/닫기가 있는 UI(창, 팝업, HUD 등)의 베이스 |
 | `UISlot<TData>` | 리스트/그리드 아이템처럼 데이터 바인딩 + 클릭만 있는 UI의 베이스 |
+| `IUIDragDataHandler` | 드래그 앤 드롭이 끝났을 때 두 UI 요소 간 데이터를 어떻게 주고받을지 정의하는 인터페이스 |
+| `UIDragHandler` | 실제 드래그 입력(Begin/Drag/End/Drop)을 처리하고, 드롭 시 `IUIDragDataHandler`로 데이터 처리를 위임하는 컴포넌트 |
 | `UIPointerFeedback` | `Button` 없이도 포인터 Up/Down/Click/Enter/Exit(좌/우클릭 구분)에 Feedback을 붙이는 컴포넌트 |
 
 <br>
@@ -64,25 +66,63 @@ public abstract class UIPopup : UIBase
 ### `UISlot<TData>`
 
 ```csharp
-public abstract class UISlot<TData> : UIBase, IPointerClickHandler
+public abstract class UISlot<TData> : UIBase, IUIDragDataHandler, IPointerClickHandler
 {
     protected TData Data { get; private set; }
 
     public void SetData(TData data) { Data = data; Refresh(); }
 
-    public void OnPointerClick(PointerEventData eventData) { ... } // 클릭 Feedback 재생 후 OnClick() 호출
-    protected abstract void OnClick();
+    public virtual void HandleDragDataWith(IUIDragDataHandler other) { }
+
+    public void OnPointerClick(PointerEventData eventData) { ... } // 좌/우클릭 구분해서 OnLeftClick()/OnRightClick() 호출
+
+    protected virtual void OnLeftClick() { }
+    protected virtual void OnRightClick() { }
 }
 ```
 
 | Member | Description |
 |---|---|
-| `Data` | 마지막으로 바인딩된 데이터. `Refresh()`/`OnClick()` 구현에서 읽어서 씁니다. |
+| `Data` | 마지막으로 바인딩된 데이터. `Refresh()`/`OnLeftClick()`/`OnRightClick()`/`HandleDragDataWith()` 구현에서 읽어서 씁니다. |
 | `SetData(TData data)` | 새 데이터를 반영하고 `Refresh()`를 호출합니다. |
-| `OnClick()` | 클릭됐을 때 실행할 로직(`abstract`). |
+| `HandleDragDataWith(IUIDragDataHandler other)` | 드래그 앤 드롭으로 다른 UI 요소가 이 슬롯에 드롭됐을 때 실행할 로직(`IUIDragDataHandler` 구현). 기본은 빈 구현이며, 드래그를 지원할 슬롯만 `override`합니다. |
+| `OnLeftClick()` / `OnRightClick()` | 좌클릭/우클릭됐을 때 실행할 로직. 둘 다 `virtual`이라 필요한 쪽만 `override`합니다. |
 
 - 클릭 감지는 `Button` 없이 `IPointerClickHandler`를 직접 구현합니다. 클릭을 받으려면 이 오브젝트(또는 자식)에 **Raycast Target이 켜진 Graphic**(Image 등)이 있어야 합니다.
-- 클릭 Feedback 정지는 `SetData()`가 아니라 **`OnDisable()`**에서 처리합니다 — 리스트 재사용(pooling)으로 슬롯이 비활성화됐다 재활성화되는 흐름에 맞춘 것입니다.
+- 드래그 앤 드롭 입력 자체는 `UISlot<TData>`가 아니라 `UIDragHandler`가 처리합니다. `UISlot<TData>`는 `IUIDragDataHandler`만 구현해서, 드롭됐을 때의 **데이터 처리 로직**만 제공합니다.
+
+<br>
+
+### `IUIDragDataHandler` / `UIDragHandler`
+
+```csharp
+public interface IUIDragDataHandler
+{
+    void HandleDragDataWith(IUIDragDataHandler other);
+}
+```
+
+- 드래그 앤 드롭이 끝났을 때, 드래그를 시작한 쪽과 드롭된 쪽이 서로 데이터를 어떻게 반영할지 정의하는 인터페이스입니다.
+- `UISlot<TData>`가 기본 구현(빈 메서드)을 제공하므로, 드래그 데이터를 실제로 처리해야 하는 슬롯에서만 `override`하면 됩니다.
+
+```csharp
+public class UIDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+{
+    public event Action<UIDragHandler, UIDragHandler> OnSlotDropped;
+}
+```
+
+| Member | Description |
+|---|---|
+| `OnBeginDrag` | 드래그 시작 시 원래 부모/형제 인덱스/위치를 저장하고, 최상위 `Canvas`로 옮겨서 다른 UI 위로 그려지게 합니다. 자신을 포함한 모든 `Graphic`의 `raycastTarget`을 꺼서 자기 자신이 드롭 판정을 가로채지 않게 합니다. |
+| `OnDrag` | 포인터 위치를 그대로 따라가게 이동시킵니다. |
+| `OnEndDrag` | 원래 부모/형제 인덱스/위치로 복원합니다. 드롭에 성공하든 실패하든 항상 호출됩니다. |
+| `OnDrop` | 드롭된 오브젝트(자기 자신)가 드래그 중이던 오브젝트와 다를 때만 동작합니다. 양쪽의 `IUIDragDataHandler`를 `GetComponent`로 가져와서, **드래그를 시작한 쪽**의 `HandleDragDataWith(드롭 대상)`만 호출하고 `OnSlotDropped`를 발생시킵니다. |
+| `OnSlotDropped` | 드롭이 성공했을 때 발생하는 이벤트. `(from, to)` 순서로 전달됩니다. 같은 드롭 신호를 여러 곳에서 구독해야 할 때 사용합니다. |
+
+- 드래그 가능한 슬롯을 만들려면, `IUIDragDataHandler`를 구현한 컴포넌트(예: `UISlot<TData>` 상속 클래스)와 같은 GameObject에 `UIDragHandler`를 추가해야 합니다.
+- 자신이 드래그 중일 때 `OnDisable()`이 호출되면 위치를 복원합니다 — 드래그 도중 오브젝트가 비활성화되는 경우(팝업이 닫히는 등)에 대비한 처리입니다.
+- 실제 데이터 처리는 `IUIDragDataHandler`에게 위임하고, `UIDragHandler`는 순수하게 드래그 입력(이동/복원/드롭 판정)만 담당합니다.
 
 <br>
 
@@ -202,7 +242,7 @@ public class ItemSlot : UISlot<ItemData>
         _nameText.text = Data.Name;
     }
 
-    protected override void OnClick()
+    protected override void OnLeftClick()
     {
         Debug.Log($"Clicked: {Data.Name}");
     }
@@ -218,3 +258,38 @@ foreach (var slotInstance in slots)
 **5. 클릭/포인터 Feedback 추가**
 
 Feedback을 주고 싶은 오브젝트에 `UIPointerFeedback`을 붙이고, 좌/우클릭 중 필요한 쪽의 `_useLeftPointerFeedback`/`_useRightPointerFeedback`을 켠 뒤 원하는 `MMF_Player` 필드(Up/Down/Click/Exit/Enter)를 할당하면 끝입니다.
+
+**6. 드래그 앤 드롭 슬롯 정의**
+
+같은 값을 가진 슬롯끼리 드래그해서 합치는 예시입니다. 슬롯 프리팹에 `UIDragHandler` 컴포넌트를 함께 추가하고, `UISlot<TData>` 상속 클래스에서 `HandleDragDataWith()`를 `override`해서 드롭됐을 때의 로직을 정의합니다.
+
+```csharp
+using PhikozzLib;
+using TMPro;
+using UnityEngine;
+
+public class MergeSlot : UISlot<int>
+{
+    [SerializeField] private TextMeshProUGUI _valueText;
+
+    public override void Refresh()
+    {
+        _valueText.text = Data.ToString();
+    }
+
+    public override void HandleDragDataWith(IUIDragDataHandler other)
+    {
+        if (other is MergeSlot otherSlot && otherSlot.Data == Data)
+        {
+            SetData(Data + otherSlot.Data);
+            otherSlot.SetData(0);
+            return;
+        }
+
+        base.HandleDragDataWith(other);
+    }
+}
+```
+
+- 드래그를 시작한 슬롯의 `HandleDragDataWith()`만 호출되므로, "내 데이터를 드롭 대상과 어떻게 합칠지"는 항상 드래그를 시작한 쪽 기준으로 작성합니다.
+- 조건에 맞지 않는 드롭이면 `base.HandleDragDataWith(other)`를 호출해 기본(빈) 동작으로 넘깁니다.
