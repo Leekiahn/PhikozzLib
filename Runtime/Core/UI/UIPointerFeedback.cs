@@ -56,7 +56,6 @@ namespace PhikozzLib
             StopAllFeedbacks();
         }
 
-
         public void OnPointerUp(PointerEventData eventData)
         {
             if (eventData.button == PointerEventData.InputButton.Left)
@@ -119,17 +118,23 @@ namespace PhikozzLib
 
         private void StopAllFeedbacks()
         {
-            _leftPointerUpFeedback?.StopFeedbacks();
-            _leftPointerDownFeedback?.StopFeedbacks();
-            _leftPointerClickFeedback?.StopFeedbacks();
-            _leftPointerExitFeedback?.StopFeedbacks();
-            _leftPointerEnterFeedback?.StopFeedbacks();
+            if (_useLeftPointerFeedback)
+            {
+                _leftPointerUpFeedback?.StopFeedbacks();
+                _leftPointerDownFeedback?.StopFeedbacks();
+                _leftPointerClickFeedback?.StopFeedbacks();
+                _leftPointerExitFeedback?.StopFeedbacks();
+                _leftPointerEnterFeedback?.StopFeedbacks();
+            }
 
-            _rightPointerUpFeedback?.StopFeedbacks();
-            _rightPointerDownFeedback?.StopFeedbacks();
-            _rightPointerClickFeedback?.StopFeedbacks();
-            _rightPointerExitFeedback?.StopFeedbacks();
-            _rightPointerEnterFeedback?.StopFeedbacks();
+            if (_useRightPointerFeedback)
+            {
+                _rightPointerUpFeedback?.StopFeedbacks();
+                _rightPointerDownFeedback?.StopFeedbacks();
+                _rightPointerClickFeedback?.StopFeedbacks();
+                _rightPointerExitFeedback?.StopFeedbacks();
+                _rightPointerEnterFeedback?.StopFeedbacks();
+            }
         }
     }
 }
