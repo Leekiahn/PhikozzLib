@@ -1,23 +1,31 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace PhikozzLib
 {
     public static class Bootstrapper
     {
-        private const string BootstrapConfigResourcePath = "BootstrapConfig";
+        private const string BOOTSTRAP_CONFIG_RESOURCE_PATH = "BootstrapConfig";
+
+        private static readonly UniTaskCompletionSource _readySource = new();
+
+        public static UniTask WaitUntilReadyAsync()
+        {
+            return _readySource.Task;
+        }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         private static void Init()
         {
-            var config = Resources.Load<BootstrapConfig>(BootstrapConfigResourcePath);
+            InitializeAsync().Forget();
+        }
 
-            if (config == null)
-            {
-                throw new System.Exception($"Resources/{BootstrapConfigResourcePath}.asset not found. No services will be registered.");
-            }
-
+        private static async UniTaskVoid InitializeAsync()
+        {
+            var config = Resources.Load<BootstrapConfig>(BOOTSTRAP_CONFIG_RESOURCE_PATH);
             var instances = new List<GameObject>();
+            var initTasks = new List<UniTask>();
 
             foreach (var manager in config.Managers)
             {
@@ -31,11 +39,15 @@ namespace PhikozzLib
 
             foreach (var instance in instances)
             {
-                if (instance.TryGetComponent<IServiceInit>(out var init))
+                if (instance.TryGetComponent<IServiceInit>(out var serviceInit))
                 {
-                    init.Init();
+                    initTasks.Add(serviceInit.InitAsync());
                 }
             }
+
+            await UniTask.WhenAll(initTasks);
+
+            _readySource.TrySetResult();
         }
     }
 }

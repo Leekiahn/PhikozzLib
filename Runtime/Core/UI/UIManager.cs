@@ -31,7 +31,7 @@ namespace PhikozzLib
             ServiceLocator.Unregister<IUIService>();
         }
 
-        public async void Init()
+        public async UniTask InitAsync()
         {
             if (_loadByAddressableService)
             {

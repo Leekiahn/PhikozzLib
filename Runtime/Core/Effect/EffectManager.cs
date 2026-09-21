@@ -27,7 +27,7 @@ namespace PhikozzLib
             _effectParent = transform;
         }
 
-        public async void Init()
+        public async UniTask InitAsync()
         {
             if (_loadByAddressableService)
             {

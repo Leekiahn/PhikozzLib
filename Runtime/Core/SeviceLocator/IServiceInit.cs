@@ -1,7 +1,9 @@
+using Cysharp.Threading.Tasks;
+
 namespace PhikozzLib
 {
     public interface IServiceInit
     {
-        void Init();
+        UniTask InitAsync();
     }
 }
