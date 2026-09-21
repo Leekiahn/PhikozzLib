@@ -8,6 +8,14 @@ namespace PhikozzLib
     {
         public bool IsVisible { get; protected set; }
 
+        [Title("Modal")]
+        [SerializeField] private bool _useModal;
+
+        [ShowIf("_useModal")]
+        [SerializeField] private UIModalPanel _modalPanel;
+        [PropertySpace(SpaceBefore = 20f)]
+
+        [Title("Feedback")]
         [SerializeField] private bool _useFeedback;
         [ShowIf("_useFeedback")]
         [SerializeField] private MMF_Player _openFeedback;
@@ -17,6 +25,11 @@ namespace PhikozzLib
 
         public virtual void Init()
         {
+            if (_useModal)
+            {
+                _modalPanel.SetPopup(this);
+            }
+
             if (_useFeedback && _closeFeedback != null)
             {
                 _closeFeedback.Events.OnComplete.AddListener(() =>

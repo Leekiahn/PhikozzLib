@@ -38,6 +38,10 @@ public abstract class UIPopup : UIBase
 {
     public bool IsVisible { get; protected set; }
 
+    [SerializeField] private bool _useModal;
+    [ShowIf("_useModal")]
+    [SerializeField] private UIModalPanel _modalPanel;
+
     public virtual void Init() { ... }   // UIManager가 최초 생성 시 1회 호출
     public void Open() { ... }           // Refresh() → OnOpen() → (있으면) 열기 Feedback 재생
     public void Close() { ... }          // (있으면) 닫기 Feedback 재생, 없으면 바로 OnClose()
@@ -54,6 +58,12 @@ public abstract class UIPopup : UIBase
 | `Open()` | `Refresh()`로 최신 데이터를 반영한 뒤 `OnOpen()`을 실행하고, 열기 Feedback이 있으면 재생합니다. |
 | `Close()` | 닫기 Feedback이 있으면 그걸 재생하고(끝나면 자동으로 비활성화), 없으면 바로 `OnClose()`로 비활성화합니다. |
 | `OnOpen()` / `OnClose()` | 실제 활성화/비활성화 동작. 커스텀 애니메이션이 필요하면 override. |
+
+**모달 배경 클릭 닫기**
+
+- 팝업 프리팹에서 `Use Modal`을 켜면 `Modal Panel` 필드가 표시됩니다.
+- 화면 전체를 덮는 `Img_ModalPanel` 오브젝트에 `UIModalPanel`과 Raycast Target이 켜진 Image를 추가한 뒤, 해당 컴포넌트를 `Modal Panel`에 할당합니다.
+- `UIModalPanel`은 부모 `UIPopup`을 직접 참조하며, 패널을 좌클릭하면 `Close()`를 호출합니다. 실제 콘텐츠는 패널보다 앞에 배치하므로 클릭해도 닫히지 않습니다.
 
 **Feedback 관련 주의사항**
 
