@@ -98,6 +98,8 @@ namespace PhikozzLib
             }
         }
 
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AudioSource PlayBgm(string key)
         {
             if (_audioClips.TryGetValue(key, out var clip))
@@ -115,12 +117,16 @@ namespace PhikozzLib
             return null;
         }
 
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void StopBgm()
         {
             _bgmSource.Stop();
             _bgmSource.clip = null;
         }
 
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public AudioSource PlaySfx(string key, Vector3 position, float spatialBlend = 0f, float volume = 1f, float pitch = 1f)
         {
             if (_audioClips.TryGetValue(key, out var clip))
@@ -141,19 +147,47 @@ namespace PhikozzLib
             return null;
         }
 
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
+        public AudioSource PlaySfxAttached(string key, Transform parent, float spatialBlend = 0f, float volume = 1f, float pitch = 1f)
+        {
+            if (_audioClips.TryGetValue(key, out var clip))
+            {
+                var audioSource = _sfxPool.Get();
+                audioSource.outputAudioMixerGroup = _sfxMixerGroup;
+                audioSource.transform.SetParent(parent, false);
+                audioSource.transform.localPosition = parent.localPosition;
+                audioSource.clip = clip;
+                audioSource.volume = Mathf.Clamp01(volume);
+                audioSource.pitch = pitch;
+                audioSource.spatialBlend = spatialBlend;
+                audioSource.loop = false;
+                audioSource.Play();
 
+                ReleaseSfxAsync(audioSource).Forget();
+                return audioSource;
+            }
+            return null;
+        }
+
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetMasterVolume(float volume)
         {
             _masterVolume = Mathf.Clamp01(volume);
             SetMixerVolume(_masterVolumeParameter, _masterVolume);
         }
 
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetBgmVolume(float volume)
         {
             _bgmVolume = Mathf.Clamp01(volume);
             SetMixerVolume(_musicVolumeParameter, _bgmVolume);
         }
 
+        [PropertySpace(SpaceBefore = 20f)]
+        [Button(ButtonSizes.Medium, ButtonStyle.Box)]
         public void SetSfxVolume(float volume)
         {
             _sfxVolume = Mathf.Clamp01(volume);
