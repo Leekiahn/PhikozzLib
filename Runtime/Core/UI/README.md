@@ -1,6 +1,6 @@
 # UI
 
-> `UIManager`는 Addressables 기반으로 팝업 프리팹을 프리로드하고, 타입 기준으로 열기/닫기/재사용을 관리하는 UI 서비스입니다.  
+> `UIManager`는 Addressables 프리로드 여부를 선택하고, 타입 기준으로 팝업 열기/닫기/재사용을 관리하는 UI 서비스입니다.  
 > `IUIService` 인터페이스를 상속받아 구현합니다.
 
 <br>
@@ -160,8 +160,8 @@ public class UIPointerFeedback : MonoBehaviour,
 
 | Method | Description |
 |---|---|
-| `RegisterPopup<T>(T prefab)` | 타입 `T`의 팝업 프리팹을 직접 등록합니다(Addressables 라벨을 안 거치는 수동 경로). |
-| `UnregisterPopup<T>(T prefab)` | 등록을 해제합니다. 열려 있는 인스턴스가 있으면 `Destroy`하고, 등록 목록에서도 제거합니다. |
+| `RegisterPopup(UIPopup prefab)` | 프리팹의 구체 타입을 key로 사용해 팝업을 등록합니다. `Load By Addressable Service`를 끈 경우 외부 데이터 로더에서 사용합니다. |
+| `UnregisterPopup(UIPopup prefab)` | 프리팹 타입에 해당하는 팝업 등록을 해제합니다. 열린 인스턴스가 있으면 함께 제거합니다. |
 | `OpenPopup<T>()` | 타입 `T`의 팝업을 엽니다. 이미 생성된 인스턴스가 있으면 재사용, 없으면 새로 `Instantiate` + `Init()` + `Open()`. 등록되지 않은 타입이면 `null`을 반환하고 경고 로그를 남깁니다. 인스턴스 자체는 `T`로 캐스팅되어 반환되므로, 호출부에서 변수에 담아두면 `UIManager`를 다시 거치지 않고 그 팝업 고유의 메서드를 직접 호출할 수 있습니다. |
 | `ClosePopup<T>()` | 타입 `T`의 열린 팝업을 닫습니다. |
 | `ClosePopup(UIPopup popup)` | 인스턴스를 직접 넘겨서 닫습니다. |
@@ -171,9 +171,13 @@ public class UIPointerFeedback : MonoBehaviour,
 
 ## 사용 예시
 
-**1. Addressables 라벨로 자동 등록 (기본 경로)**
+**1. 로드 방식 설정**
 
-`UIManager` 프리팹에 `Popup Label Reference`와 `Popup Parent`를 지정해두면, `Bootstrapper`가 `UIManager.Init()`을 호출할 때 그 라벨에 속한 모든 프리팹을 자동으로 로드해 등록합니다.
+`UIManager` Inspector의 `Load By Addressable Service`를 켜면 Addressables 라벨에서 팝업을 자동 등록합니다. 이 경우 `BootstrapConfig`에 `AddressableManager`와 `UIManager`를 등록하고, `Popup Label Reference`와 `Popup Parent`를 지정합니다. `Bootstrapper`가 `UIManager.Init()`을 호출하면 해당 라벨의 모든 프리팹을 로드합니다.
+
+`Load By Addressable Service`를 끄면 `UIManager`는 팝업을 자동으로 프리로드하지 않습니다. 이 경우 프로젝트의 데이터 로더 등 외부 코드에서 `IUIService.RegisterPopup(UIPopup prefab)`을 호출해 팝업을 등록합니다. 등록을 해제할 때는 `UnregisterPopup(UIPopup prefab)`을 사용합니다.
+
+`ExamplePopupLoader.cs`는 BGDatabase 등 프로젝트별 데이터 타입을 직접 참조하지 않도록 전체를 주석 처리한 예시입니다. 패키지 사용자는 이 내용을 프로젝트 쪽 스크립트로 복사하고, `BG_Popup`과 `prefab` 필드를 사용하는 데이터 구조에 맞게 바꾼 뒤 사용합니다.
 
 **2. 팝업 정의**
 

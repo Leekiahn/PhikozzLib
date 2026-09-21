@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace PhikozzLib
 {
-    public abstract class UISlot<TData> : UIBase, IUIDragDataHandler, IPointerClickHandler
+    public abstract class UISlot<TData> : UIBase, IPointerClickHandler
     {
         protected TData Data { get; private set; }
 
@@ -13,10 +13,6 @@ namespace PhikozzLib
         {
             Data = data;
             Refresh();
-        }
-
-        public virtual void HandleDragDataWith(IUIDragDataHandler other)
-        {
         }
 
         public void OnPointerClick(PointerEventData eventData)

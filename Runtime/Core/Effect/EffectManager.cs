@@ -2,11 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
+using UnityEngine.AddressableAssets;
 
 namespace PhikozzLib
 {
-    public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister
+    public class EffectManager : MonoBehaviour, IEffectService, IServiceRegister, IServiceInit
     {
+        [SerializeField] private bool _loadByAddressableService;
+
+        [ShowIf("_loadByAddressableService")]
+        [SerializeField] private AssetLabelReference _effectLabel;
+
         [PropertySpace(SpaceBefore = 20f)]
         [Title("Effect Pool")]
         [SerializeField] private int _effectPoolCapacity = 10;
@@ -14,20 +20,61 @@ namespace PhikozzLib
 
         private Transform _effectParent;
         private readonly Dictionary<string, TrackedPool<ParticleSystem>> _effectPools = new();
+        private IAddressableService _addressableService;
 
         private void Awake()
         {
             _effectParent = transform;
         }
 
+        public async void Init()
+        {
+            if (_loadByAddressableService)
+            {
+                _addressableService = ServiceLocator.Get<IAddressableService>();
+
+                try
+                {
+                    await PreloadEffectByAddressableService();
+                }
+                catch (System.Exception ex)
+                {
+                    Debug.LogError($"EffectManager initialization failed: {ex}");
+                }
+            }
+        }
+
+        private async UniTask PreloadEffectByAddressableService()
+        {
+            await _addressableService.PreloadLocations<GameObject>(_effectLabel.labelString);
+            await _addressableService.PreloadAssets<GameObject>(_effectLabel.labelString);
+
+            var effectPrefabs = _addressableService.GetAll<GameObject>(_effectLabel.labelString);
+
+            foreach (var prefab in effectPrefabs)
+            {
+                var key = prefab.name;
+                if (!_effectPools.ContainsKey(key))
+                {
+                    _effectPools[key] = CreatePool(prefab.GetComponent<ParticleSystem>());
+                }
+            }
+        }
+
         public void RegisterEffect(string key, ParticleSystem prefab)
         {
-            if (_effectPools.TryGetValue(key, out var existingPool))
+            if (!_effectPools.ContainsKey(key))
             {
-                existingPool.Clear();
+                _effectPools[key] = CreatePool(prefab);
             }
+        }
 
-            _effectPools[key] = CreatePool(prefab);
+        public void UnregisterEffect(string key)
+        {
+            if (_effectPools.ContainsKey(key))
+            {
+                _effectPools.Remove(key);
+            }
         }
 
         private TrackedPool<ParticleSystem> CreatePool(ParticleSystem prefab)
@@ -100,7 +147,7 @@ namespace PhikozzLib
 
             return null;
         }
-        
+
 
         private async UniTaskVoid ReleaseAsync(TrackedPool<ParticleSystem> pool, ParticleSystem particle)
         {
@@ -110,12 +157,12 @@ namespace PhikozzLib
             particle.transform.SetParent(_effectParent);
             pool.Release(particle);
         }
-        
+
         private async UniTaskVoid ReleaseAfterDurationAsync(TrackedPool<ParticleSystem> pool, ParticleSystem particle, float duration)
         {
             await UniTask.Delay(System.TimeSpan.FromSeconds(duration));
             particle.Stop(true, ParticleSystemStopBehavior.StopEmitting);
-            
+
             await UniTask.WaitUntil(() => particle == null || !particle.IsAlive(true));
 
             if (particle == null) return;
