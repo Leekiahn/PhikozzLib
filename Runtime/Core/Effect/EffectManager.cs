@@ -32,15 +32,7 @@ namespace PhikozzLib
             if (_loadByAddressableService)
             {
                 _addressableService = ServiceLocator.Get<IAddressableService>();
-
-                try
-                {
-                    await PreloadEffectByAddressableService();
-                }
-                catch (System.Exception ex)
-                {
-                    Debug.LogError($"EffectManager initialization failed: {ex}");
-                }
+                await PreloadEffectByAddressableService();
             }
         }
 
@@ -49,15 +41,11 @@ namespace PhikozzLib
             await _addressableService.PreloadLocations<GameObject>(_effectLabel.labelString);
             await _addressableService.PreloadAssets<GameObject>(_effectLabel.labelString);
 
-            var effectPrefabs = _addressableService.GetAll<GameObject>(_effectLabel.labelString);
+            var effectPrefabs = _addressableService.GetAllWithKeys<GameObject>(_effectLabel.labelString);
 
             foreach (var prefab in effectPrefabs)
             {
-                var key = prefab.name;
-                if (!_effectPools.ContainsKey(key))
-                {
-                    _effectPools[key] = CreatePool(prefab.GetComponent<ParticleSystem>());
-                }
+                RegisterEffect(prefab.Key, prefab.Value.GetComponent<ParticleSystem>());
             }
         }
 

@@ -9,6 +9,7 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 - [Service Locater](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/SeviceLocator/README.md)
 - [Bootstrap](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Bootstrap/README.md)
 - [Addressable](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Addressable/README.md)
+- [Audio](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Audio/README.md)
 - [UI](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/UI/README.md)
 - [Data](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Data/README.md)
 - [Event](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Event/README.md)
@@ -38,7 +39,7 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 
 ## 설계 원칙
 
-- **서비스는 `ServiceLocator` + `Bootstrapper`로 등록/조회합니다.** 각 매니저는 `IServiceRegister`(`RegisterService`/`UnregisterService`)를 구현하고, 다른 서비스를 참조해야 하면 `Awake()` 대신 `IServiceInit.Init()`을 씁니다(등록 순서 의존성 문제 방지). 자세한 내용은 [ServiceLocater](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/SeviceLocator/README.md) 참고.
+- **서비스는 `ServiceLocator` + `Bootstrapper`로 등록/조회합니다.** 각 매니저는 `IServiceRegister`(`RegisterService`/`UnregisterService`)를 구현하고, 다른 서비스를 참조해야 하면 `Awake()` 대신 `IServiceInit.InitAsync()`을 씁니다. 비동기 초기화가 끝난 뒤 호출해야 하는 게임 로직은 `Bootstrapper.WaitUntilReadyAsync()`를 대기합니다. 자세한 내용은 [ServiceLocater](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/SeviceLocator/README.md) 참고.
 - **패키지는 git URL로 설치되는 걸 전제로 설계했습니다.** `Effect`/`Data` 모듈처럼 특정 프로젝트에만 있는 코드(BGDatabase 생성 클래스 등)에 의존해야 할 수 있는 부분은, 패키지가 직접 참조하지 않고 `RegisterEffect`/`AddDataContainer` 같은 주입 API만 제공합니다. 실제 연결 코드는 전체가 주석 처리된 `ExampleXLoader.cs` 형태로만 남겨두고, 각 프로젝트가 그 내용을 복사해서 씁니다.
 - **Feedback(MoreMountains Feel)은 켜고 끄는 옵션이 아니라, 붙이면 쓰는 것을 전제로 합니다.** `UIPopup`/`UISlot`/`UIButtonFeedback`의 Feedback 관련 필드는 방어적으로 null 체크하지 않는 경우가 있습니다 — 안 쓸 거면 해당 필드/컴포넌트 자체를 비워두거나 안 붙이면 됩니다.
 

@@ -26,6 +26,7 @@
 | `IsCachedLabel(string label)` | 해당 라벨이 프리로드된 적 있는지 확인합니다. |
 | `Get<T>(string label, string key)` | 키로 로드된 에셋을 조회합니다. 라벨이 프리로드된 적 없으면 예외를 던집니다. |
 | `GetAll<T>(string label)` | 라벨 내 로드된 에셋 전체를 조회합니다. 라벨이 프리로드된 적 없으면 예외를 던집니다. |
+| `GetAllWithKeys<T>(string label)` | Addressable key와 에셋을 함께 조회합니다. 에셋 이름 변경에 영향받지 않는 등록 key가 필요할 때 사용합니다. |
 | `Release(string label, string key)` | 특정 에셋을 해제합니다(핸들 반환 + 캐시에서 제거). 프리로드된 적 없는 라벨이면 조용히 아무 일도 하지 않습니다. |
 | `ReleaseAll(string label)` | 해당 라벨의 로드된 에셋을 전부 해제합니다. 프리로드된 적 없는 라벨이면 조용히 아무 일도 하지 않습니다. |
 

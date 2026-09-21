@@ -134,6 +134,14 @@ namespace PhikozzLib
             return GetCacheOrThrow(label).AssetByKey.Values.OfType<T>().ToList();
         }
 
+        public IReadOnlyDictionary<string, T> GetAllWithKeys<T>(string label) where T : Object
+        {
+            return GetCacheOrThrow(label)
+                .AssetByKey
+                .Where(pair => pair.Value is T)
+                .ToDictionary(pair => pair.Key, pair => pair.Value as T);
+        }
+
         public void Release(string label, string key)
         {
             if (!_labelCaches.TryGetValue(label, out var cache))

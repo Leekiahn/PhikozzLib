@@ -36,17 +36,7 @@ namespace PhikozzLib
             if (_loadByAddressableService)
             {
                 _addressableService = ServiceLocator.Get<IAddressableService>();
-
-                try
-                {
-                    await PreloadPopupByAddressableService();
-                }
-                catch (Exception e)
-                {
-                    throw new Exception(
-                        $"Failed to load UI prefabs with labels: {_popupLabelReference.labelString}",
-                        e);
-                }
+                await PreloadPopupByAddressableService();
             }
         }
 

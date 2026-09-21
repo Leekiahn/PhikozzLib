@@ -27,16 +27,17 @@ public void UnregisterService()
 ## IServiceInit (다른 서비스를 참조해야 할 때)
 
 `Awake()`에서 `ServiceLocator.Get<T>()`를 호출하지 마세요. `BootstrapConfig`의 매니저 등록 순서에 따라 다른 서비스가 아직 등록되지 않았을 수 있습니다.  
-다른 서비스를 조회해야 하는 서비스는 `IServiceInit`을 추가로 상속하세요. `Bootstrapper`가 **모든 서비스의 `RegisterService()`가 끝난 뒤** `Init()`을 호출해줍니다.
+다른 서비스를 조회해야 하는 서비스는 `IServiceInit`을 추가로 상속하세요. `Bootstrapper`가 **모든 서비스의 `RegisterService()`가 끝난 뒤** `InitAsync()`을 호출하고, 모든 초기화 완료 시 `Bootstrapper.WaitUntilReadyAsync()`를 완료합니다.
 
 ```csharp
 public class UIManager : MonoBehaviour, IUIService, IServiceRegister, IServiceInit
 {
     private IAddressableService _addressableService;
 
-    public void Init()
+    public UniTask InitAsync()
     {
         _addressableService = ServiceLocator.Get<IAddressableService>();
+        return UniTask.CompletedTask;
     }
 }
 ```

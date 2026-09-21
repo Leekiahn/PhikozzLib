@@ -13,6 +13,7 @@ namespace PhikozzLib
         bool IsCachedLabel(string label);
         T Get<T>(string label, string key) where T : Object;
         IReadOnlyList<T> GetAll<T>(string label) where T : Object;
+        IReadOnlyDictionary<string, T> GetAllWithKeys<T>(string label) where T : Object;
         void Release(string label, string key);
         void ReleaseAll(string label);
     }
