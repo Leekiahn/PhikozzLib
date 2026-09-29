@@ -101,6 +101,12 @@ namespace PhikozzLib
         {
             string filePath = GetFilePath(key);
 
+            if (!File.Exists(filePath))
+            {
+                data = default;
+                return false;
+            }
+
             switch (_saveType)
             {
                 case eSaveType.Json:

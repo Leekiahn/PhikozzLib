@@ -77,7 +77,7 @@ namespace PhikozzLib
         {
             if (!_popups.TryGetValue(typeof(T), out var prefab))
             {
-                Debug.LogWarning($"[UIManager] Popup '{typeof(T).Name}' is not registered.");
+                DevLog.Warning($"[UIManager] Popup '{typeof(T).Name}' is not registered.");
                 return null;
             }
 

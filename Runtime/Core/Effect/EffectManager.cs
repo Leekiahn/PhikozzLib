@@ -133,6 +133,7 @@ namespace PhikozzLib
                 return particle;
             }
 
+            DevLog.Warning($"[EffectManager] Effect '{key}' is not registered.");
             return null;
         }
 

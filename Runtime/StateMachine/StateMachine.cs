@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace PhikozzLib
 {
@@ -25,7 +24,7 @@ namespace PhikozzLib
             }
             else
             {
-                Debug.LogWarning($"[StateMachine] State '{typeof(TState).Name}' is not registered.");
+                DevLog.Warning($"[StateMachine] State '{typeof(TState).Name}' is not registered.");
             }
         }
 
