@@ -53,7 +53,16 @@ public class PointerFeedback : MonoBehaviour,
 | Click | 클릭 Feedback 재생 | `Disabled Click Feedback`(거부 연출) 재생 |
 
 - 비활성 처리를 쓰려면 인스펙터에서 `Selectable` 필드에 같은 오브젝트의 Button 등을 직접 할당합니다.
-- `Selectable`이 없는 오브젝트(Sprite 등)는 항상 활성 상태로 동작합니다.
+- `Selectable`이 없는 오브젝트(Sprite, 3D 등)는 `SetInteractable(bool)`로 직접 비활성 상태를 정합니다. `Selectable`이 연결돼 있으면 둘 중 하나라도 비활성이면 비활성으로 처리합니다.
+- Feedback을 거부 연출까지 전부 끄려면 컴포넌트 자체를 끕니다(`enabled = false`). EventSystem은 꺼진 컴포넌트에 포인터 이벤트를 보내지 않습니다.
+
+```csharp
+// 잠긴 보물상자(Sprite) → 누르면 거부 연출
+_chestFeedback.SetInteractable(false);
+
+// 잠금 해제 → 일반 클릭 Feedback
+_chestFeedback.SetInteractable(true);
+```
 - 예) 재화가 부족해 비활성화된 구매 버튼을 누르면, 짧게 흔들리는 거부 Feedback으로 "지금은 누를 수 없다"는 걸 알려줄 수 있습니다.
 
 <br>

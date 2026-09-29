@@ -46,17 +46,23 @@ namespace PhikozzLib
         [SerializeField] private MMF_Player _pointerExitFeedback;
         [PropertySpace(10)]
 
-        // 같은 오브젝트의 Button 등이 비활성(interactable = false)이면, 일반 Feedback 대신 거부 Feedback을 재생한다.
         [Title("Disabled Feedbacks Settings")]
         [SerializeField] private Selectable _selectable;
         [SerializeField] private MMF_Player _disabledClickFeedback;
         [PropertySpace(10)]
 
-        private bool IsDisabled => _selectable != null && !_selectable.IsInteractable();
+        private bool _isInteractable = true;
+
+        private bool IsDisabled => !_isInteractable || (_selectable != null && !_selectable.IsInteractable());
 
         private void OnDisable()
         {
             StopAllFeedbacks();
+        }
+
+        public void SetInteractable(bool isInteractable)
+        {
+            _isInteractable = isInteractable;
         }
 
         public void OnPointerUp(PointerEventData eventData)
@@ -137,5 +143,7 @@ namespace PhikozzLib
             _pointerExitFeedback?.StopFeedbacks();
             _disabledClickFeedback?.StopFeedbacks();
         }
+
+
     }
 }
