@@ -14,10 +14,7 @@ namespace PhikozzLib
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                _popup.Close();
-            }
+            ServiceLocator.Get<IUIService>().ClosePopup(_popup);
         }
     }
 }
