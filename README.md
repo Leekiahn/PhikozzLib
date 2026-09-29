@@ -41,6 +41,9 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 ## Command
 - [CommandHistory](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Command/README.md)
 
+## Stat Modifier
+- [Stat](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/StatModifier/README.md)
+
 ## Editor Tools
 - [Editor](https://github.com/Leekiahn/PhikozzLib/blob/main/Editor/README.md) — `BootstrapConfig` 설정 실수를 에디터 단계에서 미리 잡아주는 검증 툴
 
