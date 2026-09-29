@@ -2,10 +2,11 @@ using MoreMountains.Feedbacks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 
 namespace PhikozzLib
 {
-    public class UIPointerFeedback : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerExitHandler, IPointerEnterHandler
+    public class PointerFeedback : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerExitHandler, IPointerEnterHandler
     {
         [Title("Left Click Feedbacks Settings")]
         [SerializeField] private bool _useLeftPointerFeedback;
@@ -19,14 +20,6 @@ namespace PhikozzLib
 
         [ShowIf("_useLeftPointerFeedback")]
         [SerializeField] private MMF_Player _leftPointerClickFeedback;
-        [PropertySpace(10)]
-
-        [ShowIf("_useLeftPointerFeedback")]
-        [SerializeField] private MMF_Player _leftPointerExitFeedback;
-        [PropertySpace(10)]
-
-        [ShowIf("_useLeftPointerFeedback")]
-        [SerializeField] private MMF_Player _leftPointerEnterFeedback;
         [PropertySpace(10)]
 
         [Title("Right Click Feedbacks Settings")]
@@ -43,12 +36,13 @@ namespace PhikozzLib
         [SerializeField] private MMF_Player _rightPointerClickFeedback;
         [PropertySpace(10)]
 
-        [ShowIf("_useRightPointerFeedback")]
-        [SerializeField] private MMF_Player _rightPointerExitFeedback;
+        [Title("Hover Feedbacks Settings")]
+        [FormerlySerializedAs("_leftPointerEnterFeedback")]
+        [SerializeField] private MMF_Player _pointerEnterFeedback;
         [PropertySpace(10)]
 
-        [ShowIf("_useRightPointerFeedback")]
-        [SerializeField] private MMF_Player _rightPointerEnterFeedback;
+        [FormerlySerializedAs("_leftPointerExitFeedback")]
+        [SerializeField] private MMF_Player _pointerExitFeedback;
         [PropertySpace(10)]
 
         private void OnDisable()
@@ -94,26 +88,12 @@ namespace PhikozzLib
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                _leftPointerExitFeedback?.PlayFeedbacks();
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                _rightPointerExitFeedback?.PlayFeedbacks();
-            }
+            _pointerExitFeedback?.PlayFeedbacks();
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                _leftPointerEnterFeedback?.PlayFeedbacks();
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                _rightPointerEnterFeedback?.PlayFeedbacks();
-            }
+            _pointerEnterFeedback?.PlayFeedbacks();
         }
 
         private void StopAllFeedbacks()
@@ -123,8 +103,6 @@ namespace PhikozzLib
                 _leftPointerUpFeedback?.StopFeedbacks();
                 _leftPointerDownFeedback?.StopFeedbacks();
                 _leftPointerClickFeedback?.StopFeedbacks();
-                _leftPointerExitFeedback?.StopFeedbacks();
-                _leftPointerEnterFeedback?.StopFeedbacks();
             }
 
             if (_useRightPointerFeedback)
@@ -132,9 +110,10 @@ namespace PhikozzLib
                 _rightPointerUpFeedback?.StopFeedbacks();
                 _rightPointerDownFeedback?.StopFeedbacks();
                 _rightPointerClickFeedback?.StopFeedbacks();
-                _rightPointerExitFeedback?.StopFeedbacks();
-                _rightPointerEnterFeedback?.StopFeedbacks();
             }
+
+            _pointerEnterFeedback?.StopFeedbacks();
+            _pointerExitFeedback?.StopFeedbacks();
         }
     }
 }

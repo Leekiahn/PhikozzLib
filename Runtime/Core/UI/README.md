@@ -13,7 +13,8 @@
 | `UIPopup` | 열기/닫기가 있는 UI(창, 팝업, HUD 등)의 베이스 |
 | `UISlot<TData>` | 리스트/그리드 아이템처럼 데이터 바인딩 + 클릭만 있는 UI의 베이스 |
 | `UIModalPanel` | 팝업 뒤를 덮는 모달 배경. 클릭하면 소속 팝업을 닫는다 |
-| `UIPointerFeedback` | `Button` 없이도 포인터 Up/Down/Click/Enter/Exit(좌/우클릭 구분)에 Feedback을 붙이는 컴포넌트 |
+
+> 포인터 Up/Down/Click/Enter/Exit에 Feedback을 붙이는 `PointerFeedback`은 UI 전용이 아니라서 [Feedback](../Feedback/README.md) 모듈로 옮겼습니다.
 
 <br>
 
@@ -101,36 +102,6 @@ public abstract class UISlot<TData> : UIBase, IPointerClickHandler
 | `OnLeftClick()` / `OnRightClick()` | 좌클릭/우클릭됐을 때 실행할 로직. 둘 다 `virtual`이라 필요한 쪽만 `override`합니다. |
 
 - 클릭 감지는 `Button` 없이 `IPointerClickHandler`를 직접 구현합니다. 클릭을 받으려면 이 오브젝트(또는 자식)에 **Raycast Target이 켜진 Graphic**(Image 등)이 있어야 합니다.
-
-<br>
-
-### `UIPointerFeedback`
-
-```csharp
-public class UIPointerFeedback : MonoBehaviour,
-    IPointerUpHandler, IPointerDownHandler, IPointerClickHandler,
-    IPointerExitHandler, IPointerEnterHandler
-{
-    [SerializeField] private bool _useLeftPointerFeedback;
-    [SerializeField] private MMF_Player _leftPointerUpFeedback;
-    [SerializeField] private MMF_Player _leftPointerDownFeedback;
-    [SerializeField] private MMF_Player _leftPointerClickFeedback;
-    [SerializeField] private MMF_Player _leftPointerExitFeedback;
-    [SerializeField] private MMF_Player _leftPointerEnterFeedback;
-
-    [SerializeField] private bool _useRightPointerFeedback;
-    [SerializeField] private MMF_Player _rightPointerUpFeedback;
-    [SerializeField] private MMF_Player _rightPointerDownFeedback;
-    [SerializeField] private MMF_Player _rightPointerClickFeedback;
-    [SerializeField] private MMF_Player _rightPointerExitFeedback;
-    [SerializeField] private MMF_Player _rightPointerEnterFeedback;
-    // OnDisable()에서 StopAllFeedbacks()
-}
-```
-
-- `Button` 컴포넌트 없이도 동작하며, 좌클릭/우클릭을 구분해서 각각 Up/Down/Click/Exit/Enter Feedback을 지정할 수 있습니다.
-- `_useLeftPointerFeedback`/`_useRightPointerFeedback`으로 좌/우클릭 Feedback 사용 여부를 나눠서 켤 수 있습니다. 꺼져 있으면 해당 쪽 `StopFeedbacks()`도 호출하지 않습니다.
-- 재생은 `PointerEventData.button`으로 좌/우클릭을 구분해서 해당하는 `MMF_Player`만 실행합니다.
 
 <br>
 
@@ -236,7 +207,3 @@ foreach (var slotInstance in slots)
     slotInstance.SetData(itemDataList[i]);
 }
 ```
-
-**5. 클릭/포인터 Feedback 추가**
-
-Feedback을 주고 싶은 오브젝트에 `UIPointerFeedback`을 붙이고, 좌/우클릭 중 필요한 쪽의 `_useLeftPointerFeedback`/`_useRightPointerFeedback`을 켠 뒤 원하는 `MMF_Player` 필드(Up/Down/Click/Exit/Enter)를 할당하면 끝입니다.
