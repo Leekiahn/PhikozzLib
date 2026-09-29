@@ -21,7 +21,7 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 - [FloatingText](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/FloatingText/README.md)
 
 ## Feedback
-- [PointerFeedback](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Feedback/README.md) — `Button` 없이 UI/Sprite/3D 오브젝트의 포인터 이벤트에 Feedback을 붙이는 컴포넌트
+- [PointerFeedback](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Feedback/README.md)
 
 ## Camera
 - [CameraManager](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Camera/README.md)

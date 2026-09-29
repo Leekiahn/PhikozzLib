@@ -1,20 +1,14 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace PhikozzLib
 {
     public class StateMachine<TOwner>
     {
-        private readonly TOwner _owner;
-
         private readonly Dictionary<Type, BaseState<TOwner>> _states = new();
-    
-        public BaseState<TOwner> CurrentState { get; private set; }
 
-        public StateMachine(TOwner owner)
-        {
-            _owner = owner;
-        }
+        public BaseState<TOwner> CurrentState { get; private set; }
 
         public void AddState(BaseState<TOwner> state)
         {
@@ -23,22 +17,18 @@ namespace PhikozzLib
 
         public void ChangeState<TState>() where TState : BaseState<TOwner>
         {
-            if (CurrentState != null)
-            {
-                CurrentState.Exit();
-            }
-
             if (_states.TryGetValue(typeof(TState), out var newState))
             {
+                CurrentState?.Exit();
                 CurrentState = newState;
-            }
-
-            if (CurrentState != null)
-            {
                 CurrentState.Enter();
             }
+            else
+            {
+                Debug.LogWarning($"[StateMachine] State '{typeof(TState).Name}' is not registered.");
+            }
         }
-    
+
         public void Tick()
         {
             CurrentState?.Tick();

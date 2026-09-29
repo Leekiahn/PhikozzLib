@@ -70,6 +70,11 @@ public class DeadState : BaseState<PlayerController>
 {
     private IEventService _eventService;
 
+    public DeadState(PlayerController owner, StateMachine<PlayerController> stateMachine)
+        : base(owner, stateMachine)
+    {
+    }
+
     public override void Enter()
     {
         _eventService = ServiceLocator.Get<IEventService>();

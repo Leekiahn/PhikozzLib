@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        _stateMachine = new StateMachine<PlayerController>(this);
+        _stateMachine = new StateMachine<PlayerController>();
         _stateMachine.AddState(new IdleState(this, _stateMachine));
         _stateMachine.AddState(new RunState(this, _stateMachine));
     }
@@ -108,8 +108,9 @@ public class IdleState : BaseState<PlayerController>
 ## 동작 방식
 
 - `AddState()`로 상태를 먼저 등록합니다.
-- `ChangeState<TState>()`를 호출하면:
+- `ChangeState<TState>()`를 호출하면 `TState`가 등록돼 있을 때만:
   - 현재 상태가 있으면 `Exit()`
-  - 새 상태를 찾으면 `CurrentState` 교체
+  - `CurrentState`를 새 상태로 교체
   - 새 상태의 `Enter()` 호출
+- 등록되지 않은 `TState`를 넘기면 경고 로그만 남기고 현재 상태를 유지합니다(`Exit()`/`Enter()` 호출 없음). `AddState()`를 빠뜨린 실수를 콘솔에서 바로 찾을 수 있습니다.
 - `Tick()`은 매 프레임 현재 상태에 위임합니다.
