@@ -30,24 +30,9 @@ namespace PhikozzLib
             _localizationSettings.SetSelectedLocale(locale);
         }
 
-        public string GetString(string localeTableRef, string localeEntryRef)
+        public string GetString(string localeTableRef, string localeEntryRef, params object[] arguments)
         {
-            LocalizedString localizedString = new LocalizedString { TableReference = localeTableRef, TableEntryReference = localeEntryRef };
-            return localizedString.GetLocalizedString();
-        }
-        
-        public string GetString(string localeTableRef, string localeEntryRef, LocalizedString.ChangeHandler onChanged, params object[] arguments)
-        {
-            LocalizedString localizedString = new LocalizedString
-            {
-                TableReference = localeTableRef,
-                TableEntryReference = localeEntryRef,
-                Arguments = arguments
-            };
-            
-            localizedString.StringChanged += onChanged;
-            localizedString.RefreshString();
-            return localizedString.GetLocalizedString();
+            return _localizationSettings.GetStringDatabase().GetLocalizedString(localeTableRef, localeEntryRef, arguments);
         }
 
         public async UniTask<T> GetAssetAsync<T>(string localeTableRef, string localeEntryRef) where T : Object
