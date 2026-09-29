@@ -49,7 +49,7 @@ DevLog.Warning($"[UIManager] Popup '{typeof(T).Name}' is not registered.", this)
 | 흐름 확인용 디버그 로그 | `DevLog.Info` |
 | 릴리스에서도 원인을 추적해야 하는 문제 (세이브 로드 실패 등) | `Debug.LogWarning` / `Debug.LogError` |
 
-라이브러리 내부의 `StateMachine`, `UIManager`, `CameraManager`, `EffectManager`, `AddressableManager`의 등록 누락·잘못된 키 경고는 `DevLog.Warning`을 사용하고, `SaveManager`의 로드 실패 경고는 `Debug.LogWarning`을 그대로 사용합니다.
+라이브러리 내부의 `StateMachine`, `UIManager`, `CameraManager`, `EffectManager`, `AddressableManager`의 등록 누락·잘못된 키 경고는 `DevLog.Warning`을 사용하고, `SaveManager`의 세이브 손상 로그는 `Debug.LogError`를 사용합니다.
 
 로그는 **"로그가 없으면 원인을 찾기 어려운 실패"**(잘못된 키로 조용히 `null`을 반환하는 경우 등)에만 넣습니다. 매 프레임 실행되는 코드나 정상 흐름 확인용 로그는 에디터 성능과 콘솔 노이즈 때문에 넣지 않습니다.
 

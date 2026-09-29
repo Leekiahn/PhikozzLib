@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using Sirenix.Serialization;
 using UnityEngine;
@@ -25,129 +26,87 @@ namespace PhikozzLib
         {
             string filePath = GetFilePath(key);
 
-            switch (_saveType)
+            try
             {
-                case eSaveType.Json:
-                {
-                    string json = JsonUtility.ToJson(data);
-
-                    try
-                    {
-                        File.WriteAllText(filePath, json);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception("Failed to save data as JSON.", e);
-                    }
-
-                    break;
-                }
-                case eSaveType.Binary:
-                {
-                    try
-                    {
-                        byte[] bytes = SerializationUtility.SerializeValue(
-                            data,
-                            DataFormat.Binary,
-                            new SerializationContext());
-
-                        File.WriteAllBytes(filePath, bytes);
-                    }
-                    catch (Exception e)
-                    {
-                        throw new Exception("Failed to save data as Binary.", e);
-                    }
-
-                    break;
-                }
+                CreateDirectoryForFile(filePath);
+                File.WriteAllBytes(filePath, Serialize(data));
+            }
+            catch (Exception e)
+            {
+                throw new Exception($"Failed to save data for key '{key}'.", e);
             }
         }
 
         public async UniTask SaveAsync<T>(string key, T data)
         {
-            string path = GetFilePath(key);
+            string filePath = GetFilePath(key);
+            byte[] bytes = Serialize(data);
 
+            await UniTask.RunOnThreadPool(() =>
+            {
+                CreateDirectoryForFile(filePath);
+                File.WriteAllBytes(filePath, bytes);
+            });
+        }
+
+        public bool Exists(string key)
+        {
+            return File.Exists(GetFilePath(key));
+        }
+
+        private byte[] Serialize<T>(T data)
+        {
             switch (_saveType)
             {
                 case eSaveType.Json:
-                {
-                    await UniTask.RunOnThreadPool(async () =>
-                    {
-                        string json = JsonUtility.ToJson(data);
-                        await File.WriteAllTextAsync(path, json);
-                    });
-
-                    break;
-                }
-
+                    return Encoding.UTF8.GetBytes(JsonUtility.ToJson(data));
                 case eSaveType.Binary:
-                {
-                    await UniTask.RunOnThreadPool(async () =>
-                    {
-                        byte[] bytes = SerializationUtility.SerializeValue(
-                            data,
-                            DataFormat.Binary,
-                            new SerializationContext());
-
-                        await File.WriteAllBytesAsync(path, bytes);
-                    });
-
-                    break;
-                }
+                    return SerializationUtility.SerializeValue(data, DataFormat.Binary, new SerializationContext());
+                default:
+                    throw new NotSupportedException($"Save type '{_saveType}' is not supported.");
             }
         }
 
-        public bool TryLoad<T>(string key, out T data)
+        public eSaveLoadResult Load<T>(string key, out T data)
         {
             string filePath = GetFilePath(key);
 
             if (!File.Exists(filePath))
             {
                 data = default;
-                return false;
+                return eSaveLoadResult.NotFound;
             }
 
+            try
+            {
+                data = Deserialize<T>(filePath);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[SaveManager] Save data for key '{key}' is corrupted.\n{e}");
+                data = default;
+                return eSaveLoadResult.Corrupted;
+            }
+
+            if (data == null)
+            {
+                Debug.LogError($"[SaveManager] Save data for key '{key}' is empty.");
+                return eSaveLoadResult.Corrupted;
+            }
+
+            return eSaveLoadResult.Success;
+        }
+
+        private T Deserialize<T>(string filePath)
+        {
             switch (_saveType)
             {
                 case eSaveType.Json:
-                {
-                    try
-                    {
-                        string json = File.ReadAllText(filePath);
-                        data = JsonUtility.FromJson<T>(json);
-                        return true;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogWarning($"Failed to load save data as JSON for key '{key}'.\n{e}");
-                        data = default;
-                        return false;
-                    }
-                }
+                    return JsonUtility.FromJson<T>(File.ReadAllText(filePath));
                 case eSaveType.Binary:
-                {
-                    try
-                    {
-                        byte[] bytes = File.ReadAllBytes(filePath);
-                        data = SerializationUtility.DeserializeValue<T>(
-                            bytes,
-                            DataFormat.Binary,
-                            new DeserializationContext());
-
-                        return true;
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogWarning($"Failed to load save data as Binary for key '{key}'.\n{e}");
-                        data = default;
-                        return false;
-                    }
-                }
+                    return SerializationUtility.DeserializeValue<T>(File.ReadAllBytes(filePath), DataFormat.Binary, new DeserializationContext());
                 default:
-                {
-                    data = default;
-                    return false;
-                }
+                    throw new NotSupportedException($"Save type '{_saveType}' is not supported.");
             }
         }
         
@@ -156,14 +115,28 @@ namespace PhikozzLib
             File.Delete(GetFilePath(key));
         }
 
+        public void DeleteFolder(string folder)
+        {
+            string folderPath = Path.Combine(GetSaveDirectoryPath(), folder);
+
+            if (Directory.Exists(folderPath))
+            {
+                Directory.Delete(folderPath, true);
+            }
+        }
+
         public void DeleteAll()
         {
             string directoryPath = GetSaveDirectoryPath();
 
-            string[] files = Directory.GetFiles(directoryPath);
-            foreach (string file in files)
+            foreach (string file in Directory.GetFiles(directoryPath))
             {
                 File.Delete(file);
+            }
+
+            foreach (string folder in Directory.GetDirectories(directoryPath))
+            {
+                Directory.Delete(folder, true);
             }
         }
 
@@ -182,6 +155,11 @@ namespace PhikozzLib
         private string GetFilePath(string key)
         {
             return Path.Combine(GetSaveDirectoryPath(), $"{key}.{GetExtension()}");
+        }
+
+        private void CreateDirectoryForFile(string filePath)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
         }
 
         private string GetExtension()
