@@ -17,7 +17,7 @@ namespace PhikozzLib
 
         private readonly Dictionary<Type, UIPopup> _popups = new();
         private readonly Dictionary<Type, UIPopup> _openedPopups = new();
-
+        private readonly List<UIPopup> _popupOpenOrder = new();
 
         private IAddressableService _addressableService;
 
@@ -67,6 +67,7 @@ namespace PhikozzLib
             {
                 Destroy(openedPopup.gameObject);
                 _openedPopups.Remove(popupType);
+                _popupOpenOrder.Remove(openedPopup);
             }
 
             _popups.Remove(popupType);
@@ -87,6 +88,7 @@ namespace PhikozzLib
                     openedPopup.Open();
                 }
 
+                BringPopupToTop(openedPopup);
                 return (T)openedPopup;
             }
 
@@ -94,7 +96,15 @@ namespace PhikozzLib
             popupInstance.Init();
             popupInstance.Open();
             _openedPopups[typeof(T)] = popupInstance;
+            BringPopupToTop(popupInstance);
             return (T)popupInstance;
+        }
+
+        private void BringPopupToTop(UIPopup popup)
+        {
+            _popupOpenOrder.Remove(popup);
+            _popupOpenOrder.Add(popup);
+            popup.transform.SetAsLastSibling();
         }
 
         public void ClosePopup<T>() where T : UIPopup
@@ -112,6 +122,22 @@ namespace PhikozzLib
             {
                 openedPopup.Close();
             }
+        }
+
+        public bool CloseTopPopup()
+        {
+            for (int i = _popupOpenOrder.Count - 1; i >= 0; i--)
+            {
+                var popup = _popupOpenOrder[i];
+
+                if (popup.IsVisible)
+                {
+                    popup.Close();
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public void CloseAllPopup()

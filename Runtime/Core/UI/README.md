@@ -114,6 +114,7 @@ public abstract class UISlot<TData> : UIBase, IPointerClickHandler
 | `OpenPopup<T>()` | 타입 `T`의 팝업을 엽니다. 이미 생성된 인스턴스가 있으면 재사용, 없으면 새로 `Instantiate` + `Init()` + `Open()`. 등록되지 않은 타입이면 `null`을 반환하고 경고 로그를 남깁니다. 인스턴스 자체는 `T`로 캐스팅되어 반환되므로, 호출부에서 변수에 담아두면 `UIManager`를 다시 거치지 않고 그 팝업 고유의 메서드를 직접 호출할 수 있습니다. |
 | `ClosePopup<T>()` | 타입 `T`의 열린 팝업을 닫습니다. |
 | `ClosePopup(UIPopup popup)` | 인스턴스를 직접 넘겨서 닫습니다. |
+| `CloseTopPopup()` | 팝업을 연 순서를 기억해두고, 가장 나중에 연 팝업부터 하나씩 닫습니다. 닫을 팝업이 없으면 `false`를 반환합니다. |
 | `CloseAllPopup()` | 현재 열려 있는 모든 팝업을 닫습니다. |
 
 <br>

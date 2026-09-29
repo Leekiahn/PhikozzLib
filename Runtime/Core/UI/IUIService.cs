@@ -7,6 +7,7 @@ namespace PhikozzLib
         T OpenPopup<T>() where T : UIPopup;
         void ClosePopup<T>() where T : UIPopup;
         void ClosePopup(UIPopup window);
+        bool CloseTopPopup();
         void CloseAllPopup();
     }
 }
