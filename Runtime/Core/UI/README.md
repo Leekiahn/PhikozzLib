@@ -14,7 +14,7 @@
 | `UISlot<TData>` | 리스트/그리드 아이템처럼 데이터 바인딩 + 클릭만 있는 UI의 베이스 |
 | `UIModalPanel` | 팝업 뒤를 덮는 모달 배경. 클릭하면 소속 팝업을 닫는다 |
 
-> 포인터 Up/Down/Click/Enter/Exit에 Feedback을 붙이는 `PointerFeedback`은 UI 전용이 아니라서 [Feedback](../Feedback/README.md) 모듈로 옮겼습니다.
+> 포인터 Up/Down/Click/Enter/Exit에 Feedback을 붙이는 `PointerFeedback`은 UI 전용이 아니라서 [Feedback](../../Feedback/README.md) 모듈로 옮겼습니다.
 
 <br>
 

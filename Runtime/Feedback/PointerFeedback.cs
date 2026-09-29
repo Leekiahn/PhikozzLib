@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Serialization;
+using UnityEngine.UI;
 
 namespace PhikozzLib
 {
@@ -45,6 +46,14 @@ namespace PhikozzLib
         [SerializeField] private MMF_Player _pointerExitFeedback;
         [PropertySpace(10)]
 
+        // 같은 오브젝트의 Button 등이 비활성(interactable = false)이면, 일반 Feedback 대신 거부 Feedback을 재생한다.
+        [Title("Disabled Feedbacks Settings")]
+        [SerializeField] private Selectable _selectable;
+        [SerializeField] private MMF_Player _disabledClickFeedback;
+        [PropertySpace(10)]
+
+        private bool IsDisabled => _selectable != null && !_selectable.IsInteractable();
+
         private void OnDisable()
         {
             StopAllFeedbacks();
@@ -52,48 +61,60 @@ namespace PhikozzLib
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                _leftPointerUpFeedback?.PlayFeedbacks();
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                _rightPointerUpFeedback?.PlayFeedbacks();
-            }
+            PlayButtonFeedback(eventData, _leftPointerUpFeedback, _rightPointerUpFeedback);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
-            {
-                _leftPointerDownFeedback?.PlayFeedbacks();
-            }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                _rightPointerDownFeedback?.PlayFeedbacks();
-            }
+            PlayButtonFeedback(eventData, _leftPointerDownFeedback, _rightPointerDownFeedback);
         }
 
         public void OnPointerClick(PointerEventData eventData)
         {
-            if (eventData.button == PointerEventData.InputButton.Left)
+            if (IsDisabled)
             {
-                _leftPointerClickFeedback?.PlayFeedbacks();
+                _disabledClickFeedback?.PlayFeedbacks();
+                return;
             }
-            else if (eventData.button == PointerEventData.InputButton.Right)
-            {
-                _rightPointerClickFeedback?.PlayFeedbacks();
-            }
+
+            PlayButtonFeedback(eventData, _leftPointerClickFeedback, _rightPointerClickFeedback);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            _pointerExitFeedback?.PlayFeedbacks();
+            PlayHoverFeedback(_pointerExitFeedback);
         }
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            _pointerEnterFeedback?.PlayFeedbacks();
+            PlayHoverFeedback(_pointerEnterFeedback);
+        }
+
+        private void PlayButtonFeedback(PointerEventData eventData, MMF_Player leftFeedback, MMF_Player rightFeedback)
+        {
+            if (IsDisabled)
+            {
+                return;
+            }
+
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                leftFeedback?.PlayFeedbacks();
+            }
+            else if (eventData.button == PointerEventData.InputButton.Right)
+            {
+                rightFeedback?.PlayFeedbacks();
+            }
+        }
+
+        private void PlayHoverFeedback(MMF_Player feedback)
+        {
+            if (IsDisabled)
+            {
+                return;
+            }
+
+            feedback?.PlayFeedbacks();
         }
 
         private void StopAllFeedbacks()
@@ -114,6 +135,7 @@ namespace PhikozzLib
 
             _pointerEnterFeedback?.StopFeedbacks();
             _pointerExitFeedback?.StopFeedbacks();
+            _disabledClickFeedback?.StopFeedbacks();
         }
     }
 }
