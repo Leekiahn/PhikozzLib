@@ -14,8 +14,6 @@
 | `UISlot<TData>` | 리스트/그리드 아이템처럼 데이터 바인딩 + 클릭만 있는 UI의 베이스 |
 | `UIModalPanel` | 팝업 뒤를 덮는 모달 배경. 클릭하면 소속 팝업을 닫는다 |
 
-> 포인터 Up/Down/Click/Enter/Exit에 Feedback을 붙이는 `PointerFeedback`은 UI 전용이 아니라서 [Feedback](../../Feedback/README.md) 모듈로 옮겼습니다.
-
 <br>
 
 ### `UIBase`
@@ -48,9 +46,13 @@ public abstract class UIPopup : UIBase
     [ShowIf("_useFeedback")]
     [SerializeField] private MMF_Player _closeFeedback;
 
+    [SerializeField] private bool _useNavigation;
+    [ShowIf("_useNavigation")]
+    [SerializeField] private Selectable _firstSelected;   // 열릴 때 처음 선택할 버튼 (키보드·게임패드)
+
     public virtual void Init() { ... }   // UIManager가 최초 생성 시 1회 호출
-    public void Open() { ... }           // Refresh() → OnOpen() → (있으면) 열기 Feedback 재생
-    public void Close() { ... }          // (있으면) 닫기 Feedback 재생, 없으면 바로 OnClose()
+    public void Open() { ... }           // Refresh() → OnOpen() → (있으면) 열기 Feedback 재생 → (있으면) 첫 버튼 선택
+    public void Close() { ... }          // (있으면) 닫기 Feedback 재생, 없으면 바로 OnClose() → 이전 선택 복원
 
     protected virtual void OnOpen() { gameObject.SetActive(true); }
     protected virtual void OnClose() { gameObject.SetActive(false); }
@@ -61,8 +63,8 @@ public abstract class UIPopup : UIBase
 |---|---|
 | `IsVisible` | 현재 열려 있는지 여부. `UIManager`가 팝업 재사용 여부를 판단할 때 씁니다. |
 | `Init()` | `UIManager`가 팝업을 최초로 `Instantiate`한 직후 1번만 호출합니다. 모달 패널에 자신을 연결하고, 닫기 Feedback 완료 리스너를 등록합니다. |
-| `Open()` | `Refresh()`로 최신 데이터를 반영한 뒤 `OnOpen()`을 실행하고, 열기 Feedback이 있으면 재생합니다. |
-| `Close()` | 닫기 Feedback이 있으면 그걸 재생하고(끝나면 자동으로 비활성화), 없으면 바로 `OnClose()`로 비활성화합니다. |
+| `Open()` | `Refresh()`로 최신 데이터를 반영한 뒤 `OnOpen()`을 실행하고, 열기 Feedback이 있으면 재생합니다. `Use Navigation`이 켜져 있으면 `First Selected`를 선택합니다. |
+| `Close()` | 닫기 Feedback이 있으면 그걸 재생하고(끝나면 자동으로 비활성화), 없으면 바로 `OnClose()`로 비활성화합니다. 팝업을 열기 전에 선택돼 있던 오브젝트로 선택을 되돌립니다. |
 | `OnOpen()` / `OnClose()` | 실제 활성화/비활성화 동작. 커스텀 애니메이션이 필요하면 override. |
 
 **모달 배경 클릭 닫기**
@@ -76,6 +78,26 @@ public abstract class UIPopup : UIBase
 - `Use Feedback`이 켜져 있고 해당 `MMF_Player`가 실제로 할당돼 있을 때만 재생됩니다.
 - 닫기 Feedback을 쓰면 실제 `SetActive(false)`는 `_closeFeedback.Events.OnComplete`가 끝난 뒤 실행됩니다(`Init()`에서 리스너 등록).
 - 닫는 애니메이션 도중 같은 팝업을 다시 `Open()`하면 나중에 끝나는 `OnComplete`가 방금 다시 연 팝업을 도로 꺼버릴 수 있어서, `Open()` 맨 앞에서 `_closeFeedback.StopFeedbacks()`로 이전 닫기 애니메이션을 끊고 시작합니다.
+
+**Navigation (키보드·게임패드)**
+
+팝업이 열렸을 때 키보드·게임패드 커서가 팝업 안으로 옮겨가지 않으면, 팝업 뒤의 UI를 조작하게 됩니다. `Use Navigation`을 켜고 `First Selected`에 처음 선택할 버튼을 할당하면 아래처럼 동작합니다.
+
+```
+[인벤토리 버튼]에 커서 → Enter
+  → InventoryPopup 열림 → 커서가 First Selected(첫 번째 슬롯)로 이동
+  → 팝업 안에서 방향키로 이동
+  → 닫기 → 커서가 다시 [인벤토리 버튼]으로 돌아옴
+```
+
+- `First Selected`는 `Button`뿐 아니라 `Slider`, `Toggle` 등 모든 `Selectable`을 할당할 수 있습니다.
+- 선택은 `OnOpen()`으로 팝업이 켜진 다음에 합니다. 꺼져 있는 오브젝트는 선택할 수 없기 때문입니다.
+- 닫으면 팝업을 열기 전에 선택돼 있던 오브젝트로 선택을 되돌립니다. 여러 팝업을 겹쳐 연 뒤 `CloseTopPopup()`으로 하나씩 닫아도, 아래 팝업에서 선택돼 있던 버튼으로 차례대로 돌아갑니다.
+- 이전 선택 오브젝트가 그 사이 파괴됐거나 꺼져 있으면(`activeInHierarchy == false`) 되돌리지 않습니다. 꺼진 오브젝트가 선택돼 키보드 커서가 사라지는 것을 막기 위해서입니다.
+- 팝업이 열리면서 선택되면 그 버튼의 `NavigationFeedback` Select 연출도 함께 재생됩니다.
+- 마우스·터치 전용 게임이거나 선택할 버튼이 없는 팝업(HUD 등)은 `Use Navigation`을 끄면 됩니다.
+- **방향키로 어느 버튼으로 이동할지는 각 `Button`의 Navigation 설정이 정합니다.** 기본값인 Automatic은 씬 전체에서 가장 가까운 버튼을 찾기 때문에 팝업 뒤의 버튼으로 넘어갈 수 있습니다. 팝업 안에서만 이동해야 한다면 팝업 안 버튼들의 Navigation을 Explicit으로 지정합니다.
+- `Button`의 색상 전환(Transition)에서 Selected 색이 Normal과 다르면, 마우스로 팝업을 열었을 때도 첫 버튼이 강조된 채로 보입니다. Selected 색을 Normal과 비슷하게 두면 자연스럽습니다.
 
 <br>
 

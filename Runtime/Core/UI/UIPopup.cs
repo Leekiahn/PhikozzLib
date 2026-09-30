@@ -1,6 +1,8 @@
 using UnityEngine;
 using Sirenix.OdinInspector;
 using MoreMountains.Feedbacks;
+using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 namespace PhikozzLib
 {
@@ -22,6 +24,14 @@ namespace PhikozzLib
 
         [ShowIf("_useFeedback")]
         [SerializeField] private MMF_Player _closeFeedback;
+
+        [Title("Navigation")]
+        [SerializeField] private bool _useNavigation;
+
+        [ShowIf("_useNavigation")]
+        [SerializeField] private Selectable _firstSelected;
+
+        private GameObject _previousSelected;
 
         public virtual void Init()
         {
@@ -54,6 +64,7 @@ namespace PhikozzLib
                 _openFeedback.PlayFeedbacks();
             }
 
+            SelectFirstSelectable();
             IsVisible = true;
         }
 
@@ -68,6 +79,7 @@ namespace PhikozzLib
                 OnClose();
             }
 
+            RestorePreviousSelected();
             IsVisible = false;
         }
 
@@ -79,6 +91,23 @@ namespace PhikozzLib
         protected virtual void OnClose()
         {
             gameObject.SetActive(false);
+        }
+
+        private void SelectFirstSelectable()
+        {
+            if (_useNavigation && _firstSelected != null)
+            {
+                _previousSelected = EventSystem.current.currentSelectedGameObject;
+                EventSystem.current.SetSelectedGameObject(_firstSelected.gameObject);
+            }
+        }
+
+        private void RestorePreviousSelected()
+        {
+            if (_previousSelected != null && _previousSelected.activeInHierarchy)
+            {
+                EventSystem.current.SetSelectedGameObject(_previousSelected);
+            }
         }
 
     }

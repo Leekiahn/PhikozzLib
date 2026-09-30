@@ -36,8 +36,10 @@ public class PointerFeedback : MonoBehaviour,
     [SerializeField] private MMF_Player _pointerEnterFeedback;
     [SerializeField] private MMF_Player _pointerExitFeedback;
 
-    [SerializeField] private Selectable _selectable;            // 비활성 여부를 판단할 Button 등
+    [SerializeField] private Selectable _selectable;            // 비활성 여부를 판단할 Button 등 (비워두면 Awake에서 같은 오브젝트에서 찾음)
     [SerializeField] private MMF_Player _disabledClickFeedback;  // 비활성 상태에서 클릭했을 때의 거부 Feedback
+
+    public void SetInteractable(bool isInteractable) { ... }     // Selectable이 없는 오브젝트의 비활성 상태 설정
     // OnDisable()에서 StopAllFeedbacks()
 }
 ```
@@ -55,7 +57,7 @@ public class PointerFeedback : MonoBehaviour,
 | Up / Down / Enter / Exit | 해당 Feedback 재생 | 재생하지 않음 |
 | Click | 클릭 Feedback 재생 | `Disabled Click Feedback`(거부 연출) 재생 |
 
-- 비활성 처리를 쓰려면 인스펙터에서 `Selectable` 필드에 같은 오브젝트의 Button 등을 직접 할당합니다.
+- `Selectable` 필드를 비워두면 `Awake()`에서 같은 오브젝트의 `Selectable`(Button 등)을 찾아 연결합니다. 다른 오브젝트의 버튼 상태를 따라가야 할 때만 직접 할당합니다.
 - `Selectable`이 없는 오브젝트(Sprite, 3D 등)는 `SetInteractable(bool)`로 직접 비활성 상태를 정합니다. `Selectable`이 연결돼 있으면 둘 중 하나라도 비활성이면 비활성으로 처리합니다.
 - Feedback을 거부 연출까지 전부 끄려면 컴포넌트 자체를 끕니다(`enabled = false`). EventSystem은 꺼진 컴포넌트에 포인터 이벤트를 보내지 않습니다.
 
@@ -79,7 +81,7 @@ public class NavigationFeedback : MonoBehaviour, ISelectHandler, IDeselectHandle
     [SerializeField] private MMF_Player _deselectFeedback;        // 커서가 떠났을 때
     [SerializeField] private MMF_Player _submitFeedback;          // Enter / Space / 게임패드 A
 
-    [SerializeField] private Selectable _selectable;              // 비활성 여부를 판단할 Button 등
+    [SerializeField] private Selectable _selectable;              // 비활성 여부를 판단할 Button 등 (비워두면 Awake에서 같은 오브젝트에서 찾음)
     [SerializeField] private MMF_Player _disabledSubmitFeedback;  // 비활성 상태에서 Submit했을 때의 거부 Feedback
     // OnDisable()에서 StopAllFeedbacks()
 }
@@ -93,6 +95,8 @@ public class NavigationFeedback : MonoBehaviour, ISelectHandler, IDeselectHandle
 - **마우스 클릭으로 선택된 경우는 무시합니다.** `Button`을 마우스로 클릭하면 Unity가 그 버튼을 선택 상태로도 만드는데, 이때 Select Feedback까지 재생되면 hover Feedback과 겹치기 때문입니다. 마우스로 선택될 때는 이벤트 정보가 `PointerEventData`로 들어오므로 이것으로 구분합니다. 마우스 쪽 연출은 `PointerFeedback`이 담당합니다.
 - 입력 방식과 상관없이 같은 연출을 원하면, `PointerFeedback`의 hover·클릭 Feedback과 같은 `MMF_Player`를 할당합니다.
 - 키보드·게임패드로 UI를 조작하지 않는 게임(모바일 전용 등)이나, 선택될 일이 없는 오브젝트(Sprite 등)에는 붙이지 않아도 됩니다.
+- **방향키로 어느 버튼으로 이동할지는 `NavigationFeedback`이 아니라 각 `Button`의 Navigation 설정이 정합니다.** `NavigationFeedback`은 선택·해제·확인이 일어났을 때 연출만 담당합니다.
+- 처음에 선택된 오브젝트가 없으면 방향키가 동작하지 않습니다. EventSystem의 `First Selected`나 `UIPopup`의 `First Selected`(Use Navigation)로 처음 선택할 버튼을 지정합니다.
 
 <br>
 
