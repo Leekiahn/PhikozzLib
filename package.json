@@ -1,8 +1,8 @@
 {
   "name": "com.phikozz.phikozzlib",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "displayName": "PhikozzLib",
-  "description": "Unity, Service Locater(Addressable, Audio, Data, Effect, Event, FloatingText, Localization, Save, Scene, Time), Bootstrap, Camera, StateMachine Utilities",
+  "description": "Unity utility library: Service Locator & Bootstrap (Addressable, Audio, UI, Data, Event, Scene, Effect, Save, Time, Localization, FloatingText), Pooling, Camera, Singleton, StateMachine, Observable, Command, Stat Modifier, Pointer/Navigation Feedback, Drag & Drop, DevLog",
   "unity": "6000.3",
   "documentationUrl": "https://github.com/Leekiahn/PhikozzLib",
   "dependencies": {
