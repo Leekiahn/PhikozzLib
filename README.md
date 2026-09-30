@@ -44,6 +44,9 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 ## Stat Modifier
 - [Stat](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/StatModifier/README.md)
 
+## Drag
+- [BaseDraggable](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Drag/README.md)
+
 ## Utility
 - [DevLog](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Log/README.md)
 

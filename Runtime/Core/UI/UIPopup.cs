@@ -11,36 +11,27 @@ namespace PhikozzLib
         public bool IsVisible { get; protected set; }
 
         [Title("Modal")]
-        [SerializeField] private bool _useModal;
-
-        [ShowIf("_useModal")]
         [SerializeField] private UIModalPanel _modalPanel;
         [PropertySpace(SpaceBefore = 20f)]
 
         [Title("Feedback")]
-        [SerializeField] private bool _useFeedback;
-        [ShowIf("_useFeedback")]
         [SerializeField] private MMF_Player _openFeedback;
-
-        [ShowIf("_useFeedback")]
         [SerializeField] private MMF_Player _closeFeedback;
+        [PropertySpace(SpaceBefore = 20f)]
 
         [Title("Navigation")]
-        [SerializeField] private bool _useNavigation;
-
-        [ShowIf("_useNavigation")]
         [SerializeField] private Selectable _firstSelected;
 
         private GameObject _previousSelected;
 
         public virtual void Init()
         {
-            if (_useModal)
+            if (_modalPanel != null)
             {
                 _modalPanel.SetPopup(this);
             }
 
-            if (_useFeedback && _closeFeedback != null)
+            if (_closeFeedback != null)
             {
                 _closeFeedback.Events.OnComplete.AddListener(() =>
                 {
@@ -51,7 +42,7 @@ namespace PhikozzLib
 
         public void Open()
         {
-            if (_useFeedback && _closeFeedback != null)
+            if (_closeFeedback != null)
             {
                 _closeFeedback.StopFeedbacks();
             }
@@ -59,7 +50,7 @@ namespace PhikozzLib
             Refresh();
             OnOpen();
 
-            if (_useFeedback && _openFeedback != null)
+            if (_openFeedback != null)
             {
                 _openFeedback.PlayFeedbacks();
             }
@@ -70,7 +61,7 @@ namespace PhikozzLib
 
         public void Close()
         {
-            if (_useFeedback && _closeFeedback != null)
+            if (_closeFeedback != null)
             {
                 _closeFeedback.PlayFeedbacks();
             }
@@ -95,7 +86,7 @@ namespace PhikozzLib
 
         private void SelectFirstSelectable()
         {
-            if (_useNavigation && _firstSelected != null)
+            if (_firstSelected != null)
             {
                 _previousSelected = EventSystem.current.currentSelectedGameObject;
                 EventSystem.current.SetSelectedGameObject(_firstSelected.gameObject);

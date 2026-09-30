@@ -23,12 +23,10 @@ public class PointerFeedback : MonoBehaviour,
     IPointerUpHandler, IPointerDownHandler, IPointerClickHandler,
     IPointerExitHandler, IPointerEnterHandler
 {
-    [SerializeField] private bool _useLeftPointerFeedback;
     [SerializeField] private MMF_Player _leftPointerUpFeedback;
     [SerializeField] private MMF_Player _leftPointerDownFeedback;
     [SerializeField] private MMF_Player _leftPointerClickFeedback;
 
-    [SerializeField] private bool _useRightPointerFeedback;
     [SerializeField] private MMF_Player _rightPointerUpFeedback;
     [SerializeField] private MMF_Player _rightPointerDownFeedback;
     [SerializeField] private MMF_Player _rightPointerClickFeedback;
@@ -45,7 +43,7 @@ public class PointerFeedback : MonoBehaviour,
 ```
 
 - Up/Down/Click은 `PointerEventData.button`으로 좌/우클릭을 구분해서 해당하는 `MMF_Player`만 재생합니다.
-- `_useLeftPointerFeedback`/`_useRightPointerFeedback`으로 좌/우클릭 Feedback 사용 여부를 나눠서 켤 수 있습니다. 꺼져 있으면 해당 쪽 `StopFeedbacks()`도 호출하지 않습니다.
+- 필요한 필드에만 `MMF_Player`를 할당합니다. 비워둔 필드는 재생되지 않습니다.
 - Enter/Exit(hover)는 좌/우 구분 없이 공통 Feedback 하나로 처리합니다. hover 이벤트는 눌린 버튼이 없어서 `eventData.button`이 항상 `Left`로 들어오기 때문입니다.
 
 **비활성 상태 처리**
@@ -96,7 +94,7 @@ public class NavigationFeedback : MonoBehaviour, ISelectHandler, IDeselectHandle
 - 입력 방식과 상관없이 같은 연출을 원하면, `PointerFeedback`의 hover·클릭 Feedback과 같은 `MMF_Player`를 할당합니다.
 - 키보드·게임패드로 UI를 조작하지 않는 게임(모바일 전용 등)이나, 선택될 일이 없는 오브젝트(Sprite 등)에는 붙이지 않아도 됩니다.
 - **방향키로 어느 버튼으로 이동할지는 `NavigationFeedback`이 아니라 각 `Button`의 Navigation 설정이 정합니다.** `NavigationFeedback`은 선택·해제·확인이 일어났을 때 연출만 담당합니다.
-- 처음에 선택된 오브젝트가 없으면 방향키가 동작하지 않습니다. EventSystem의 `First Selected`나 `UIPopup`의 `First Selected`(Use Navigation)로 처음 선택할 버튼을 지정합니다.
+- 처음에 선택된 오브젝트가 없으면 방향키가 동작하지 않습니다. EventSystem의 `First Selected`나 `UIPopup`의 `First Selected`로 처음 선택할 버튼을 지정합니다.
 
 <br>
 
@@ -114,7 +112,7 @@ public class NavigationFeedback : MonoBehaviour, ISelectHandler, IDeselectHandle
 
 ## 사용 예시
 
-Feedback을 주고 싶은 오브젝트에 `PointerFeedback`을 붙이고, 좌/우클릭 중 필요한 쪽의 `Use Left Pointer Feedback`/`Use Right Pointer Feedback`을 켠 뒤 원하는 `MMF_Player` 필드(Up/Down/Click)를 할당합니다. hover Feedback이 필요하면 `Hover Feedbacks Settings`의 Enter/Exit 필드를, 비활성 버튼의 거부 연출이 필요하면 `Disabled Feedbacks Settings`의 `Disabled Click Feedback`을 할당합니다.
+Feedback을 주고 싶은 오브젝트에 `PointerFeedback`을 붙이고, `Left Click Feedbacks Settings` / `Right Click Feedbacks Settings`에서 필요한 `MMF_Player` 필드(Up/Down/Click)를 할당합니다. hover Feedback이 필요하면 `Hover Feedbacks Settings`의 Enter/Exit 필드를, 비활성 버튼의 거부 연출이 필요하면 `Disabled Feedbacks Settings`의 `Disabled Click Feedback`을 할당합니다.
 
 키보드·게임패드 조작도 지원한다면 같은 오브젝트에 `NavigationFeedback`을 추가로 붙이고, Select/Deselect/Submit Feedback을 할당합니다.
 

@@ -10,30 +10,22 @@ namespace PhikozzLib
     public class PointerFeedback : MonoBehaviour, IPointerUpHandler, IPointerDownHandler, IPointerClickHandler, IPointerExitHandler, IPointerEnterHandler
     {
         [Title("Left Click Feedbacks Settings")]
-        [SerializeField] private bool _useLeftPointerFeedback;
-        [ShowIf("_useLeftPointerFeedback")]
         [SerializeField] private MMF_Player _leftPointerUpFeedback;
         [PropertySpace(10)]
 
-        [ShowIf("_useLeftPointerFeedback")]
         [SerializeField] private MMF_Player _leftPointerDownFeedback;
         [PropertySpace(10)]
 
-        [ShowIf("_useLeftPointerFeedback")]
         [SerializeField] private MMF_Player _leftPointerClickFeedback;
         [PropertySpace(10)]
 
         [Title("Right Click Feedbacks Settings")]
-        [SerializeField] private bool _useRightPointerFeedback;
-        [ShowIf("_useRightPointerFeedback")]
         [SerializeField] private MMF_Player _rightPointerUpFeedback;
         [PropertySpace(10)]
 
-        [ShowIf("_useRightPointerFeedback")]
         [SerializeField] private MMF_Player _rightPointerDownFeedback;
         [PropertySpace(10)]
 
-        [ShowIf("_useRightPointerFeedback")]
         [SerializeField] private MMF_Player _rightPointerClickFeedback;
         [PropertySpace(10)]
 
@@ -133,20 +125,12 @@ namespace PhikozzLib
 
         private void StopAllFeedbacks()
         {
-            if (_useLeftPointerFeedback)
-            {
-                _leftPointerUpFeedback?.StopFeedbacks();
-                _leftPointerDownFeedback?.StopFeedbacks();
-                _leftPointerClickFeedback?.StopFeedbacks();
-            }
-
-            if (_useRightPointerFeedback)
-            {
-                _rightPointerUpFeedback?.StopFeedbacks();
-                _rightPointerDownFeedback?.StopFeedbacks();
-                _rightPointerClickFeedback?.StopFeedbacks();
-            }
-
+            _leftPointerUpFeedback?.StopFeedbacks();
+            _leftPointerDownFeedback?.StopFeedbacks();
+            _leftPointerClickFeedback?.StopFeedbacks();
+            _rightPointerUpFeedback?.StopFeedbacks();
+            _rightPointerDownFeedback?.StopFeedbacks();
+            _rightPointerClickFeedback?.StopFeedbacks();
             _pointerEnterFeedback?.StopFeedbacks();
             _pointerExitFeedback?.StopFeedbacks();
             _disabledClickFeedback?.StopFeedbacks();
