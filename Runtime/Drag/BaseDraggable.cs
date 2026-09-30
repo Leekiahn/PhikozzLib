@@ -37,6 +37,7 @@ namespace PhikozzLib
         private Vector3 _originPosition;
         private Vector3 _grabOffset;
         private bool _isDragging;
+        private TTarget _hoveredTarget;
 
         protected virtual void Awake()
         {
@@ -69,6 +70,7 @@ namespace PhikozzLib
             if (_isDragging)
             {
                 SetBlocksRaycast(true);
+                ClearHoveredTarget();
                 _isDragging = false;
             }
 
@@ -103,12 +105,14 @@ namespace PhikozzLib
         public void OnDrag(PointerEventData eventData)
         {
             transform.position = GetPointerWorldPosition(eventData) + _grabOffset;
+            UpdateHoveredTarget(FindDropTarget(eventData), eventData);
         }
 
         public void OnEndDrag(PointerEventData eventData)
         {
             _isDragging = false;
             SetBlocksRaycast(true);
+            ClearHoveredTarget();
 
             TTarget target = FindDropTarget(eventData);
 
@@ -135,6 +139,40 @@ namespace PhikozzLib
             transform.SetSiblingIndex(_originSiblingIndex);
             transform.position = _originPosition;
         }
+
+        private void UpdateHoveredTarget(TTarget target, PointerEventData eventData)
+        {
+            if (target == _hoveredTarget)
+            {
+                if (_hoveredTarget != null)
+                {
+                    OnStayTarget(_hoveredTarget, eventData);
+                }
+
+                return;
+            }
+
+            ClearHoveredTarget();
+            _hoveredTarget = target;
+
+            if (_hoveredTarget != null)
+            {
+                OnEnterTarget(_hoveredTarget);
+            }
+        }
+
+        private void ClearHoveredTarget()
+        {
+            if (_hoveredTarget != null)
+            {
+                OnExitTarget(_hoveredTarget);
+                _hoveredTarget = null;
+            }
+        }
+
+        protected virtual void OnEnterTarget(TTarget target) { }
+        protected virtual void OnStayTarget(TTarget target, PointerEventData eventData) { }
+        protected virtual void OnExitTarget(TTarget target) { }
 
         private TTarget FindDropTarget(PointerEventData eventData)
         {
