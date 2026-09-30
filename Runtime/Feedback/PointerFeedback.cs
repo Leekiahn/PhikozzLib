@@ -55,6 +55,14 @@ namespace PhikozzLib
 
         private bool IsDisabled => !_isInteractable || (_selectable != null && !_selectable.IsInteractable());
 
+        private void Awake()
+        {
+            if (_selectable == null)
+            {
+                _selectable = GetComponent<Selectable>();
+            }
+        }
+
         private void OnDisable()
         {
             StopAllFeedbacks();
@@ -143,7 +151,5 @@ namespace PhikozzLib
             _pointerExitFeedback?.StopFeedbacks();
             _disabledClickFeedback?.StopFeedbacks();
         }
-
-
     }
 }

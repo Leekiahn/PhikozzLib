@@ -1,7 +1,7 @@
 # Feedback
 
-> `PointerFeedback`은 `Button` 없이도 포인터 Up/Down/Click/Enter/Exit에 Feedback(`MMF_Player`)을 붙이는 컴포넌트입니다.  
-> EventSystem의 `IPointer*Handler`만 사용하므로 UI뿐만 아니라 Sprite, 3D 오브젝트에서도 동작합니다.
+> 입력 이벤트에 Feedback(`MMF_Player`)을 붙이는 컴포넌트 모음입니다.  
+> `PointerFeedback`은 마우스·터치, `NavigationFeedback`은 키보드·게임패드 UI 조작을 담당합니다.
 
 <br>
 
@@ -9,7 +9,10 @@
 
 | Type | Role |
 | --- | --- |
-| `PointerFeedback` | 포인터 Up/Down/Click(좌/우클릭 구분), Enter/Exit(hover), 비활성 상태 클릭에 Feedback을 붙이는 컴포넌트 |
+| `PointerFeedback` | 포인터 Up/Down/Click(좌/우클릭 구분), Enter/Exit(hover), 비활성 상태 클릭에 Feedback을 붙이는 컴포넌트. UI뿐만 아니라 Sprite, 3D 오브젝트에서도 동작 |
+| `NavigationFeedback` | 키보드·게임패드로 선택(Select)·선택 해제(Deselect)·확인(Submit)했을 때 Feedback을 붙이는 컴포넌트 |
+
+두 컴포넌트 모두 드래그·스크롤 이벤트 인터페이스를 구현하지 않습니다. 그래서 `ScrollRect` 안의 버튼에 붙여도 부모의 드래그·휠 스크롤을 가로채지 않습니다. (`EventTrigger`는 모든 이벤트 인터페이스를 구현해서 스크롤을 가로채므로 대신 사용하지 않습니다.)
 
 <br>
 
@@ -67,6 +70,32 @@ _chestFeedback.SetInteractable(true);
 
 <br>
 
+### `NavigationFeedback`
+
+```csharp
+public class NavigationFeedback : MonoBehaviour, ISelectHandler, IDeselectHandler, ISubmitHandler
+{
+    [SerializeField] private MMF_Player _selectFeedback;          // 방향키·스틱으로 커서가 왔을 때
+    [SerializeField] private MMF_Player _deselectFeedback;        // 커서가 떠났을 때
+    [SerializeField] private MMF_Player _submitFeedback;          // Enter / Space / 게임패드 A
+
+    [SerializeField] private Selectable _selectable;              // 비활성 여부를 판단할 Button 등
+    [SerializeField] private MMF_Player _disabledSubmitFeedback;  // 비활성 상태에서 Submit했을 때의 거부 Feedback
+    // OnDisable()에서 StopAllFeedbacks()
+}
+```
+
+| 이벤트 | 활성 상태 | 비활성 상태 |
+|---|---|---|
+| Select / Deselect | 해당 Feedback 재생 | 재생하지 않음 |
+| Submit | `Submit Feedback` 재생 | `Disabled Submit Feedback`(거부 연출) 재생 |
+
+- **마우스 클릭으로 선택된 경우는 무시합니다.** `Button`을 마우스로 클릭하면 Unity가 그 버튼을 선택 상태로도 만드는데, 이때 Select Feedback까지 재생되면 hover Feedback과 겹치기 때문입니다. 마우스로 선택될 때는 이벤트 정보가 `PointerEventData`로 들어오므로 이것으로 구분합니다. 마우스 쪽 연출은 `PointerFeedback`이 담당합니다.
+- 입력 방식과 상관없이 같은 연출을 원하면, `PointerFeedback`의 hover·클릭 Feedback과 같은 `MMF_Player`를 할당합니다.
+- 키보드·게임패드로 UI를 조작하지 않는 게임(모바일 전용 등)이나, 선택될 일이 없는 오브젝트(Sprite 등)에는 붙이지 않아도 됩니다.
+
+<br>
+
 ## 필요한 설정
 
 `PointerFeedback`이 포인터 이벤트를 받으려면 씬에 `EventSystem`이 있어야 하고, 대상 종류에 따라 아래 설정이 추가로 필요합니다.
@@ -82,6 +111,15 @@ _chestFeedback.SetInteractable(true);
 ## 사용 예시
 
 Feedback을 주고 싶은 오브젝트에 `PointerFeedback`을 붙이고, 좌/우클릭 중 필요한 쪽의 `Use Left Pointer Feedback`/`Use Right Pointer Feedback`을 켠 뒤 원하는 `MMF_Player` 필드(Up/Down/Click)를 할당합니다. hover Feedback이 필요하면 `Hover Feedbacks Settings`의 Enter/Exit 필드를, 비활성 버튼의 거부 연출이 필요하면 `Disabled Feedbacks Settings`의 `Disabled Click Feedback`을 할당합니다.
+
+키보드·게임패드 조작도 지원한다면 같은 오브젝트에 `NavigationFeedback`을 추가로 붙이고, Select/Deselect/Submit Feedback을 할당합니다.
+
+```
+Btn_Buy
+├─ Button
+├─ PointerFeedback      ← 마우스·터치
+└─ NavigationFeedback   ← 키보드·게임패드
+```
 
 <br>
 
