@@ -19,15 +19,13 @@ PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능�
 - [Time](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Time/README.md)
 - [Localization](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Localization/README.md)
 - [FloatingText](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/FloatingText/README.md)
+- [Pooling](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Core/Pooling/README.md)
 
 ## Feedback
 - [PointerFeedback / NavigationFeedback](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Feedback/README.md)
 
 ## Camera
 - [CameraManager](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Camera/README.md)
-
-## Pooling
-- [TrackedPool](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Pooling/README.md)
 
 ## Generic Singleton
 - [Generic Singleton](https://github.com/Leekiahn/PhikozzLib/blob/main/Runtime/Singleton/README.md)
