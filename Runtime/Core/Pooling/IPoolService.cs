@@ -6,4 +6,7 @@ public interface IPoolService
     void UnregisterPool(string key);
     T Spawn<T>(string key, Vector3 position, Quaternion rotation) where T : Component;
     void Despawn<T>(string key, T instance) where T : Component;
+    void DespawnAll(string key);
+    void ClearPool(string key);
+    void ClearAllPools();
 }
