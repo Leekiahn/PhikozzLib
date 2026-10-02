@@ -1,5 +1,5 @@
 # PhikozzLib Documentation
-<img width="1118" height="1021" alt="Image" src="https://github.com/user-attachments/assets/2c5fbd22-e85b-466a-9ce4-656470374418" />
+<img alt="Image" src="https://github.com/user-attachments/assets/2c5fbd22-e85b-466a-9ce4-656470374418" />
 PhikozzLib는 Unity 프로젝트에서 반복적으로 필요한 공통 기능과 시스템을 모듈화한 커스텀 라이브러리입니다.  
 서비스 초기화, 리소스 관리, UI, 이펙트, 데이터, 씬 전환 등 프로젝트 전반에서 자주 사용되는 기능을 일관된 방식으로 제공하여 개발 생산성과 유지보수성을 높이는 것을 목표로 합니다.
 
