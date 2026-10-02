@@ -13,6 +13,7 @@
 - 활성 카메라 전환
 - 카메라 우선순위 제어
 - 현재 활성 카메라 확인
+- 카메라 전환 이벤트 제공
 - Cinemachine 기반 카메라 시스템 사용
 
 ---
@@ -22,7 +23,7 @@
 | Method | Description |
 |---|---|
 | `RegisterCamera(string cameraKey, CinemachineCamera cam)` | 카메라 Key와 카메라 인스턴스를 등록합니다. 이미 있는 Key면 덮어씁니다. |
-| `UnregisterCamera(string cameraKey)` | 등록된 카메라를 제거합니다. 그 카메라가 현재 활성 카메라였다면 활성 상태도 같이 정리합니다. |
+| `UnregisterCamera(string cameraKey)` | 등록된 카메라를 제거합니다. 그 카메라가 현재 활성 카메라였다면 활성 상태도 같이 정리하고 `OnCameraChanged(null)`을 호출합니다. |
 | `SetCamera(string cameraKey)` | 지정한 Key의 카메라를 활성화합니다. 등록되지 않은 Key면 경고 로그를 남기고 아무 것도 하지 않습니다. |
 | `GetCamera(string cameraKey)` | 지정한 Key의 카메라를 반환합니다. |
 | `GetActiveCamera()` | 현재 활성 카메라를 반환합니다. |
@@ -38,6 +39,7 @@
   - 기존 활성 카메라의 Priority를 낮추고(`InactivePriority`)
   - 대상 카메라의 Priority를 높여(`ActivePriority`) 전환합니다.
   - 실제 블렌딩 연출은 `CinemachineBrain`이 처리합니다 — `CameraManager`는 Priority만 바꿉니다.
+- 카메라가 바뀌면 `OnCameraChanged` 이벤트가 호출됩니다. 활성 카메라가 `UnregisterCamera`로 제거된 경우에도 "활성 카메라 없음"을 알리기 위해 `null`과 함께 호출됩니다.
 
 ---
 
@@ -47,7 +49,10 @@
 // 씬에 배치된 CameraManager는 SingletonScene이라 ServiceLocator를 거치지 않습니다.
 CameraManager.Instance.SetCamera("BossCamera");
 
-bool isBossCamera = CameraManager.Instance.IsActive("BossCamera");
+CameraManager.Instance.OnCameraChanged += cam =>
+{
+    Debug.Log($"Active camera changed to {cam.name}");
+};
 ```
 
 ---
