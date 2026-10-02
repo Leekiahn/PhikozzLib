@@ -28,7 +28,6 @@ namespace PhikozzLib
         private readonly Dictionary<string, CinemachineCamera> _cameraByKey = new();
         private CinemachineCamera _activeCamera;
 
-        public event Action<CinemachineCamera> OnCameraChanged;
 
         protected override void Awake()
         {
@@ -54,7 +53,6 @@ namespace PhikozzLib
             if (_cameraByKey.TryGetValue(cameraKey, out var cam) && _activeCamera == cam)
             {
                 _activeCamera = null;
-                OnCameraChanged?.Invoke(null);
             }
 
             _cameraByKey.Remove(cameraKey);
@@ -77,8 +75,6 @@ namespace PhikozzLib
 
             cam.Priority = ActivePriority;
             _activeCamera = cam;
-
-            OnCameraChanged?.Invoke(_activeCamera);
         }
 
         public CinemachineCamera GetCamera(string cameraKey)
