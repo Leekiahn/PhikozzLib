@@ -51,13 +51,13 @@
 ---
 
 # 의존성/권장 설치 패키지
-- [Feel](https://assetstore.unity.com/packages/tools/particles-effects/feel-183370) (필수) — Save/UI/Feedback/Time/Scene/FloatingText 모듈이 `MMF_Player`, `MMTimeManager`, `MMAdditiveSceneLoadingManager`, `MMFloatingTextSpawner` 등을 직접 사용합니다.
+- [Feel](https://assetstore.unity.com/packages/tools/particles-effects/feel-183370) (필수)
 - [Odin Inspector](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041) (필수)
 - [UniTask](https://github.com/cysharp/unitask) (필수)
 - Localization (자동)
 - Addressables (자동)
 - Cinemachine (자동)
-- [BG Database](https://assetstore.unity.com/packages/tools/integration/bg-database-data-editor-with-google-sheets-and-excel-syncing-112262) (선택) — 패키지 자체는 BGDatabase에 의존하지 않습니다. `Effect`/`Data` 모듈의 `ExampleXLoader.cs` 예시가 BGDatabase 사용을 전제로 작성돼 있을 뿐이며, 다른 데이터 소스를 써도 됩니다.
+- [BG Database](https://assetstore.unity.com/packages/tools/integration/bg-database-data-editor-with-google-sheets-and-excel-syncing-112262) (선택)
 
 ---
 
