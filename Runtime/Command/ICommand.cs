@@ -1,8 +1,10 @@
 using UnityEngine;
 
-public interface ICommand
+namespace PhikozzLib
 {
-    void Execute();
-    void Undo();
-    void Clear();
+    public interface ICommand
+    {
+        void Execute();
+        void Undo();
+    }
 }

@@ -1,52 +1,16 @@
 # EffectManager
 
-> Addressables 프리로드 여부를 선택해 `ParticleSystem` 프리팹을 Addressable key 기준으로 풀링하고 재생하는 서비스입니다.  
-> `IEffectService` 인터페이스를 구현하며, `IServiceInit`을 통해 서비스 등록 후 초기화됩니다.
-
-<br>
-
-## 로드 방식 설정
-
-### Addressables 자동 등록
-
-`EffectManager` Inspector의 `Load By Addressable Service`를 켜면 Addressables 라벨에서 이펙트를 자동 등록합니다.
-
-1. `BootstrapConfig`에 `AddressableManager`와 `EffectManager`를 모두 등록합니다.
-2. 이펙트 프리팹을 Addressables로 등록하고 같은 라벨을 지정합니다.
-3. `EffectManager` Inspector의 `Effect Label`에 해당 라벨을 지정합니다.
-4. 각 이펙트 프리팹의 루트에 `ParticleSystem` 컴포넌트를 추가하고, Addressable key를 고유하게 설정합니다.
-
-`Bootstrapper`는 모든 서비스를 등록한 뒤 `IServiceInit.InitAsync()`을 호출하고, 모든 초기화가 끝나면 `WaitUntilReadyAsync()`를 완료합니다. `EffectManager`는 이 시점에 `IAddressableService`를 통해 라벨의 이펙트 프리팹을 프리로드하고, Addressable key를 `Play()`의 key로 사용합니다.
-
-### 외부 등록
-
-`Load By Addressable Service`를 끄면 자동 프리로드를 하지 않습니다. 이 경우 프로젝트의 데이터 로더 등 외부 코드에서 `IEffectService.RegisterEffect(key, prefab)`을 호출해 풀을 등록합니다. 등록을 해제할 때는 `UnregisterEffect(key)`를 사용합니다.
-
-<br>
-
-## 주요 기능
-
-- Addressables 라벨에 속한 이펙트 프리팹 자동 프리로드 및 풀 생성
-- 외부 데이터 로더를 통한 수동 이펙트 등록 지원
-- Addressable key를 사용한 이펙트 재생
-- 지정한 Transform에 부착하거나, 월드 위치/회전으로 재생
-- 재생 종료 후 오브젝트 풀에 자동 반환
-
-<br>
+> `ParticleSystem` 이펙트를 key로 풀링·재생하고, 재생이 끝나면 자동으로 풀에 반환하는 서비스입니다. (`IEffectService`)
 
 ## Public API
 
 | Method | Description |
 |---|---|
-| `RegisterEffect(string key, ParticleSystem prefab)` | `key`와 프리팹으로 이펙트 풀을 등록합니다. 같은 key가 이미 등록되어 있으면 기존 풀을 유지합니다. `Load By Addressable Service`를 끈 경우 외부 로더에서 사용합니다. |
-| `UnregisterEffect(string key)` | key에 해당하는 풀을 등록 목록에서 제거합니다. |
-| `Play(string key, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null)` | `key`와 같은 이름의 이펙트를 재생합니다. `duration > 0`이면 해당 시간 뒤 정지 후 반환하고, `0`이면 파티클이 자연 종료될 때 반환합니다. `attachToTransform`을 지정하면 해당 Transform의 자식으로 부착합니다. 등록되지 않은 key면 `null`을 반환합니다. |
-
-<br>
+| `RegisterEffect(string key, ParticleSystem prefab)` | 이펙트 풀을 등록합니다. 이미 있는 key면 기존 풀을 유지합니다. |
+| `UnregisterEffect(string key)` | 이펙트 풀 등록을 해제합니다. |
+| `Play(string key, Vector3 position, Quaternion rotation, float duration = 0f, Transform attachToTransform = null)` | 이펙트를 재생합니다. `duration > 0`이면 그 시간 뒤 방출을 멈추고, `0`이면 자연 종료 후 반환합니다. `attachToTransform`을 넘기면 그 자식으로 붙입니다. 미등록 key면 `null`. |
 
 ## 사용 예시
-
-Addressable key가 `HitSpark`인 경우입니다.
 
 ```csharp
 private IEffectService _effectService;
@@ -62,4 +26,8 @@ public void OnHit(Vector3 hitPoint)
 }
 ```
 
-`EffectManager`가 초기화를 마친 뒤 호출해야 합니다. 일반 게임 진입 흐름에서는 `Bootstrapper`가 초기화를 완료한 이후이므로, 씬의 `Start()` 이후 호출하면 됩니다.
+## 주의사항
+
+- `Load By Addressable Service`를 켜면 `Effect Label` 라벨의 프리팹이 **Addressable 주소를 key로** 자동 등록됩니다. `BootstrapConfig`에 `AddressableManager`도 등록하고, 프리팹 루트에 `ParticleSystem`이 있어야 합니다.
+- 끄면 `RegisterEffect`로 직접 등록합니다. `ExampleEffectLoader.cs`(전체 주석)를 프로젝트로 복사해서 쓰면 됩니다.
+- **Looping 파티클은 `duration`을 꼭 지정합니다.** `0`이면 끝나지 않아 풀에 반환되지 않습니다.

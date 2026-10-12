@@ -1,63 +1,21 @@
-# Generic StateMachine
+# StateMachine
 
-> 상태 전환과 상태 갱신을 위한 제네릭 상태 머신 유틸리티를 제공합니다.
-
----
-
-## 주요 기능
-
-- 제네릭 기반 상태 머신 구현
-- 상태 등록 및 전환
-- 현재 상태의 `Enter / Tick / Exit` 생명주기 관리
-- `BaseState<T>`를 통한 공통 상태 베이스 제공
-- 간단하고 확장 가능한 구조
-
----
+> 소유자(`TOwner`)별 상태를 등록하고 `Enter` / `Tick` / `Exit` 흐름으로 전환하는 제네릭 상태 머신입니다.
 
 ## Public API
 
-### IState
-
-| Method | Description |
-|---|---|
-| `Enter()` | 상태 진입 시 호출됩니다. |
-| `Tick()` | 상태 갱신 시 호출됩니다. |
-| `Exit()` | 상태 종료 시 호출됩니다. |
-
----
-
-### BaseState<TOwner>
-
 | Member | Description |
 |---|---|
-| `Owner` | 상태를 소유한 객체입니다. |
-| `StateMachine` | 연결된 상태 머신입니다. |
-| `Enter()` | 진입 시 호출되는 기본 메서드입니다. |
-| `Tick()` | 갱신 시 호출되는 기본 메서드입니다. |
-| `Exit()` | 종료 시 호출되는 기본 메서드입니다. |
-
----
-
-### StateMachine<TOwner>
-
-| Method | Description |
-|---|---|
-| `AddState(BaseState<TOwner> state)` | 상태를 등록합니다. |
-| `ChangeState<TState>()` | 지정한 상태로 전환합니다. |
-| `Tick()` | 현재 상태의 `Tick()`을 호출합니다. |
-
-| Member | Description |
-|---|---|
-| `CurrentState` | 현재 활성 상태입니다. |
-
----
+| `StateMachine<TOwner>.AddState(BaseState<TOwner> state)` | 상태를 등록합니다. |
+| `StateMachine<TOwner>.ChangeState<TState>()` | 현재 상태 `Exit()` → 새 상태 `Enter()`로 전환합니다. |
+| `StateMachine<TOwner>.Tick()` | 현재 상태의 `Tick()`을 호출합니다. |
+| `StateMachine<TOwner>.CurrentState` | 현재 상태입니다. |
+| `BaseState<TOwner>.Owner` / `.StateMachine` | 소유자와 상태 머신입니다. |
+| `BaseState<TOwner>.Enter()` / `Tick()` / `Exit()` | 필요한 것만 override합니다. |
 
 ## 사용 예시
 
 ```csharp
-using PhikozzLib;
-using UnityEngine;
-
 public class PlayerController : MonoBehaviour
 {
     private StateMachine<PlayerController> _stateMachine;
@@ -67,6 +25,7 @@ public class PlayerController : MonoBehaviour
         _stateMachine = new StateMachine<PlayerController>();
         _stateMachine.AddState(new IdleState(this, _stateMachine));
         _stateMachine.AddState(new RunState(this, _stateMachine));
+        _stateMachine.ChangeState<IdleState>();
     }
 
     private void Update()
@@ -74,10 +33,6 @@ public class PlayerController : MonoBehaviour
         _stateMachine.Tick();
     }
 }
-```
-
-```csharp
-using PhikozzLib;
 
 public class IdleState : BaseState<PlayerController>
 {
@@ -86,31 +41,17 @@ public class IdleState : BaseState<PlayerController>
     {
     }
 
-    public override void Enter()
-    {
-        UnityEngine.Debug.Log("Idle Enter");
-    }
-
     public override void Tick()
     {
-        UnityEngine.Debug.Log("Idle Tick");
-    }
-
-    public override void Exit()
-    {
-        UnityEngine.Debug.Log("Idle Exit");
+        if (Owner.HasMoveInput)
+        {
+            StateMachine.ChangeState<RunState>();
+        }
     }
 }
 ```
 
----
+## 주의사항
 
-## 동작 방식
-
-- `AddState()`로 상태를 먼저 등록합니다.
-- `ChangeState<TState>()`를 호출하면 `TState`가 등록돼 있을 때만:
-  - 현재 상태가 있으면 `Exit()`
-  - `CurrentState`를 새 상태로 교체
-  - 새 상태의 `Enter()` 호출
-- 등록되지 않은 `TState`를 넘기면 경고 로그만 남기고 현재 상태를 유지합니다(`Exit()`/`Enter()` 호출 없음). `AddState()`를 빠뜨린 실수를 콘솔에서 바로 찾을 수 있습니다.
-- `Tick()`은 매 프레임 현재 상태에 위임합니다.
+- 등록하지 않은 상태로 `ChangeState`하면 경고 로그만 남기고 현재 상태를 유지합니다.
+- 상태 클래스는 흐름 제어만 하고, 실제 로직은 `Owner`의 메서드로 위임합니다.
