@@ -50,13 +50,6 @@
 
 ---
 
-## 공통 주의사항
-
-- 서비스는 `BootstrapConfig`에 등록하고 `ServiceLocator.Get<T>()`로 조회합니다. **`Awake()`가 아니라 `Start()` 이후**(서비스 내부는 `IServiceInit.InitAsync()`)에 조회합니다.
-- 프로젝트별 데이터 소스(BGDatabase 등)에 연결하는 코드는 전체 주석 처리된 `ExampleXLoader.cs`로만 제공합니다. 프로젝트로 복사해서 씁니다.
-
----
-
 # 의존성/권장 설치 패키지
 - [Feel](https://assetstore.unity.com/packages/tools/particles-effects/feel-183370) (필수) — Save/UI/Feedback/Time/Scene/FloatingText 모듈이 `MMF_Player`, `MMTimeManager`, `MMAdditiveSceneLoadingManager`, `MMFloatingTextSpawner` 등을 직접 사용합니다.
 - [Odin Inspector](https://assetstore.unity.com/packages/tools/utilities/odin-inspector-and-serializer-89041) (필수)
