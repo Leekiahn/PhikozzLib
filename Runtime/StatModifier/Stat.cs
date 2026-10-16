@@ -131,7 +131,7 @@ namespace PhikozzLib
             finalValue *= 1 + percentAdd;
             finalValue *= percentMult;
 
-            return finalValue;
+            return Mathf.Max(0f, finalValue);
         }
     }
 }

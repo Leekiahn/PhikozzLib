@@ -26,7 +26,7 @@
 | `Duration` / `RemainingTime` | 지속시간 / 남은 시간(초). 지속시간 버프일 때만 값이 있습니다. |
 | `SubscribeRemainingTime(Action<float> callback)` / `UnsubscribeRemainingTime(...)` | 남은 시간 변경을 구독 / 해제합니다(버프 아이콘 UI용). |
 
-**계산식**: `(기본값 + Flat 합) × (1 + PercentAdd 합) × Π(1 + PercentMult)`
+**계산식**: `(기본값 + Flat 합) × (1 + PercentAdd 합) × Π(1 + PercentMult)` (결과가 음수면 `0`)
 
 | Type | 의미 |
 |---|---|
